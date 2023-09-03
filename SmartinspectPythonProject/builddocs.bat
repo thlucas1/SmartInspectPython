@@ -1,0 +1,34 @@
+@echo off
+cls
+echo Script starting.
+
+rem set python path so source files can be found.
+set PYTHONPATH=C:\Users\thluc\source\repos\SmartinspectPython\SmartinspectPythonProject\;C:\Users\thluc\source\repos\SmartinspectPython\SmartinspectPythonProject\smartinspectpython
+
+echo Changing working directory to package source folder.
+cd C:\Users\thluc\source\repos\SmartinspectPython\SmartinspectPythonProject
+
+
+echo Cleaning up the project build output folder.
+del /Q .\build\*.*
+
+
+echo Setting build environment variables via buildEnv.py ...
+FOR /F "delims=|" %%G IN ('"python.exe .\docspdoc\buildEnv.py"') DO SET "%%G"
+echo.
+echo Build Environment variables:
+echo - BUILDENV_PACKAGENAME = %BUILDENV_PACKAGENAME%
+echo - BUILDENV_PACKAGEVERSION = %BUILDENV_PACKAGEVERSION%
+echo - BUILDENV_PDOC_BRAND_ICON_URL = %BUILDENV_PDOC_BRAND_ICON_URL%
+echo - BUILDENV_PDOC_BRAND_ICON_URL_SRC = %BUILDENV_PDOC_BRAND_ICON_URL_SRC%
+echo - BUILDENV_PDOC_BRAND_ICON_URL_TITLE = %BUILDENV_PDOC_BRAND_ICON_URL_TITLE%
+
+
+echo Building project documentation ...
+echo.
+call ".\docspdoc\make.bat"
+
+
+echo.
+echo Script completed.
+pause

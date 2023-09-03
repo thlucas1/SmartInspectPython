@@ -1,0 +1,4 @@
+pip>=22.0.4
+pycryptodome>=3.0
+pywin32>=300
+setuptools>=58.1.0

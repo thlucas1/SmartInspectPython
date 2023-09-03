@@ -1,0 +1,56 @@
+Notes on how to build a Python Install package that can be installed by "pip" installer.
+See the following for more information:
+- https://dzone.com/articles/executable-package-pip-install
+
+----------------------------------------------------------------------------------------------------------------------
+Step 0 - Pre-requisites to building the python package.  
+----------------------------------------------------------------------------------------------------------------------
+- Ensure you have updated the VERSION constant in the "smartinspectpython/const.py" file.
+- Ensure that you have updated the "Change Log" section in the README.md file.
+- Rebuild documentation if necessary using pDoc utility.
+  Command:  pdoc -o ..\docspdoc -d google --no-show-source --search -t ..\docspdoc\_pdoctemplates\darkmode color.py siauto.py sierroreventargs.py silevel.py silogentrytype.py sisession.py siviewerid.py smartinspect.py
+
+----------------------------------------------------------------------------------------------------------------------
+Step 1 - Build the python package.  
+----------------------------------------------------------------------------------------------------------------------
+This command will create the following directories:
+- build: contains build package information.
+- dist:  contains your .whl (wheel format) file. can install via "pip install some_package.whl".
+- project.egg.info: An egg package contains package information used by the setup.py test command when running tests.
+
+Execute the following command from the directory where the "setup.py" file is located.
+CWD for this project is:  C:\Users\thluc\source\repos\SmartinspectPython\SmartinspectPythonProject
+
+*** Command:  python setup.py bdist_wheel
+
+
+----------------------------------------------------------------------------------------------------------------------
+Step 2 - Test the python package locally.
+----------------------------------------------------------------------------------------------------------------------
+After executing the build command in Step 1, you can install the package to your local machine
+for testing by using the following command:
+
+Command:  pip install dist/some_package-0.1-py3-none-any.whl
+
+
+----------------------------------------------------------------------------------------------------------------------
+Step 3 - Upload the python package to the *TEST* PyPi.org site.
+----------------------------------------------------------------------------------------------------------------------
+This will upload the python package to the TEST PyPi.org site: 
+https://test.pypi.org/manage/projects/
+
+*** Command:  py -m twine upload --repository testpypi dist/*3.0.5*      <- change version # here
+
+You can then use the following pip command to install the TEST package to a python library:
+Command:  pip install -i https://test.pypi.org/simple/ smartinspectPython
+
+
+----------------------------------------------------------------------------------------------------------------------
+Step 4 - Upload the python package to the *PROD* PyPi.org site.
+----------------------------------------------------------------------------------------------------------------------
+This will upload the python package to the PROD PyPi.org site: 
+
+*** Command:  py -m twine upload --repository pypi dist/*3.0.5*      <- change version # here
+
+You can then use the following pip command to install the package to a python library:
+Command:  pip install smartinspectPython
