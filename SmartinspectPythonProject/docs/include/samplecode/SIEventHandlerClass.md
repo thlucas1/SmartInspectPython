@@ -112,8 +112,8 @@ logsi.LogDebug("This is a debug message.")
 logsi.LogVerbose("This is a verbose message.")
 logsi.LogMessage("This is a message.")
 logsi.LogWarning("This is a warning message.")
-logsi.LogError("This is a error message in RED.", SIColors.Red.value)
-logsi.LogFatal("This is a fatal error message in RED.", SIColors.Red.value)
+logsi.LogError("This is a error message in RED.", SIColors.Red)
+logsi.LogFatal("This is a fatal error message in RED.", SIColors.Red)
 
 # test some control command methods.
 logsi.ClearWatches()

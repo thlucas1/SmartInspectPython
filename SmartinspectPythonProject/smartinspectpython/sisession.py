@@ -2388,7 +2388,7 @@ class SISession:
             <summary>View Sample Code</summary>
         ``` python
         .. include:: ../docs/include/samplecode/smartinspect_classlogging.md
-        logsi.LogFatal("This is a fatal error message in RED.", SIColors.Red.value)
+        logsi.LogFatal("This is a fatal error message in RED.", SIColors.Red)
         logsi.LogFatal("This is a fatal error message in regular background color.")
         ```
         </details>
