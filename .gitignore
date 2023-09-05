@@ -211,3 +211,4 @@ dist/
 # THIS project's file and directory exceptions:
 # ------------------------------------------------------------------------------------------------------
 # none
+/SmartinspectPythonProject/env
