@@ -11,7 +11,7 @@ cd C:\Users\thluc\source\repos\SmartinspectPython\SmartinspectPythonProject
 
 
 echo Activating python virtual environment.
-call .\env39\scripts\activate.bat
+call .\env\scripts\activate.bat
 
 
 echo Cleaning up the project build output folder.

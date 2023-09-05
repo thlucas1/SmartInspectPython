@@ -204,11 +204,5 @@ SmartinspectPythonProject/docssphinx/
 SmartinspectPythonProject/*.egg-info/
 SmartinspectPythonProject/build/
 __pycache__/
-env39/
 dist/
-
-# ------------------------------------------------------------------------------------------------------
-# THIS project's file and directory exceptions:
-# ------------------------------------------------------------------------------------------------------
-# none
-/SmartinspectPythonProject/env
+env/

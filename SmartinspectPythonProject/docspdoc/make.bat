@@ -7,7 +7,7 @@ cd C:\Users\thluc\source\repos\SmartinspectPython\SmartinspectPythonProject\docs
 
 
 echo Activating python virtual environment.
-call ..\env39\scripts\activate.bat
+call ..\env\scripts\activate.bat
 
 
 echo Setting build environment variables via buildEnv.py ...
