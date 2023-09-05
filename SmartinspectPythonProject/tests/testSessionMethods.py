@@ -35,12 +35,12 @@ class TestSessionMethods:
 
     # TestAllMethods method message count values for each log level type.
     TestAllMethods_LogEntryCounts = {}
-    TestAllMethods_LogEntryCounts[str(SILevel.Debug.name)] = 964
-    TestAllMethods_LogEntryCounts[str(SILevel.Verbose.name)] = 752
-    TestAllMethods_LogEntryCounts[str(SILevel.Message.name)] = 642
-    TestAllMethods_LogEntryCounts[str(SILevel.Warning.name)] = 526
-    TestAllMethods_LogEntryCounts[str(SILevel.Error.name)] = 418
-    TestAllMethods_LogEntryCounts[str(SILevel.Fatal.name)] = 306
+    TestAllMethods_LogEntryCounts[str(SILevel.Debug.name)] = 972
+    TestAllMethods_LogEntryCounts[str(SILevel.Verbose.name)] = 758
+    TestAllMethods_LogEntryCounts[str(SILevel.Message.name)] = 647
+    TestAllMethods_LogEntryCounts[str(SILevel.Warning.name)] = 530
+    TestAllMethods_LogEntryCounts[str(SILevel.Error.name)] = 421
+    TestAllMethods_LogEntryCounts[str(SILevel.Fatal.name)] = 308
 
     @staticmethod
     def TestAllMethods(logsi:SISession) -> None:
@@ -72,7 +72,7 @@ class TestSessionMethods:
 
         # log the following with SILevel.Error so it is always logged.
         logsi.LogSeparator(SILevel.Fatal)
-        logsi.LogColored(SILevel.Fatal, SIColors.White.value, "Test ALL Session Methods Starting")
+        logsi.LogColored(SILevel.Fatal, SIColors.White, "Test ALL Session Methods Starting")
         logsi.LogValue(SILevel.Fatal, "SI Parent Level", logsi.Parent.Level)
         logsi.LogValue(SILevel.Fatal, "SI Parent Default Level", logsi.Parent.DefaultLevel)
         logsi.LogValue(SILevel.Fatal, "SI Session Level", logsi.Level)
@@ -81,33 +81,33 @@ class TestSessionMethods:
         try:
 
             # ClearAll Examples.
-            #logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py SISession.ClearAll Examples.")
-            #logsi.LogColored(SILevel.Fatal, SIColors.White.value, "Clearing all entries in the SI Console.")
+            #logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py SISession.ClearAll Examples.")
+            #logsi.LogColored(SILevel.Fatal, SIColors.White, "Clearing all entries in the SI Console.")
             #logsi.ClearAll(SILevel.Fatal)
 
             # ClearAutoViews Examples.
-            #logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py SISession.ClearAutoViews Examples.")
-            #logsi.LogColored(SILevel.Fatal, SIColors.White.value, "Clearing all AutoView entries used in this test.  AutoViews are defined in the SI Console under Edit.AutoViews.")
+            #logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py SISession.ClearAutoViews Examples.")
+            #logsi.LogColored(SILevel.Fatal, SIColors.White, "Clearing all AutoView entries used in this test.  AutoViews are defined in the SI Console under Edit.AutoViews.")
             #logsi.ClearAutoViews(SILevel.Fatal)
 
             ## ClearLog Examples.
-            #logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py SISession.ClearLog Examples.")
-            #logsi.LogColored(SILevel.Fatal, SIColors.White.value, "Clearing all Log entries used in this test.  Log entries are located in the Log Entry toolbox panel of the SI Console.")
+            #logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py SISession.ClearLog Examples.")
+            #logsi.LogColored(SILevel.Fatal, SIColors.White, "Clearing all Log entries used in this test.  Log entries are located in the Log Entry toolbox panel of the SI Console.")
             #logsi.ClearLog(SILevel.Fatal)
 
             # ClearProcessFlow Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py SISession.ClearProcessFlow Examples.")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "Clearing all Process Flow entries used in this test.  Process Flow entries are located in the Process Flow toolbox panel of the SI Console.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py SISession.ClearProcessFlow Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "Clearing all Process Flow entries used in this test.  Process Flow entries are located in the Process Flow toolbox panel of the SI Console.")
             logsi.ClearProcessFlow(SILevel.Fatal)
 
             # ClearWatches Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py SISession.ClearWatches Examples.")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "Clearing all Watch values used in this test.  Watch values are located in the Watches panel of the SI Console.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py SISession.ClearWatches Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "Clearing all Watch values used in this test.  Watch values are located in the Watches panel of the SI Console.")
             logsi.ClearWatches(SILevel.Fatal)
 
             # ResetCallStack Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py SISession.ResetCallstack Examples.")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "Resetting CallStack entries.  Call Stack entries are located in the Call Stack panel of the SI Console.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py SISession.ResetCallstack Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "Resetting CallStack entries.  Call Stack entries are located in the Call Stack panel of the SI Console.")
             logsi.ResetCallstack(None)    # reset call stack, since we are looping thru this Example.
             logsi.ResetCallstack(SILevel.Debug)
             logsi.ResetCallstack(SILevel.Verbose)
@@ -117,8 +117,8 @@ class TestSessionMethods:
             logsi.ResetCallstack(SILevel.Fatal)
 
             # AddCheckpoint / ResetCheckpoint Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py SISession.ResetCheckpoint Examples (Resetting All CheckPoint Names).")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "Resetting ALL Checkpoint names used in this test.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py SISession.ResetCheckpoint Examples (Resetting All CheckPoint Names).")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "Resetting ALL Checkpoint names used in this test.")
             logsi.ResetCheckpoint()    # reset all checkpoints, since we are looping thru this Example.
             logsi.ResetCheckpoint("MyCheckPointName NoLevel")
             logsi.ResetCheckpoint("MyCheckPointName NoLevel NoTitle")
@@ -129,7 +129,7 @@ class TestSessionMethods:
             logsi.ResetCheckpoint("MyCheckPointName Error")
             logsi.ResetCheckpoint("MyCheckPointName Fatal")
 
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py SISession.AddCheckpoint Examples (2 checkpoints per Level).")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py SISession.AddCheckpoint Examples (2 checkpoints per Level).")
             logsi.AddCheckpoint(None, "MyCheckPointName NoLevel", "AddCheckpoint NoLevel MyCheckpointName 01 Example.")
             logsi.AddCheckpoint(SILevel.Debug, "MyCheckPointName Debug", "AddCheckpoint Debug MyCheckpointName 01 Example.")
             logsi.AddCheckpoint(SILevel.Verbose, "MyCheckPointName Verbose", "AddCheckpoint Verbose MyCheckpointName 01 Example.")
@@ -146,28 +146,28 @@ class TestSessionMethods:
             logsi.AddCheckpoint(SILevel.Error, "MyCheckPointName Error", "AddCheckpoint Error MyCheckpointName 02 Example.")
             logsi.AddCheckpoint(SILevel.Fatal, "MyCheckPointName Fatal", "AddCheckpoint Fatal MyCheckpointName 02 Example.")
 
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py SISession.AddCheckpoint Examples (4 checkpoints, No Level, No Title).")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py SISession.AddCheckpoint Examples (4 checkpoints, No Level, No Title).")
             logsi.AddCheckpoint("MyCheckPointName NoLevel NoTitle")
             logsi.AddCheckpoint("MyCheckPointName NoLevel NoTitle")
             logsi.AddCheckpoint("MyCheckPointName NoLevel NoTitle")
             logsi.AddCheckpoint("MyCheckPointName NoLevel NoTitle")
 
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py SISession.AddCheckpoint Examples (4 checkpoints, No Level, No Title, No Name).")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py SISession.AddCheckpoint Examples (4 checkpoints, No Level, No Title, No Name).")
             logsi.AddCheckpoint()
             logsi.AddCheckpoint()
             logsi.AddCheckpoint()
             logsi.AddCheckpoint()
 
             # CurrentMethodName Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py SISession.CurrentMethodName, CurrentMethodNameClass, CurrentMethodNameClassNamespace Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py SISession.CurrentMethodName, CurrentMethodNameClass, CurrentMethodNameClassNamespace Examples.")
             logsi.LogValue(SILevel.Fatal, "SISession.CurrentMethodName", SISession.CurrentMethodName())
             logsi.LogValue(SILevel.Fatal, "SISession.CurrentMethodNameClass", SISession.CurrentMethodNameClass())
             logsi.LogValue(SILevel.Fatal, "SISession.CurrentMethodNameClassNamespace", SISession.CurrentMethodNameClassNamespace())
 
             # DecCounter / ResetCounter Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py SISession.ResetCounter Examples (Resetting All PyDecCounter1 values).")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "Resetting ALL PyDecCounter1 value used in this test.")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "PyDecCounter1 values are located in the Watches panel of the SI Console.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py SISession.ResetCounter Examples (Resetting All PyDecCounter1 values).")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "Resetting ALL PyDecCounter1 value used in this test.")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "PyDecCounter1 values are located in the Watches panel of the SI Console.")
             logsi.ResetCounter("PyDecCounter1 NoLevel")  # reset all counters, since we are looping thru this Example.
             logsi.ResetCounter("PyDecCounter1 Debug")
             logsi.ResetCounter("PyDecCounter1 Verbose")
@@ -176,8 +176,8 @@ class TestSessionMethods:
             logsi.ResetCounter("PyDecCounter1 Error")
             logsi.ResetCounter("PyDecCounter1 Fatal")
 
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py SISession.IncCounter Examples (PyDecCounter1 count=0 per Level).")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "PyDecCounter1 values are located in the Watches panel of the SI Console.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py SISession.IncCounter Examples (PyDecCounter1 count=0 per Level).")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "PyDecCounter1 values are located in the Watches panel of the SI Console.")
             logsi.IncCounter(None, "PyDecCounter1 NoLevel")
             logsi.IncCounter(SILevel.Debug, "PyDecCounter1 Debug")
             logsi.IncCounter(SILevel.Verbose, "PyDecCounter1 Verbose")
@@ -195,7 +195,7 @@ class TestSessionMethods:
             logsi.DecCounter(SILevel.Fatal, "PyDecCounter1 Fatal")
 
             # EnterMethod / LeaveMethod Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py SISession.EnterMethod, LeaveMethod Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py SISession.EnterMethod, LeaveMethod Examples.")
             logsi.EnterMethod(None, "EnterMethod NoLevel Example")
             logsi.EnterMethod(SILevel.Debug, "EnterMethod Debug Example")
             logsi.EnterMethod(SILevel.Verbose, "EnterMethod Verbose Example")
@@ -217,7 +217,7 @@ class TestSessionMethods:
             logsi.LeaveMethod(SILevel.Debug, "LeaveMethod Debug Example")
             logsi.LeaveMethod(None, "LeaveMethod NoLevel Example")
 
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "The following tests will display the current method name since no Title is specified on the EnterMethod and LeaveMethod call.")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "The following tests will display the current method name since no Title is specified on the EnterMethod and LeaveMethod call.")
             logsi.EnterMethod(None)
             logsi.EnterMethod(SILevel.Debug)
             logsi.EnterMethod(SILevel.Verbose)
@@ -240,83 +240,83 @@ class TestSessionMethods:
             logsi.LeaveMethod(None)
 
             # EnterProcess / LeaveProcess Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py SISession.EnterProcess, LeaveProcess Examples.")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "Process Names are located in the Process Flow panel of the SI Console.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py SISession.EnterProcess, LeaveProcess Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "Process Names are located in the Process Flow panel of the SI Console.")
             logsi.EnterProcess(None, "My Process NoLevel")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "My Process NoLevel has been entered.")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "My Process NoLevel is exiting ...")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "My Process NoLevel has been entered.")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "My Process NoLevel is exiting ...")
             logsi.LeaveProcess(None, "My Process NoLevel")
 
             logsi.EnterProcess(SILevel.Debug, "My Process Debug")
-            logsi.LogColored(SILevel.Debug, SIColors.White.value, "My Process Debug has been entered.")
-            logsi.LogColored(SILevel.Debug, SIColors.White.value, "My Process Debug is exiting ...")
+            logsi.LogColored(SILevel.Debug, SIColors.White, "My Process Debug has been entered.")
+            logsi.LogColored(SILevel.Debug, SIColors.White, "My Process Debug is exiting ...")
             logsi.LeaveProcess(SILevel.Debug, "My Process Debug")
 
             logsi.EnterProcess(SILevel.Verbose, "My Process Verbose")
-            logsi.LogColored(SILevel.Verbose, SIColors.White.value, "My Process Verbose has been entered.")
-            logsi.LogColored(SILevel.Verbose, SIColors.White.value, "My Process Verbose is exiting ...")
+            logsi.LogColored(SILevel.Verbose, SIColors.White, "My Process Verbose has been entered.")
+            logsi.LogColored(SILevel.Verbose, SIColors.White, "My Process Verbose is exiting ...")
             logsi.LeaveProcess(SILevel.Verbose, "My Process Verbose")
 
             logsi.EnterProcess(SILevel.Message, "My Process Message")
-            logsi.LogColored(SILevel.Message, SIColors.White.value, "My Process Message has been entered.")
-            logsi.LogColored(SILevel.Message, SIColors.White.value, "My Process Message is exiting ...")
+            logsi.LogColored(SILevel.Message, SIColors.White, "My Process Message has been entered.")
+            logsi.LogColored(SILevel.Message, SIColors.White, "My Process Message is exiting ...")
             logsi.LeaveProcess(SILevel.Message, "My Process Message")
 
             logsi.EnterProcess(SILevel.Warning, "My Process Warning")
-            logsi.LogColored(SILevel.Warning, SIColors.White.value, "My Process Warning has been entered.")
-            logsi.LogColored(SILevel.Warning, SIColors.White.value, "My Process Warning is exiting ...")
+            logsi.LogColored(SILevel.Warning, SIColors.White, "My Process Warning has been entered.")
+            logsi.LogColored(SILevel.Warning, SIColors.White, "My Process Warning is exiting ...")
             logsi.LeaveProcess(SILevel.Warning, "My Process Warning")
 
             logsi.EnterProcess(SILevel.Error, "My Process Error")
-            logsi.LogColored(SILevel.Error, SIColors.White.value, "My Process Error has been entered.")
-            logsi.LogColored(SILevel.Error, SIColors.White.value, "My Process Error is exiting ...")
+            logsi.LogColored(SILevel.Error, SIColors.White, "My Process Error has been entered.")
+            logsi.LogColored(SILevel.Error, SIColors.White, "My Process Error is exiting ...")
             logsi.LeaveProcess(SILevel.Error, "My Process Error")
 
             logsi.EnterProcess(SILevel.Fatal, "My Process Fatal")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "My Process Fatal has been entered.")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "My Process Fatal is exiting ...")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "My Process Fatal has been entered.")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "My Process Fatal is exiting ...")
             logsi.LeaveProcess(SILevel.Fatal, "My Process Fatal")
 
             # EnterThread / LeaveThread Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py SISession.EnterThread, LeaveThread Examples.")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "Thread Names are located in the Process Flow panel of the SI Console.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py SISession.EnterThread, LeaveThread Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "Thread Names are located in the Process Flow panel of the SI Console.")
             logsi.EnterThread(None, "My Thread NoLevel")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "My Thread NoLevel has been entered.")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "My Thread NoLevel is exiting ...")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "My Thread NoLevel has been entered.")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "My Thread NoLevel is exiting ...")
             logsi.LeaveThread(None, "My Thread NoLevel")
 
             logsi.EnterThread(SILevel.Debug, "My Thread Debug")
-            logsi.LogColored(SILevel.Debug, SIColors.White.value, "My Thread Debug has been entered.")
-            logsi.LogColored(SILevel.Debug, SIColors.White.value, "My Thread Debug is exiting ...")
+            logsi.LogColored(SILevel.Debug, SIColors.White, "My Thread Debug has been entered.")
+            logsi.LogColored(SILevel.Debug, SIColors.White, "My Thread Debug is exiting ...")
             logsi.LeaveThread(SILevel.Debug, "My Thread Debug")
 
             logsi.EnterThread(SILevel.Verbose, "My Thread Verbose")
-            logsi.LogColored(SILevel.Verbose, SIColors.White.value, "My Thread Verbose has been entered.")
-            logsi.LogColored(SILevel.Verbose, SIColors.White.value, "My Thread Verbose is exiting ...")
+            logsi.LogColored(SILevel.Verbose, SIColors.White, "My Thread Verbose has been entered.")
+            logsi.LogColored(SILevel.Verbose, SIColors.White, "My Thread Verbose is exiting ...")
             logsi.LeaveThread(SILevel.Verbose, "My Thread Verbose")
 
             logsi.EnterThread(SILevel.Message, "My Thread Message")
-            logsi.LogColored(SILevel.Message, SIColors.White.value, "My Thread Message has been entered.")
-            logsi.LogColored(SILevel.Message, SIColors.White.value, "My Thread Message is exiting ...")
+            logsi.LogColored(SILevel.Message, SIColors.White, "My Thread Message has been entered.")
+            logsi.LogColored(SILevel.Message, SIColors.White, "My Thread Message is exiting ...")
             logsi.LeaveThread(SILevel.Message, "My Thread Message")
 
             logsi.EnterThread(SILevel.Warning, "My Thread Warning")
-            logsi.LogColored(SILevel.Warning, SIColors.White.value, "My Thread Warning has been entered.")
-            logsi.LogColored(SILevel.Warning, SIColors.White.value, "My Thread Warning is exiting ...")
+            logsi.LogColored(SILevel.Warning, SIColors.White, "My Thread Warning has been entered.")
+            logsi.LogColored(SILevel.Warning, SIColors.White, "My Thread Warning is exiting ...")
             logsi.LeaveThread(SILevel.Warning, "My Thread Warning")
 
             logsi.EnterThread(SILevel.Error, "My Thread Error")
-            logsi.LogColored(SILevel.Error, SIColors.White.value, "My Thread Error has been entered.")
-            logsi.LogColored(SILevel.Error, SIColors.White.value, "My Thread Error is exiting ...")
+            logsi.LogColored(SILevel.Error, SIColors.White, "My Thread Error has been entered.")
+            logsi.LogColored(SILevel.Error, SIColors.White, "My Thread Error is exiting ...")
             logsi.LeaveThread(SILevel.Error, "My Thread Error")
 
             logsi.EnterThread(SILevel.Fatal, "My Thread Fatal")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "My Thread Fatal has been entered.")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "My Thread Fatal is exiting ...")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "My Thread Fatal has been entered.")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "My Thread Fatal is exiting ...")
             logsi.LeaveThread(SILevel.Fatal, "My Thread Fatal")
 
             # GetMethodName Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py SISession.GetMethodName Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py SISession.GetMethodName Examples.")
             logsi.LogValue(SILevel.Fatal, "SISession.GetMethodName(0)", SISession.GetMethodName(0, True, True))
             logsi.LogValue(SILevel.Fatal, "SISession.GetMethodName(1)", SISession.GetMethodName(1, True, True))
             logsi.LogValue(SILevel.Fatal, "SISession.GetMethodName(2)", SISession.GetMethodName(2, True, True))
@@ -324,9 +324,9 @@ class TestSessionMethods:
             logsi.LogValue(SILevel.Fatal, "SISession.GetMethodName(0) no class", SISession.GetMethodName(0, False, False))
 
             # IncCounter / ResetCounter Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py SISession.ResetCounter Examples (Resetting All PyIncCounter1 values).")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "Resetting ALL PyIncCounter1 value used in this test.")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "PyIncCounter1 values are located in the Watches panel of the SI Console.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py SISession.ResetCounter Examples (Resetting All PyIncCounter1 values).")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "Resetting ALL PyIncCounter1 value used in this test.")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "PyIncCounter1 values are located in the Watches panel of the SI Console.")
             logsi.ResetCounter("PyIncCounter1 NoLevel")  # reset all counters, since we are looping thru this Example.
             logsi.ResetCounter("PyIncCounter1 Debug")
             logsi.ResetCounter("PyIncCounter1 Verbose")
@@ -335,8 +335,8 @@ class TestSessionMethods:
             logsi.ResetCounter("PyIncCounter1 Error")
             logsi.ResetCounter("PyIncCounter1 Fatal")
 
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py SISession.IncCounter Examples (PyIncCounter1 count=2 per Level).")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "PyIncCounter1 values are located in the Watches panel of the SI Console.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py SISession.IncCounter Examples (PyIncCounter1 count=2 per Level).")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "PyIncCounter1 values are located in the Watches panel of the SI Console.")
             logsi.IncCounter(None, "PyIncCounter1 NoLevel")
             logsi.IncCounter(SILevel.Debug, "PyIncCounter1 Debug")
             logsi.IncCounter(SILevel.Verbose, "PyIncCounter1 Verbose")
@@ -354,7 +354,7 @@ class TestSessionMethods:
             logsi.IncCounter(SILevel.Fatal, "PyIncCounter1 Fatal")
 
             # LogAppDomain Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogAppDomain Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogAppDomain Examples.")
             logsi.LogAppDomain(None, "LogAppDomain NoLevel Example")
             logsi.LogAppDomain(SILevel.Debug, "LogAppDomain Debug Example")
             logsi.LogAppDomain(SILevel.Verbose, "LogAppDomain Verbose Example")
@@ -365,7 +365,7 @@ class TestSessionMethods:
 
             # LogArray Examples.
             arrayInteger:arr = arr('i', [3, 6, 9, 12])
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogArray Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogArray Examples.")
             logsi.LogArray(None, "LogArray NoLevel [int] Example", arrayInteger)
             logsi.LogArray(SILevel.Debug, "LogArray Debug [int] Example", arrayInteger)
             logsi.LogArray(SILevel.Verbose, "LogArray Verbose [int] Example", arrayInteger)
@@ -411,15 +411,15 @@ class TestSessionMethods:
             logsi.LogArray(SILevel.Fatal, "LogArray Fatal [float] Example", arrayFloat)
 
             # LogAssert Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogAssert Examples")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "Note that LogAssert messages will only show for SILevel.Error and below.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogAssert Examples")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "Note that LogAssert messages will only show for SILevel.Error and below.")
             logsi.LogAssert(True == True, "LogAssert condition is TRUE Example")
             logsi.LogAssert(True == False, "LogAssert condition is FALSE Example")
 
             # LogAssigned Examples.
             parametervalue:str = "is not null"
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogAssigned Examples")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "Note that LogAssigned messages will only show for SILevel.Message and below.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogAssigned Examples")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "Note that LogAssigned messages will only show for SILevel.Message and below.")
             logsi.LogAssigned(None, "LogAssigned NoLevel is assigned Example", parametervalue)
             logsi.LogAssigned(SILevel.Debug, "LogAssigned Debug is assigned Example", parametervalue)
             logsi.LogAssigned(SILevel.Verbose, "LogAssigned Verbose is assigned Example", parametervalue)
@@ -438,7 +438,7 @@ class TestSessionMethods:
             logsi.LogAssigned(SILevel.Fatal, "LogAssigned Fatal is not assigned Example", parametervalue)
 
             # LogBinary Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogBinary Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogBinary Examples.")
             logsi.LogBinary(None, "LogBinary NoLevel Example", binaryBytes)
             logsi.LogBinary(SILevel.Debug, "LogBinary Debug Example", binaryBytes)
             logsi.LogBinary(SILevel.Verbose, "LogBinary Verbose Example", binaryBytes)
@@ -457,7 +457,7 @@ class TestSessionMethods:
 
             # LogBinaryFile Examples.
             testdataPath = testdataPfx + "TestSourceHTML.html"
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogBinaryFile Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogBinaryFile Examples.")
             logsi.LogBinaryFile(None, "LogBinaryFile NoLevel Example", testdataPath)
             logsi.LogBinaryFile(SILevel.Debug, "LogBinaryFile Debug Example", testdataPath)
             logsi.LogBinaryFile(SILevel.Verbose, "LogBinaryFile Verbose Example", testdataPath)
@@ -468,7 +468,7 @@ class TestSessionMethods:
 
             # LogBinaryStream Examples.
             testdataPath = testdataPfx + "TestSourceHTML.html"
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogBinaryStream Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogBinaryStream Examples.")
             with open(testdataPath, 'rb') as binaryStream: 
                 logsi.LogBinaryStream(None, "LogBinaryStream NoLevel Example", binaryStream)
                 logsi.LogBinaryStream(SILevel.Debug, "LogBinaryStream Debug Example", binaryStream)
@@ -480,7 +480,7 @@ class TestSessionMethods:
 
             # LogBitmapFile Examples.
             testdataPath = testdataPfx + "TestBMP.bmp"
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogBitmapFile Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogBitmapFile Examples.")
             logsi.LogBitmapFile(None, "LogBitmapFile NoLevel Example", testdataPath)
             logsi.LogBitmapFile(SILevel.Debug, "LogBitmapFile Debug Example", testdataPath)
             logsi.LogBitmapFile(SILevel.Verbose, "LogBitmapFile Verbose Example", testdataPath)
@@ -491,7 +491,7 @@ class TestSessionMethods:
 
             # LogBitmapStream Examples.
             testdataPath = testdataPfx + "TestBMP.bmp"
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogBitmapStream Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogBitmapStream Examples.")
             with open(testdataPath, 'rb') as binaryStream:
                 logsi.LogBitmapStream(None, "LogBitmapStream NoLevel Example", binaryStream)
                 logsi.LogBitmapStream(SILevel.Debug, "LogBitmapStream Debug Example", binaryStream)
@@ -502,7 +502,7 @@ class TestSessionMethods:
                 logsi.LogBitmapStream(SILevel.Fatal, "LogBitmapStream Fatal Example", binaryStream)
 
             # LogBool Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogBool Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogBool Examples.")
             logsi.LogBool(None, "LogBool NoLevel Example", True)
             logsi.LogBool(SILevel.Debug, "LogBool Debug Example", True)
             logsi.LogBool(SILevel.Verbose, "LogBool Verbose Example", True)
@@ -512,7 +512,7 @@ class TestSessionMethods:
             logsi.LogBool(SILevel.Fatal, "LogBool Fatal Example", True)
 
             # LogByte Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogByte Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogByte Examples.")
             logsi.LogByte(None, "LogByte NoLevel Example", 0xff)
             logsi.LogByte(SILevel.Debug, "LogByte Debug Example", 0xff)
             logsi.LogByte(SILevel.Verbose, "LogByte Verbose Example", 0xff)
@@ -530,7 +530,7 @@ class TestSessionMethods:
             logsi.LogByte(SILevel.Fatal, "LogByte hex Fatal Example", 0xff, True)
 
             # LogChar Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogChar Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogChar Examples.")
             logsi.LogChar(None, "LogChar NoLevel string Example", 'A')
             logsi.LogChar(SILevel.Debug, "LogChar Debug string Example", 'A')
             logsi.LogChar(SILevel.Verbose, "LogChar Verbose string Example", 'A')
@@ -542,7 +542,7 @@ class TestSessionMethods:
             # LogCollection Examples.
             oColl2 = ["Value2-1", "Value2-2", "Value2-3"]
             oColl = ["Value1-1", "Value1-2", "Value1-3", oColl2]
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogCollection Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogCollection Examples.")
             logsi.LogCollection(None, "LogCollection NoLevel Example", oColl)
             logsi.LogCollection(SILevel.Debug, "LogCollection Debug Example", oColl)
             logsi.LogCollection(SILevel.Verbose, "LogCollection Verbose Example", oColl)
@@ -552,17 +552,27 @@ class TestSessionMethods:
             logsi.LogCollection(SILevel.Fatal, "LogCollection Fatal Example", oColl)
 
             # LogColored Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogColored Examples.")
-            logsi.LogColored(None, SIColors.Orange.value, "LogColored NoLevel Orange Example")
-            logsi.LogColored(SILevel.Debug, SIColors.ForestGreen.value, "LogColored Debug ForestGreen Example")
-            logsi.LogColored(SILevel.Verbose, SIColors.DimGray.value, "LogColored Verbose DimGray Example")
-            logsi.LogColored(SILevel.Message, SIColors.AliceBlue.value, "LogColored Message AliceBlue Example")
-            logsi.LogColored(SILevel.Warning, SIColors.Gold.value, "LogColored Warning Gold Example")
-            logsi.LogColored(SILevel.Error, SIColors.Red.value, "LogColored Error Red Example")
-            logsi.LogColored(SILevel.Fatal, SIColors.LightCoral.value, "LogColored Fatal LightCoral Example")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogColored Examples.")
+            logsi.LogColored(None, SIColors.Orange, "LogColored NoLevel Orange Example")
+            logsi.LogColored(SILevel.Debug, SIColors.ForestGreen, "LogColored Debug ForestGreen Example")
+            logsi.LogColored(SILevel.Verbose, SIColors.DimGray, "LogColored Verbose DimGray Example")
+            logsi.LogColored(SILevel.Message, SIColors.AliceBlue, "LogColored Message AliceBlue Example")
+            logsi.LogColored(SILevel.Warning, SIColors.Gold, "LogColored Warning Gold Example")
+            logsi.LogColored(SILevel.Error, SIColors.Red, "LogColored Error Red Example")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightCoral, "LogColored Fatal LightCoral Example")
+
+            # LogColored Examples.
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogColored (by value) Examples.")
+            logsi.LogColored(None, 0x00FFA500, "LogColored (by value) NoLevel Orange (0x00FFA500) Example")
+            logsi.LogColored(SILevel.Debug, SIColors.ForestGreen.value, "LogColored (by value) Debug ForestGreen Example")
+            logsi.LogColored(SILevel.Verbose, SIColors.DimGray.value, "LogColored (by value) Verbose DimGray Example")
+            logsi.LogColored(SILevel.Message, SIColors.AliceBlue.value, "LogColored (by value) Message AliceBlue Example")
+            logsi.LogColored(SILevel.Warning, SIColors.Gold.value, "LogColored (by value) Warning Gold Example")
+            logsi.LogColored(SILevel.Error, SIColors.Red.value, "LogColored (by value) Error Red Example")
+            logsi.LogColored(SILevel.Fatal, 0x00F08080, "LogColored (by value) Fatal LightCoral (0x00F08080) Example")
 
             # LogComplex Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogComplex Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogComplex Examples.")
             logsi.LogComplex(None, "LogComplex NoLevel Example", complex(3,5))
             logsi.LogComplex(SILevel.Debug, "LogComplex Debug Example", complex(3,5))
             logsi.LogComplex(SILevel.Verbose, "LogComplex Verbose Example", complex(3,5))
@@ -572,7 +582,7 @@ class TestSessionMethods:
             logsi.LogComplex(SILevel.Fatal, "LogComplex Fatal Example", complex(3,5))
 
             # LogConditional Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogConditional Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogConditional Examples.")
             logsi.LogConditional(None, True == True, "LogConditional NoLevel condition is TRUE Example")
             logsi.LogConditional(SILevel.Debug, True == True, "LogConditional Debug condition is TRUE Example")
             logsi.LogConditional(SILevel.Verbose, True == True, "LogConditional Verbose condition is TRUE Example")
@@ -590,7 +600,7 @@ class TestSessionMethods:
             logsi.LogConditional(SILevel.Fatal, True == False, "LogConditional Fatal condition is FALSE Example")
 
             # LogCurrentAppDomain Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogCurrentAppDomain Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogCurrentAppDomain Examples.")
             logsi.LogCurrentAppDomain(None, "LogCurrentAppDomain NoLevel Example")
             logsi.LogCurrentAppDomain(SILevel.Debug, "LogCurrentAppDomain Debug Example")
             logsi.LogCurrentAppDomain(SILevel.Verbose, "LogCurrentAppDomain Verbose Example")
@@ -600,7 +610,7 @@ class TestSessionMethods:
             logsi.LogCurrentAppDomain(SILevel.Fatal, "LogCurrentAppDomain Fatal Example")
 
             # LogCurrentStackTrace Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogCurrentStackTrace Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogCurrentStackTrace Examples.")
             logsi.LogCurrentStackTrace(None, "LogCurrentStackTrace NoLevel Example")
             logsi.LogCurrentStackTrace(SILevel.Debug, "LogCurrentStackTrace Debug Example")
             logsi.LogCurrentStackTrace(SILevel.Verbose, "LogCurrentStackTrace Verbose Example")
@@ -618,7 +628,7 @@ class TestSessionMethods:
             logsi.LogCurrentStackTrace(SILevel.Fatal)
 
             # LogCurrentThread Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogCurrentThread Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogCurrentThread Examples.")
             logsi.LogCurrentThread(None, "LogCurrentThread NoLevel Example")
             logsi.LogCurrentThread(SILevel.Debug, "LogCurrentThread Debug Example")
             logsi.LogCurrentThread(SILevel.Verbose, "LogCurrentThread Verbose Example")
@@ -636,7 +646,7 @@ class TestSessionMethods:
             logsi.LogCurrentThread(SILevel.Fatal)
 
             # LogCustomContext Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogCustomContext Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogCustomContext Examples.")
             ctxtext:SITextContext = SITextContext(SIViewerId.Data)
             ctxtext.AppendLine("The title of this entry will appear in bold-faced font in the Si Console viewer.")
             ctxtext.AppendLine("This is Line 2 of text")
@@ -667,7 +677,7 @@ class TestSessionMethods:
 
             # LogCustomFile Examples.
             testdataPath = testdataPfx + "TestSourceHTML.html"
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogCustomFile Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogCustomFile Examples.")
             logsi.LogCustomFile(None, "LogCustomFile NoLevel Html Source Example", testdataPath, SILogEntryType.Source, SIViewerId.HtmlSource)
             logsi.LogCustomFile(SILevel.Debug, "LogCustomFile Debug Html Source Example", testdataPath, SILogEntryType.Source, SIViewerId.HtmlSource)
             logsi.LogCustomFile(SILevel.Verbose, "LogCustomFile Verbose Html Source Example", testdataPath, SILogEntryType.Source, SIViewerId.HtmlSource)
@@ -678,7 +688,7 @@ class TestSessionMethods:
 
             # LogCustomReader Examples.
             testdataPath = testdataPfx + "TestSourceXML.xml"
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogCustomReader Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogCustomReader Examples.")
             with open(testdataPath, 'r') as textReader:
                 logsi.LogCustomReader(None, "LogCustomReader NoLevel Xml Source Example", textReader, SILogEntryType.Source, SIViewerId.XmlSource)
                 logsi.LogCustomReader(SILevel.Debug, "LogCustomReader Debug Xml Source Example", textReader, SILogEntryType.Source, SIViewerId.XmlSource)
@@ -690,7 +700,7 @@ class TestSessionMethods:
 
             # LogCustomStream Examples.
             testdataPath = testdataPfx + "TestSourceXML.xml"
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogCustomStream Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogCustomStream Examples.")
             with open(testdataPath, 'rb') as binaryStream:
                 logsi.LogCustomStream(None, "LogCustomStream NoLevel Xml Source Example", binaryStream, SILogEntryType.Source, SIViewerId.XmlSource)
                 logsi.LogCustomStream(SILevel.Debug, "LogCustomStream Debug Xml Source Example", binaryStream, SILogEntryType.Source, SIViewerId.XmlSource)
@@ -711,7 +721,7 @@ class TestSessionMethods:
 
             # LogCustomText Examples.
             testtext = "The title of this entry will appear in bold-faced font in the Si Console viewer.\nThis is some text to log.\nLine 3"
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogCustomText Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogCustomText Examples.")
             logsi.LogCustomText(None, "LogCustomText NoLevel Example", testtext, SILogEntryType.Comment, SIViewerId.Data)
             logsi.LogCustomText(SILevel.Debug, "LogCustomText Debug Example", testtext, SILogEntryType.Comment, SIViewerId.Data)
             logsi.LogCustomText(SILevel.Verbose, "LogCustomText Verbose Example", testtext, SILogEntryType.Comment, SIViewerId.Data)
@@ -728,7 +738,7 @@ class TestSessionMethods:
             #datasetMusicStore.Tables.Add(dataTableArtists)
             #datasetMusicStore.Tables.Add(dataTableTracks)
             #datasetMusicStore.Tables.Add(dataTableCustomers)
-            #logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogDataSet Examples.")
+            #logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogDataSet Examples.")
             #logsi.LogDataSet(datasetMusicStore)
             #logsi.LogDataSet(SILevel.Debug, datasetMusicStore)
             #logsi.LogDataSet(SILevel.Verbose, datasetMusicStore)
@@ -738,7 +748,7 @@ class TestSessionMethods:
             #logsi.LogDataSet(SILevel.Fatal, datasetMusicStore)
 
             ## LogDataTableSchema Examples.
-            #logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogDataSetSchema Examples.")
+            #logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogDataSetSchema Examples.")
             #logsi.LogDataSetSchema(datasetMusicStore)
             #logsi.LogDataSetSchema(SILevel.Debug, datasetMusicStore)
             #logsi.LogDataSetSchema(SILevel.Verbose, datasetMusicStore)
@@ -748,7 +758,7 @@ class TestSessionMethods:
             #logsi.LogDataSetSchema(SILevel.Fatal, datasetMusicStore)
 
             ## LogDataTable Examples.
-            #logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogDataTable Examples.")
+            #logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogDataTable Examples.")
             #logsi.LogDataTable(None, "LogDataTable NoLevel Customers Table Example", dataTableCustomers)
             #logsi.LogDataTable(SILevel.Debug, "LogDataTable Debug Customers Table Example", dataTableCustomers)
             #logsi.LogDataTable(SILevel.Verbose, "LogDataTable Verbose Customers Table Example", dataTableCustomers)
@@ -758,7 +768,7 @@ class TestSessionMethods:
             #logsi.LogDataTable(SILevel.Fatal, "LogDataTable Fatal Customers Table Example", dataTableCustomers)
 
             ## LogDataTableSchema Examples.
-            #logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogDataTableSchema Examples.")
+            #logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogDataTableSchema Examples.")
             #logsi.LogDataTableSchema(None, "LogDataTableSchema NoLevel Tracks Table Example", dataTableTracks)
             #logsi.LogDataTableSchema(SILevel.Debug, "LogDataTableSchema Debug Tracks Table Example", dataTableTracks)
             #logsi.LogDataTableSchema(SILevel.Verbose, "LogDataTableSchema Verbose Tracks Table Example", dataTableTracks)
@@ -768,7 +778,7 @@ class TestSessionMethods:
             #logsi.LogDataTableSchema(SILevel.Fatal, "LogDataTableSchema Fatal Tracks Table Example", dataTableTracks)
 
             ## LogDataView Examples.
-            #logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogDataView Examples.")
+            #logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogDataView Examples.")
             #DataView dataviewCustomers = new DataView(dataTableCustomers, "Country = 'USA'", "LastName ASC, FirstName ASC", DataViewRowState.CurrentRows)
             #logsi.LogDataView(None, "LogDataView NoLevel Customers Country=USA Example", dataviewCustomers)
             #logsi.LogDataView(SILevel.Debug, "LogDataView Debug Customers Country=USA Example", dataviewCustomers)
@@ -779,7 +789,7 @@ class TestSessionMethods:
             #logsi.LogDataView(SILevel.Fatal, "LogDataView Fatal Customers Country=USA Example", dataviewCustomers)
 
             # LogDateTime Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogDateTime Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogDateTime Examples.")
             logsi.LogDateTime(None, "LogDateTime NoLevel Example", testdate)
             logsi.LogDateTime(SILevel.Debug, "LogDateTime Debug Example", testdate)
             logsi.LogDateTime(SILevel.Verbose, "LogDateTime Verbose Example", testdate)
@@ -789,8 +799,8 @@ class TestSessionMethods:
             logsi.LogDateTime(SILevel.Fatal, "LogDateTime Fatal Example", testdate)
 
             # LogDecimal Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogDecimal Examples.")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "Python Si Client does not support this method.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogDecimal Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "Python Si Client does not support this method.")
 
             # LogDictionary Examples.
             oDict2 = {}
@@ -799,7 +809,7 @@ class TestSessionMethods:
             oDict = {}
             oDict["Key1"] = "Key1 Value"
             oDict["Key2"] = oDict2
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogDictionary Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogDictionary Examples.")
             logsi.LogDictionary(None, "LogDictionary NoLevel Example", oDict)
             logsi.LogDictionary(SILevel.Debug, "LogDictionary Debug Example", oDict)
             logsi.LogDictionary(SILevel.Verbose, "LogDictionary Verbose Example", oDict)
@@ -809,12 +819,12 @@ class TestSessionMethods:
             logsi.LogDictionary(SILevel.Fatal, "LogDictionary Fatal Example", oDict)
 
             # LogDouble Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogDouble Examples.")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "Python Si Client does not support this method.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogDouble Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "Python Si Client does not support this method.")
 
             # LogEnumerable Examples.
             oEnumerable:list[str] = { "Value1-1", "Value1-2", "Value1-3" }
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogEnumerable Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogEnumerable Examples.")
             logsi.LogEnumerable(None, "LogEnumerable NoLevel Example", oEnumerable)
             logsi.LogEnumerable(SILevel.Debug, "LogEnumerable Debug Example", oEnumerable)
             logsi.LogEnumerable(SILevel.Verbose, "LogEnumerable Verbose Example", oEnumerable)
@@ -825,7 +835,7 @@ class TestSessionMethods:
 
             try:
             
-                logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogException Examples (next 2 messages should be exception data, no messages if Level=Fatal).")
+                logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogException Examples (next 2 messages should be exception data, no messages if Level=Fatal).")
                 raise Exception("This is a forced exception used to test the LogException method.")
                 logsi.LogColored(SILevel.Fatal, SIColors.Red.value, "Py LogException Examples - You should not see this message, as an exception was forced in the previous line!")
             
@@ -836,7 +846,7 @@ class TestSessionMethods:
             
 
             # LogFloat Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogFloat Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogFloat Examples.")
             logsi.LogFloat(None, "LogFloat NoLevel Example", float(10.123456789))
             logsi.LogFloat(SILevel.Debug, "LogFloat Debug Example", float(10.123456789))
             logsi.LogFloat(SILevel.Verbose, "LogFloat Verbose Example", float(10.123456789))
@@ -847,7 +857,7 @@ class TestSessionMethods:
 
             # LogHtml Examples.
             testSourceHTML:str = "<!DOCTYPE html>\n<html lang=\"en\" xmlns=\"http://www.w3.org/1999/xhtml\">\n<head>  \n  <meta charset=\"utf-8\" />\n  <title>HTML From Text</title>\n</head>\n<body>\n\n  <h1>HTML From Text</h1>\n  <h2>H2 Header</h2>\n  <h3>H1 Header</h3>\n  <a href=\"https://www.google.com\">This is a Google Link</a>\n\n</body>\n</html>"
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogHtml Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogHtml Examples.")
             logsi.LogHtml(None, "LogHtml NoLevel Example", testSourceHTML)
             logsi.LogHtml(SILevel.Debug, "LogHtml Debug Example", testSourceHTML)
             logsi.LogHtml(SILevel.Verbose, "LogHtml Verbose Example", testSourceHTML)
@@ -858,7 +868,7 @@ class TestSessionMethods:
 
             # LogHtmlFile Examples.
             testdataPath = testdataPfx + "TestSourceHTML.html"
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogHtmlFile Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogHtmlFile Examples.")
             logsi.LogHtmlFile(None, "LogHtmlFile NoLevel Example", testdataPath)
             logsi.LogHtmlFile(SILevel.Debug, "LogHtmlFile Debug Example", testdataPath)
             logsi.LogHtmlFile(SILevel.Verbose, "LogHtmlFile Verbose Example", testdataPath)
@@ -869,7 +879,7 @@ class TestSessionMethods:
 
             # LogHtmlReader Examples.
             testdataPath = testdataPfx + "TestSourceHTML.html"
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogHtmlReader Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogHtmlReader Examples.")
             with open(testdataPath, 'r') as textReader:
                 logsi.LogHtmlReader(None, "LogHtmlReader NoLevel Example", textReader)
                 logsi.LogHtmlReader(SILevel.Debug, "LogHtmlReader Debug Example", textReader)
@@ -881,7 +891,7 @@ class TestSessionMethods:
 
             # LogHtmlStream Examples.
             testdataPath = testdataPfx + "TestSourceHTML.html"
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogHtmlStream Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogHtmlStream Examples.")
             with open(testdataPath, 'rb') as streamReader:
                 logsi.LogHtmlStream(None, "LogHtmlStream NoLevel Example", streamReader)
                 logsi.LogHtmlStream(SILevel.Debug, "LogHtmlStream Debug Example", streamReader)
@@ -893,7 +903,7 @@ class TestSessionMethods:
 
             # LogIconFile Examples.
             testdataPath = testdataPfx + "TestICO.ico"
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogIconFile Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogIconFile Examples.")
             logsi.LogIconFile(None, "LogIconFile NoLevel Example", testdataPath)
             logsi.LogIconFile(SILevel.Debug, "LogIconFile Debug Example", testdataPath)
             logsi.LogIconFile(SILevel.Verbose, "LogIconFile Verbose Example", testdataPath)
@@ -904,7 +914,7 @@ class TestSessionMethods:
 
             # LogIconStream Examples.
             testdataPath = testdataPfx + "TestICO.ico"
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogIconStream Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogIconStream Examples.")
             with open(testdataPath, 'rb') as binaryStream:
                 logsi.LogIconStream(None, "LogIconStream NoLevel Example", binaryStream)
                 logsi.LogIconStream(SILevel.Debug, "LogIconStream Debug Example", binaryStream)
@@ -915,7 +925,7 @@ class TestSessionMethods:
                 logsi.LogIconStream(SILevel.Fatal, "LogIconStream Fatal Example", binaryStream)
 
             # LogInt Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogInt Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogInt Examples.")
             logsi.LogInt(None, "LogInt NoLevel Example", int(1234567890))
             logsi.LogInt(SILevel.Debug, "LogInt Debug Example", int(1234567890))
             logsi.LogInt(SILevel.Verbose, "LogInt Verbose Example", int(1234567890))
@@ -934,7 +944,7 @@ class TestSessionMethods:
 
             # LogJpegFile Examples.
             testdataPath = testdataPfx + "TestJPG.jpg"
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogJpegFile Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogJpegFile Examples.")
             logsi.LogJpegFile(None, "LogJpegFile NoLevel Example", testdataPath)
             logsi.LogJpegFile(SILevel.Debug, "LogJpegFile Debug Example", testdataPath)
             logsi.LogJpegFile(SILevel.Verbose, "LogJpegFile Verbose Example", testdataPath)
@@ -945,7 +955,7 @@ class TestSessionMethods:
 
             # LogJpegStream Examples.
             testdataPath = testdataPfx + "TestJPG.jpg"
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogJpegStream Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogJpegStream Examples.")
             with open(testdataPath, 'rb') as binaryStream:
                 logsi.LogJpegStream(None, "LogJpegStream NoLevel Example", binaryStream)
                 logsi.LogJpegStream(SILevel.Debug, "LogJpegStream Debug Example", binaryStream)
@@ -956,11 +966,11 @@ class TestSessionMethods:
                 logsi.LogJpegStream(SILevel.Fatal, "LogJpegStream Fatal Example", binaryStream)
 
             # LogLong Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogLong Examples.")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "Python Si Client does not support this method.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogLong Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "Python Si Client does not support this method.")
 
             # Log Message Types Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogDebug, LogVerbose, LogMessage, LogWarning, LogError, LogFatal Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogDebug, LogVerbose, LogMessage, LogWarning, LogError, LogFatal Examples.")
             logsi.LogDebug("This is a debug message.  It will not be displayed if Level=Verbose or above.")
             logsi.LogDebug("This is a debug message with *args: str1='%s', int2=%i.  It will not be displayed if Level=Verbose or above.", argsVar1, argsVar2)
             logsi.LogDebug("This is a debug message with *args: str1='%s', int2=%i and a 'colorValue=' of Gainsboro.  It will not be displayed if Level=Verbose or above.", argsVar1, argsVar2, colorValue=SIColors.Gainsboro.value)
@@ -982,7 +992,7 @@ class TestSessionMethods:
 
             # LogMetafileFile Examples.
             testdataPath = testdataPfx + "TestMetaFile.wmf"
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogMetafileFile Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogMetafileFile Examples.")
             logsi.LogMetafileFile(None, "LogMetafileFile NoLevel Example", testdataPath)
             logsi.LogMetafileFile(SILevel.Debug, "LogMetafileFile Debug Example", testdataPath)
             logsi.LogMetafileFile(SILevel.Verbose, "LogMetafileFile Verbose Example", testdataPath)
@@ -993,7 +1003,7 @@ class TestSessionMethods:
 
             # LogMetafileStream Examples.
             testdataPath = testdataPfx + "TestMetaFile.wmf"
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogMetafileStream Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogMetafileStream Examples.")
             with open(testdataPath, 'rb') as binaryStream:
                 logsi.LogMetafileStream(None, "LogMetafileStream NoLevel Example", binaryStream)
                 logsi.LogMetafileStream(SILevel.Debug, "LogMetafileStream Debug Example", binaryStream)
@@ -1004,7 +1014,7 @@ class TestSessionMethods:
                 logsi.LogMetafileStream(SILevel.Fatal, "LogMetafileStream Fatal Example", binaryStream)
 
             # LogObject Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogObject Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogObject Examples.")
             objGetMem:TestLogObjectHelper = TestLogObjectHelper()
             logsi.LogObject(None, "LogObject NoLevel Example", objGetMem)
             logsi.LogObject(SILevel.Debug, "LogObject Debug Example", objGetMem)
@@ -1032,7 +1042,7 @@ class TestSessionMethods:
 
             # LogObjectValue Examples.
             testobject:bytes = bytes([0x00,0x01,0x02,0x03])
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogObjectValue Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogObjectValue Examples.")
             logsi.LogObjectValue(None, "LogObjectValue NoLevel Example", testobject)
             logsi.LogObjectValue(SILevel.Debug, "LogObjectValue Debug Example", testobject)
             logsi.LogObjectValue(SILevel.Verbose, "LogObjectValue Verbose Example", testobject)
@@ -1043,7 +1053,7 @@ class TestSessionMethods:
 
             # LogPngFile Examples.
             testdataPath = testdataPfx + "TestPNG.png"
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogPngFile Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogPngFile Examples.")
             logsi.LogPngFile(None, "LogPngFile NoLevel Example", testdataPath)
             logsi.LogPngFile(SILevel.Debug, "LogPngFile Debug Example", testdataPath)
             logsi.LogPngFile(SILevel.Verbose, "LogPngFile Verbose Example", testdataPath)
@@ -1054,7 +1064,7 @@ class TestSessionMethods:
 
             # LogPngStream Examples.
             testdataPath = testdataPfx + "TestPNG.png"
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogPngStream Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogPngStream Examples.")
             with open(testdataPath, 'rb') as binaryStream:
                 logsi.LogPngStream(None, "LogPngStream NoLevel Example", binaryStream)
                 logsi.LogPngStream(SILevel.Debug, "LogPngStream Debug Example", binaryStream)
@@ -1066,7 +1076,7 @@ class TestSessionMethods:
 
             # LogReader Examples.
             testdataPath = testdataPfx + "TestSourceXML.xml"
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogReader Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogReader Examples.")
             with open(testdataPath, 'r') as textReader:
                 logsi.LogReader(None, "LogReader NoLevel Example", textReader)
                 logsi.LogReader(SILevel.Debug, "LogReader Debug Example", textReader)
@@ -1077,7 +1087,7 @@ class TestSessionMethods:
                 logsi.LogReader(SILevel.Fatal, "LogReader Fatal Example", textReader)
 
             # LogSeparator Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogSeparator Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogSeparator Examples.")
             logsi.LogSeparator()
             logsi.LogSeparator(SILevel.Debug)
             logsi.LogSeparator(SILevel.Verbose)
@@ -1087,12 +1097,12 @@ class TestSessionMethods:
             logsi.LogSeparator(SILevel.Fatal)
 
             # LogShort Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogShort Examples.")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "Python Si Client does not support this method.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogShort Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "Python Si Client does not support this method.")
 
             # LogSource Xml Examples.
             testdataPath = testdataPfx + "TestSourceXML.xml"
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogSource Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogSource Examples.")
             logsi.LogSource(None, "LogSource NoLevel Example", testSourceHTML, SISourceId.Xml)
             logsi.LogSource(SILevel.Debug, "LogSource Debug Example", testSourceHTML, SISourceId.Xml)
             logsi.LogSource(SILevel.Verbose, "LogSource Verbose Example", testSourceHTML, SISourceId.Xml)
@@ -1103,7 +1113,7 @@ class TestSessionMethods:
 
             # LogSourceFile Html Examples.
             testdataPath = testdataPfx + "TestSourceHTML.Html"
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogSourceFile Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogSourceFile Examples.")
             logsi.LogSourceFile(None, "LogSourceFile NoLevel Html Example", testdataPath, SISourceId.Html)
             logsi.LogSourceFile(SILevel.Debug, "LogSourceFile Debug Html Example", testdataPath, SISourceId.Html)
             logsi.LogSourceFile(SILevel.Verbose, "LogSourceFile Verbose Html Example", testdataPath, SISourceId.Html)
@@ -1164,7 +1174,7 @@ class TestSessionMethods:
 
             # LogSourceReader Examples.
             testdataPath = testdataPfx + "TestSourceXML.xml"
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogSourceReader Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogSourceReader Examples.")
             with open(testdataPath, 'r') as textReader:
                 logsi.LogSourceReader(None, "LogSourceReader NoLevel Xml Example", textReader, SISourceId.Xml)
                 logsi.LogSourceReader(SILevel.Debug, "LogSourceReader Debug Xml Example", textReader, SISourceId.Xml)
@@ -1176,7 +1186,7 @@ class TestSessionMethods:
 
             # LogSourceStream Examples.
             testdataPath = testdataPfx + "TestSourceXML.xml"
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogSourceStream Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogSourceStream Examples.")
             with open(testdataPath, 'rb') as streamReader:
                 logsi.LogSourceStream(None, "LogSourceStream NoLevel Xml Example", streamReader, SISourceId.Xml)
                 logsi.LogSourceStream(SILevel.Debug, "LogSourceStream Debug Xml Example", streamReader, SISourceId.Xml)
@@ -1187,7 +1197,7 @@ class TestSessionMethods:
                 logsi.LogSourceStream(SILevel.Fatal, "LogSourceStream Fatal Xml Example", streamReader, SISourceId.Xml)
 
             # LogSql Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogSql Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogSql Examples.")
             logsi.LogSql(None, "LogSql NoLevel Example", "SELECT *\n FROM UsersTable\n WHERE LastName LIKE \"Smart%\"\n ORDER BY LastName ASC, FirstName ASC")
             logsi.LogSql(SILevel.Debug, "LogSql Debug Example", "SELECT *\n FROM UsersTable\n WHERE LastName LIKE \"Smart%\"\n ORDER BY LastName ASC, FirstName ASC")
             logsi.LogSql(SILevel.Verbose, "LogSql Verbose Example", "SELECT *\n FROM UsersTable\n WHERE LastName LIKE \"Smart%\"\n ORDER BY LastName ASC, FirstName ASC")
@@ -1198,7 +1208,7 @@ class TestSessionMethods:
 
             # LogStackTrace Examples.
             strace:list[FrameInfo] = inspect.stack()
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogStackTrace Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogStackTrace Examples.")
             logsi.LogStackTrace(None, "LogStackTrace NoLevel Example", strace)
             logsi.LogStackTrace(SILevel.Debug, "LogStackTrace Debug Example", strace)
             logsi.LogStackTrace(SILevel.Verbose, "LogStackTrace Verbose Example", strace)
@@ -1225,7 +1235,7 @@ class TestSessionMethods:
 
             # LogStream Examples.
             testdataPath = testdataPfx + "TestSourceXML.xml"
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogStream Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogStream Examples.")
             with open(testdataPath, 'rb') as binaryStream:
                 logsi.LogStream(None, "LogStream NoLevel Xml Example", binaryStream)
                 logsi.LogStream(SILevel.Debug, "LogStream Debug Xml Example", binaryStream)
@@ -1236,7 +1246,7 @@ class TestSessionMethods:
                 logsi.LogStream(SILevel.Fatal, "LogStream Fatal Xml Example", binaryStream)
 
             # LogString Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogString Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogString Examples.")
             logsi.LogString(None, "LogString Nolevel string Example", "This is a string value")
             logsi.LogString(SILevel.Debug, "LogString Debug string Example", "This is a string value")
             logsi.LogString(SILevel.Verbose, "LogString Verbose string Example", "This is a string value")
@@ -1246,11 +1256,11 @@ class TestSessionMethods:
             logsi.LogString(SILevel.Fatal, "LogString Fatal string Example", "This is a string value")
 
             # LogStringBuilder Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogStringBuilder Examples.")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "Python Si Client does not support this method.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogStringBuilder Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "Python Si Client does not support this method.")
 
             # LogSystem Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogSystem Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogSystem Examples.")
             logsi.LogSystem(None, "LogSystem Example NoLevel")
             logsi.LogSystem(SILevel.Debug, "LogSystem Debug Example")
             logsi.LogSystem(SILevel.Verbose, "LogSystem Verbose Example")
@@ -1269,7 +1279,7 @@ class TestSessionMethods:
 
             # LogText Examples.
             testdataPath = "This is the actual text to log.\nLine 2\r\nLine 3"
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogText Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogText Examples.")
             logsi.LogText(None, "LogText NoLevel Example", testdataPath)
             logsi.LogText(SILevel.Debug, "LogText Debug Example", testdataPath)
             logsi.LogText(SILevel.Verbose, "LogText Verbose Example", testdataPath)
@@ -1280,7 +1290,7 @@ class TestSessionMethods:
 
             # LogTextFile Examples.
             testdataPath = testdataPfx + "TestConfigurationSettings.txt"
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogTextFile Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogTextFile Examples.")
             logsi.LogTextFile(None, "LogTextFile NoLevel Example", testdataPath)
             logsi.LogTextFile(SILevel.Debug, "LogTextFile Debug Example", testdataPath)
             logsi.LogTextFile(SILevel.Verbose, "LogTextFile Verbose Example", testdataPath)
@@ -1291,7 +1301,7 @@ class TestSessionMethods:
 
             # LogTextReader Examples.
             testdataPath = testdataPfx + "TestSourceHTML.html"
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogTextReader Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogTextReader Examples.")
             with open(testdataPath, 'r') as textReader:
                 logsi.LogTextReader(None, "LogTextReader NoLevel Example", textReader)
                 logsi.LogTextReader(SILevel.Debug, "LogTextReader Debug Example", textReader)
@@ -1303,7 +1313,7 @@ class TestSessionMethods:
 
             # LogTextStream Examples.
             testdataPath = testdataPfx + "TestSourceHTML.html"
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogTextStream Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogTextStream Examples.")
             with open(testdataPath, 'rb') as streamReader:
                 logsi.LogTextStream(None, "LogTextStream NoLevel Example", streamReader)
                 logsi.LogTextStream(SILevel.Debug, "LogTextStream Debug Example", streamReader)
@@ -1314,7 +1324,7 @@ class TestSessionMethods:
                 logsi.LogTextStream(SILevel.Fatal, "LogTextStream Fatal Example", streamReader)
 
             # LogThread Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogThread Examples (using threading.currentThread()).")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogThread Examples (using threading.currentThread()).")
             logsi.LogThread(None, "LogThread NoLevel Example", threading.currentThread())
             logsi.LogThread(SILevel.Debug, "LogThread Debug Example", threading.currentThread())
             logsi.LogThread(SILevel.Verbose, "LogThread Verbose Example", threading.currentThread())
@@ -1332,7 +1342,7 @@ class TestSessionMethods:
             logsi.LogThread(SILevel.Fatal, thread=threading.currentThread())
 
             # LogValue Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py LogValue Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogValue Examples.")
             logsi.LogValue(None, "LogValue NoLevel bool Example", True)
             logsi.LogValue(SILevel.Debug, "LogValue Debug bool Example", True)
             logsi.LogValue(SILevel.Verbose, "LogValue Verbose bool Example", True)
@@ -1414,7 +1424,7 @@ class TestSessionMethods:
             logsi.LogValue(SILevel.Fatal, "LogValue Fatal null Example", None)
 
             # ResetColor Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py SISession.ResetColor Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py SISession.ResetColor Examples.")
             logsi.ColorBG = SIColor(SIColors.LightCoral.value)
             logsi.LogDebug(str.format("This is a debug message in color {0}.  It will not be displayed if Level=Verbose or above.", logsi.ColorBG.ValueHex))
             logsi.LogVerbose(str.format("This is a verbose messge in color {0}.  It will not be displayed if Level=Message or above.", logsi.ColorBG.ValueHex))
@@ -1422,7 +1432,7 @@ class TestSessionMethods:
             logsi.LogWarning(str.format("This is a warning message in color {0}.  It will not be displayed if Level=Error or above.", logsi.ColorBG.ValueHex))
             logsi.LogError(str.format("This is a error message in color {0}.  It will not be displayed if Level=Fatal or above.", logsi.ColorBG.ValueHex))
             logsi.LogFatal(str.format("This is a fatal message error in color {0}.", logsi.ColorBG.ValueHex))
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "Resetting background color to default.")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "Resetting background color to default.")
             logsi.ResetColor()  # reset color back to default.
             logsi.LogDebug(str.format("This is a debug message in color {0}.  It will not be displayed if Level=Verbose or above.", logsi.ColorBG.ValueHex))
             logsi.LogVerbose(str.format("This is a verbose message in color {0}.  It will not be displayed if Level=Message or above.", logsi.ColorBG.ValueHex))
@@ -1432,8 +1442,8 @@ class TestSessionMethods:
             logsi.LogFatal(str.format("This is a fatal message error in color {0}.", logsi.ColorBG.ValueHex))
 
             # SendCustomControlCommand Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py SendCustomControlCommand Examples.")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "Clearing all AutoViews in the SI Console viewer.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py SendCustomControlCommand Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "Clearing all AutoViews in the SI Console viewer.")
             logsi.SendCustomControlCommand(None, SIControlCommandType.ClearAutoViews, None)
             logsi.SendCustomControlCommand(SILevel.Debug, SIControlCommandType.ClearAutoViews, None)
             logsi.SendCustomControlCommand(SILevel.Verbose, SIControlCommandType.ClearAutoViews, None)
@@ -1444,7 +1454,7 @@ class TestSessionMethods:
 
             # SendCustomLogEntry Examples.
             testdataPath = testdataPfx + "TestBMP.bmp"
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py SendCustomLogEntry Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py SendCustomLogEntry Examples.")
             with open(testdataPath, 'rb') as binaryStream:
                 logsi.SendCustomLogEntry(None, "SendCustomLogEntry Nolevel Bitmap Graphic Example", SILogEntryType.Graphic, SIViewerId.Bitmap, None, binaryStream)
                 logsi.SendCustomLogEntry(SILevel.Debug, "SendCustomLogEntry Debug Bitmap Graphic Example", SILogEntryType.Graphic, SIViewerId.Bitmap, None, binaryStream)
@@ -1455,8 +1465,8 @@ class TestSessionMethods:
                 logsi.SendCustomLogEntry(SILevel.Fatal, "SendCustomLogEntry Fatal Bitmap Graphic Example", SILogEntryType.Graphic, SIViewerId.Bitmap, None, binaryStream)
 
             # SendCustomProcessFlow Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py SendCustomProcessFlow Examples.")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "Adding a 'SendCustomProcessFlow Level Thread' to the Process Flow toolbox in the SI Console viewer.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py SendCustomProcessFlow Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "Adding a 'SendCustomProcessFlow Level Thread' to the Process Flow toolbox in the SI Console viewer.")
             logsi.SendCustomProcessFlow(None, "SendCustomProcessFlow NoLevel Thread", SIProcessFlowType.EnterThread)
             logsi.SendCustomProcessFlow(SILevel.Debug, "SendCustomProcessFlow NoLevel Thread", SIProcessFlowType.EnterThread)
             logsi.SendCustomProcessFlow(SILevel.Verbose, "SendCustomProcessFlow Verbose Thread", SIProcessFlowType.EnterThread)
@@ -1474,8 +1484,8 @@ class TestSessionMethods:
             logsi.SendCustomProcessFlow(SILevel.Fatal, "SendCustomProcessFlow Fatal Thread", SIProcessFlowType.LeaveThread)
 
             # SendCustomWatch Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py SendCustomWatch Examples.")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "Adding a 'PySendCustomWatch Level' to the Watches panel in the SI Console viewer.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py SendCustomWatch Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "Adding a 'PySendCustomWatch Level' to the Watches panel in the SI Console viewer.")
             logsi.SendCustomWatch(None, "PySendCustomWatch NoLevel", "Custom Watch Value", SIWatchType.String)
             logsi.SendCustomWatch(SILevel.Debug, "PySendCustomWatch Debug", "Custom Watch Value", SIWatchType.String)
             logsi.SendCustomWatch(SILevel.Verbose, "PySendCustomWatch Verbose", "Custom Watch Value", SIWatchType.String)
@@ -1485,8 +1495,8 @@ class TestSessionMethods:
             logsi.SendCustomWatch(SILevel.Fatal, "PySendCustomWatch Fatal", "Custom Watch Value", SIWatchType.String)
 
             # Watch Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py Watch Examples.")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "PyWatch(bool) values are located in the Watches panel of the SI Console.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py Watch Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "PyWatch(bool) values are located in the Watches panel of the SI Console.")
             logsi.Watch(None, "PyWatch(bool) NoLevel", True)
             logsi.Watch(SILevel.Debug, "PyWatch(bool) Debug", True)
             logsi.Watch(SILevel.Verbose, "PyWatch(bool) Verbose", True)
@@ -1495,7 +1505,7 @@ class TestSessionMethods:
             logsi.Watch(SILevel.Error, "PyWatch(bool) Error", True)
             logsi.Watch(SILevel.Fatal, "PyWatch(bool) Fatal", True)
 
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "PyWatch(byte) values are located in the Watches panel of the SI Console.")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "PyWatch(byte) values are located in the Watches panel of the SI Console.")
             logsi.Watch(None, "PyWatch(byte) NoLevel", b'\xff')
             logsi.Watch(SILevel.Debug, "PyWatch(byte) Debug", b'\xff')
             logsi.Watch(SILevel.Verbose, "PyWatch(byte) Verbose", b'\xff')
@@ -1504,7 +1514,7 @@ class TestSessionMethods:
             logsi.Watch(SILevel.Error, "PyWatch(byte) Error", b'\xff')
             logsi.Watch(SILevel.Fatal, "PyWatch(byte) Fatal", b'\xff')
 
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "PyWatch(char) values are located in the Watches panel of the SI Console.")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "PyWatch(char) values are located in the Watches panel of the SI Console.")
             logsi.Watch(None, "PyWatch(char) NoLevel", 'A')
             logsi.Watch(SILevel.Debug, "PyWatch(char) Debug", 'A')
             logsi.Watch(SILevel.Verbose, "PyWatch(char) Verbose", 'A')
@@ -1513,7 +1523,7 @@ class TestSessionMethods:
             logsi.Watch(SILevel.Error, "PyWatch(char) Error", 'A')
             logsi.Watch(SILevel.Fatal, "PyWatch(char) Fatal", 'A')
 
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "PyWatch(complex) values are located in the Watches panel of the SI Console.")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "PyWatch(complex) values are located in the Watches panel of the SI Console.")
             logsi.Watch(None, "PyWatch(complex) NoLevel", complex(3,5))
             logsi.Watch(SILevel.Debug, "PyWatch(complex) Debug", complex(3,5))
             logsi.Watch(SILevel.Verbose, "PyWatch(complex) Verbose", complex(3,5))
@@ -1522,7 +1532,7 @@ class TestSessionMethods:
             logsi.Watch(SILevel.Error, "PyWatch(complex) Error", complex(3,5))
             logsi.Watch(SILevel.Fatal, "PyWatch(complex) Fatal", complex(3,5))
 
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "PyWatch(datetime) values are located in the Watches panel of the SI Console.")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "PyWatch(datetime) values are located in the Watches panel of the SI Console.")
             logsi.Watch(None, "PyWatch(datetime) NoLevel", testdate)
             logsi.Watch(SILevel.Debug, "PyWatch(datetime) Debug", testdate)
             logsi.Watch(SILevel.Verbose, "PyWatch(datetime) Verbose", testdate)
@@ -1531,7 +1541,7 @@ class TestSessionMethods:
             logsi.Watch(SILevel.Error, "PyWatch(datetime) Error", testdate)
             logsi.Watch(SILevel.Fatal, "PyWatch(datetime) Fatal", testdate)
 
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "PyWatch(float) values are located in the Watches panel of the SI Console.")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "PyWatch(float) values are located in the Watches panel of the SI Console.")
             logsi.Watch(None, "PyWatch(float) NoLevel", float(10.123456789))
             logsi.Watch(SILevel.Debug, "PyWatch(float) Debug", float(10.123456789))
             logsi.Watch(SILevel.Verbose, "PyWatch(float) Verbose", float(10.123456789))
@@ -1540,7 +1550,7 @@ class TestSessionMethods:
             logsi.Watch(SILevel.Error, "PyWatch(float) Error", float(10.123456789))
             logsi.Watch(SILevel.Fatal, "PyWatch(float) Fatal", float(10.123456789))
 
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "PyWatch(int) values are located in the Watches panel of the SI Console.")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "PyWatch(int) values are located in the Watches panel of the SI Console.")
             logsi.Watch(None, "PyWatch(int) NoLevel", int(1234567890))
             logsi.Watch(SILevel.Debug, "PyWatch(int) Debug", int(1234567890))
             logsi.Watch(SILevel.Verbose, "PyWatch(int) Verbose", int(1234567890))
@@ -1549,7 +1559,7 @@ class TestSessionMethods:
             logsi.Watch(SILevel.Error, "PyWatch(int) Error", int(1234567890))
             logsi.Watch(SILevel.Fatal, "PyWatch(int) Fatal", int(1234567890))
 
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "PyWatch(string) values are located in the Watches panel of the SI Console.")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "PyWatch(string) values are located in the Watches panel of the SI Console.")
             logsi.Watch(None, "PyWatch(string) NoLevel", "Py Watch String Example")
             logsi.Watch(SILevel.Debug, "PyWatch(string) Debug", "Py Watch String Example")
             logsi.Watch(SILevel.Verbose, "PyWatch(string) Verbose", "Py Watch String Example")
@@ -1559,8 +1569,8 @@ class TestSessionMethods:
             logsi.Watch(SILevel.Fatal, "PyWatch(string) Fatal", "Py Watch String Example")
 
             # WatchBool Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py WatchBool Examples.")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "PyWatchBool values are located in the Watches panel of the SI Console.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py WatchBool Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "PyWatchBool values are located in the Watches panel of the SI Console.")
             logsi.WatchBool(None, "PyWatchBool NoLevel", True)
             logsi.WatchBool(SILevel.Debug, "PyWatchBool Debug", True)
             logsi.WatchBool(SILevel.Verbose, "PyWatchBool Verbose", True)
@@ -1570,8 +1580,8 @@ class TestSessionMethods:
             logsi.WatchBool(SILevel.Fatal, "PyWatchBool Fatal", True)
 
             # WatchByte Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py WatchByte Examples.")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "PyWatchByte values are located in the Watches panel of the SI Console.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py WatchByte Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "PyWatchByte values are located in the Watches panel of the SI Console.")
             logsi.WatchByte(None, "PyWatchByte NoLevel", 0xff)
             logsi.WatchByte(SILevel.Debug, "PyWatchByte Debug", 0xff)
             logsi.WatchByte(SILevel.Verbose, "PyWatchByte Verbose", 0xff)
@@ -1589,8 +1599,8 @@ class TestSessionMethods:
             logsi.WatchByte(SILevel.Fatal, "PyWatchByte(hex) Fatal", 0xff, True)
 
             # WatchChar Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py WatchChar Examples.")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "PyWatchChar values are located in the Watches panel of the SI Console.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py WatchChar Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "PyWatchChar values are located in the Watches panel of the SI Console.")
             logsi.WatchChar(None, "PyWatchChar NoLevel", 'A')
             logsi.WatchChar(SILevel.Debug, "PyWatchChar Debug", 'A')
             logsi.WatchChar(SILevel.Verbose, "PyWatchChar Verbose", 'A')
@@ -1599,8 +1609,8 @@ class TestSessionMethods:
             logsi.WatchChar(SILevel.Error, "PyWatchChar Error", 'A')
             logsi.WatchChar(SILevel.Fatal, "PyWatchChar Fatal", 'A')
 
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py WatchComplex Examples.")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "PyWatchComplex values are located in the Watches panel of the SI Console.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py WatchComplex Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "PyWatchComplex values are located in the Watches panel of the SI Console.")
             logsi.WatchComplex(None, "PyWatchComplex NoLevel", complex(3,5))
             logsi.WatchComplex(SILevel.Debug, "PyWatchComplex Debug", complex(3,5))
             logsi.WatchComplex(SILevel.Verbose, "PyWatchComplex Verbose", complex(3,5))
@@ -1610,8 +1620,8 @@ class TestSessionMethods:
             logsi.WatchComplex(SILevel.Fatal, "PyWatchComplex Fatal", complex(3,5))
 
             # WatchDateTime Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py WatchDateTime Examples.")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "PyWatchDateTime values are located in the Watches panel of the SI Console.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py WatchDateTime Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "PyWatchDateTime values are located in the Watches panel of the SI Console.")
             logsi.WatchDateTime(None, "PyWatchDateTime NoLevel", testdate)
             logsi.WatchDateTime(SILevel.Debug, "PyWatchDateTime Debug", testdate)
             logsi.WatchDateTime(SILevel.Verbose, "PyWatchDateTime Verbose", testdate)
@@ -1621,16 +1631,16 @@ class TestSessionMethods:
             logsi.WatchDateTime(SILevel.Fatal, "PyWatchDateTime Fatal", testdate)
 
             # WatchDecimal Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py WatchDecimal Examples.")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "Python Si Client does not support this method.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py WatchDecimal Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "Python Si Client does not support this method.")
 
             # WatchDouble Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py WatchDouble Examples.")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "Python Si Client does not support this method.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py WatchDouble Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "Python Si Client does not support this method.")
 
             # WatchFloat Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py WatchFloat Examples.")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "PyWatchFloat values are located in the Watches panel of the SI Console.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py WatchFloat Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "PyWatchFloat values are located in the Watches panel of the SI Console.")
             logsi.WatchFloat(None, "PyWatchFloat NoLevel", float(10.123456789))
             logsi.WatchFloat(SILevel.Debug, "PyWatchFloat Debug", float(10.123456789))
             logsi.WatchFloat(SILevel.Verbose, "PyWatchFloat Verbose", float(10.123456789))
@@ -1640,8 +1650,8 @@ class TestSessionMethods:
             logsi.WatchFloat(SILevel.Fatal, "PyWatchFloat Fatal", float(10.123456789))
 
             # WatchInt Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py WatchInt Examples.")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "PyWatchInt values are located in the Watches panel of the SI Console.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py WatchInt Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "PyWatchInt values are located in the Watches panel of the SI Console.")
             logsi.WatchInt(None, "PyWatchInt NoLevel", int(1234567890))
             logsi.WatchInt(SILevel.Debug, "PyWatchInt Debug", int(1234567890))
             logsi.WatchInt(SILevel.Verbose, "PyWatchInt Verbose", int(1234567890))
@@ -1659,16 +1669,16 @@ class TestSessionMethods:
             logsi.WatchInt(SILevel.Fatal, "PyWatchInt(hex) Fatal", int(1234567890), True)
 
             # WatchLong Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py WatchLong Examples.")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "Python Si Client does not support this method.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py WatchLong Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "Python Si Client does not support this method.")
 
             # WatchShort Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py WatchShort Examples.")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "Python Si Client does not support this method.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py WatchShort Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "Python Si Client does not support this method.")
 
             # WatchString Examples.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py WatchString Examples.")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "PyWatchString values are located in the Watches panel of the SI Console.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py WatchString Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "PyWatchString values are located in the Watches panel of the SI Console.")
             logsi.WatchString(None, "PyWatchString NoLevel", "Py Watch String Example")
             logsi.WatchString(SILevel.Debug, "PyWatchString Debug", "Py Watch String Example")
             logsi.WatchString(SILevel.Verbose, "PyWatchString Verbose", "Py Watch String Example")
@@ -1678,15 +1688,15 @@ class TestSessionMethods:
             logsi.WatchString(SILevel.Fatal, "PyWatchString Fatal", "Py Watch String Example")
 
             # log message in all known color values.
-            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue.value, "Py Coloring Examples.")
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "All Python Log methods support a colorValue property.  The following are the known color values, or you can supply your own color values.")
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py Coloring Examples.")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "All Python Log methods support a colorValue property.  The following are the known color values, or you can supply your own color values.")
             for item in SIColors:
                 logsi.LogColored(logsi.Parent.Level, item.value, "This is a message in color '{0}' ({1}).".format(item.name, hex(item.value).upper().replace("0X","0x")))
             oColor:SIColor = SIColor.FromRgb(255,0,0)
             logsi.LogColored(logsi.Parent.Level, oColor.Value, "This is a message in a custom color '{0}'.".format(oColor.ValueHex))
 
             # tests completed.
-            logsi.LogColored(SILevel.Fatal, SIColors.White.value, "Test ALL SISession Methods Completed")
+            logsi.LogColored(SILevel.Fatal, SIColors.White, "Test ALL SISession Methods Completed")
 
         except Exception as ex:
 

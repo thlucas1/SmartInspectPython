@@ -7,6 +7,7 @@ Module: sicolor.py
 | Date       | Version     | Description
 | ---------- | ----------- | ----------------------
 | 2023/05/30 | 3.0.0.0     | Initial Version.  
+| 2023/09/03 | 3.0.20.0    | Changed all alpha byte from 0xFF to 0x00 for all color definitions.
 
 </details>
 """
@@ -350,98 +351,98 @@ class SIColors(Enum):
     Pre-defined known color values.
     """
     
-    AliceBlue = 0xFFF0F8FF
+    AliceBlue = 0x00F0F8FF
     """ System-defined color that has an ARGB value of #FFF0F8FF. """
 
-    AntiqueWhite = 0xFFFAEBD7
+    AntiqueWhite = 0x00FAEBD7
     """ <summary>Gets a system-defined color that has an ARGB value of #FFFAEBD7. """
 
-    Coral = 0xFFFF7F50
+    Coral = 0x00FF7F50
     """Gets a system-defined color that has an ARGB value of #FFFF7F50."""
 
-    CornflowerBlue = 0xFF6495ED
+    CornflowerBlue = 0x006495ED
     """Gets a system-defined color that has an ARGB value of #FF6495ED."""
 
-    DarkBlue = 0xFF00008B
+    DarkBlue = 0x0000008B
     """Gets a system-defined color that has an ARGB value of #FF00008B."""
 
-    DarkCyan = 0xFF008B8B
+    DarkCyan = 0x00008B8B
     """Gets a system-defined color that has an ARGB value of #FF008B8B."""
 
-    DarkGray = 0xFFA9A9A9
+    DarkGray = 0x00A9A9A9
     """Gets a system-defined color that has an ARGB value of #FFA9A9A9."""
 
-    DarkOrange = 0xFFFF8C00
+    DarkOrange = 0x00FF8C00
     """Gets a system-defined color that has an ARGB value of #FFFF8C00."""
 
-    DeepSkyBlue = 0xFF00BFFF
+    DeepSkyBlue = 0x0000BFFF
     """Gets a system-defined color that has an ARGB value of #FF00BFFF."""
     
-    DimGray = 0xFF696969
+    DimGray = 0x00696969
     """Gets a system-defined color that has an ARGB value of #FF696969."""
 
-    ForestGreen = 0xFF228B22
+    ForestGreen = 0x00228B22
     """Gets a system-defined color that has an ARGB value of #."""
 
-    Gainsboro = 0xFFDCDCDC
+    Gainsboro = 0x00DCDCDC
     """Gets a system-defined color that has an ARGB value of #FFDCDCDC."""
 
-    Gold = 0xFFFFD700
+    Gold = 0x00FFD700
     """Gets a system-defined color that has an ARGB value of #."""
 
-    Green = 0xFF008000
+    Green = 0x00008000
     """Gets a system-defined color that has an ARGB value of #FF008000."""
 
-    Khaki = 0xFFF0E68C
+    Khaki = 0x00F0E68C
     """Gets a system-defined color that has an ARGB value of #FFF0E68C."""
 
-    Lavender = 0xFFE6E6FA
+    Lavender = 0x00E6E6FA
     """Gets a system-defined color that has an ARGB value of #FFE6E6FA."""
 
-    LightBlue = 0xFFADD8E6
+    LightBlue = 0x00ADD8E6
     """Gets a system-defined color that has an ARGB value of #FFADD8E6."""
 
-    LightCoral = 0xFFF08080
+    LightCoral = 0x00F08080
     """Gets a system-defined color that has an ARGB value of #FFF08080."""
 
-    LightGreen = 0xFF90EE90
+    LightGreen = 0x0090EE90
     """Gets a system-defined color that has an ARGB value of #FF90EE90."""
 
-    LightGray = 0xFFD3D3D3
+    LightGray = 0x00D3D3D3
     """Gets a system-defined color that has an ARGB value of #FFD3D3D3."""
 
-    LightSkyBlue = 0xFF87CEFA
+    LightSkyBlue = 0x0087CEFA
     """Gets a system-defined color that has an ARGB value of #FF87CEFA."""
 
-    Orange = 0xFFFFA500
+    Orange = 0x00FFA500
     """Gets a system-defined color that has an ARGB value of #FFFFA500."""
 
-    Red = 0xFFFF0000
+    Red = 0x00FF0000
     """Gets a system-defined color that has an ARGB value of #FFFF0000."""
 
-    SaddleBrown = 0xFF8B4513
+    SaddleBrown = 0x008B4513
     """Gets a system-defined color that has an ARGB value of #FF8B4513."""
 
-    SeaGreen = 0xFF2E8B57
+    SeaGreen = 0x002E8B57
     """Gets a system-defined color that has an ARGB value of #FF2E8B57."""
 
-    Silver = 0xFFC0C0C0
+    Silver = 0x00C0C0C0
     """Gets a system-defined color that has an ARGB value of #FFC0C0C0."""
 
-    SkyBlue = 0xFF87CEEB
+    SkyBlue = 0x0087CEEB
     """Gets a system-defined color that has an ARGB value of #FF87CEEB."""
 
-    SlateGray = 0xFF708090
+    SlateGray = 0x00708090
     """Gets a system-defined color that has an ARGB value of #FF708090."""
 
-    Tan = 0xFFD2B48C
+    Tan = 0x00D2B48C
     """Gets a system-defined color that has an ARGB value of #FFD2B48C."""
 
-    White = 0xFFFFFFFF
+    White = 0x00FFFFFF
     """Gets a system-defined color that has an ARGB value of #FFFFFFFF."""
 
-    WhiteSmoke = 0xFFF5F5F5
+    WhiteSmoke = 0x00F5F5F5
     """Gets a system-defined color that has an ARGB value of #FFF5F5F5."""
 
-    Yellow = 0xFFFFFF00
+    Yellow = 0x00FFFF00
     """Gets a system-defined color that has an ARGB value of #FFFFFF00."""

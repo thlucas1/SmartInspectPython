@@ -1,12 +1,13 @@
 @echo off
 echo Build PDoc Documentation Script starting.
 
-rem set python path so source files can be found.
-set PYTHONPATH=C:\Users\thluc\source\repos\SmartinspectPython\SmartinspectPythonProject\;C:\Users\thluc\source\repos\SmartinspectPython\SmartinspectPythonProject\smartinspectpython
 
-
-echo Changing working directory to package docspdoc folder.
+echo Changing working directory to docspdoc folder.
 cd C:\Users\thluc\source\repos\SmartinspectPython\SmartinspectPythonProject\docspdoc
+
+
+echo Activating python virtual environment.
+call ..\env39\scripts\activate.bat
 
 
 echo Setting build environment variables via buildEnv.py ...

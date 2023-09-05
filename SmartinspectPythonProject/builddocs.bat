@@ -2,11 +2,16 @@
 cls
 echo Script starting.
 
-rem set python path so source files can be found.
+echo Setting Python Search path (PYTHONPATH).
 set PYTHONPATH=C:\Users\thluc\source\repos\SmartinspectPython\SmartinspectPythonProject\;C:\Users\thluc\source\repos\SmartinspectPython\SmartinspectPythonProject\smartinspectpython
+
 
 echo Changing working directory to package source folder.
 cd C:\Users\thluc\source\repos\SmartinspectPython\SmartinspectPythonProject
+
+
+echo Activating python virtual environment.
+call .\env39\scripts\activate.bat
 
 
 echo Cleaning up the project build output folder.
@@ -27,6 +32,10 @@ echo - BUILDENV_PDOC_BRAND_ICON_URL_TITLE = %BUILDENV_PDOC_BRAND_ICON_URL_TITLE%
 echo Building project documentation ...
 echo.
 call ".\docspdoc\make.bat"
+
+
+echo Deactivating python virtual environment.
+call .\env39\scripts\deactivate.bat
 
 
 echo.

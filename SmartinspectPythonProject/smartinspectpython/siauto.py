@@ -1,6 +1,15 @@
 """
 Module: siauto.py
 
+<details>
+  <summary>Revision History</summary>
+
+| Date       | Version     | Description      |
+| ---------- | ----------- | -----------------|
+| 2023/05/30 | 3.0.0.0     | Initial Version. | 
+
+</details>
+
 Provides automatically created objects for using SmartInspect Python logging.  
 
 The following classes are imported when `from smartinspectpython.siauto import *` is specified:  
@@ -19,15 +28,6 @@ The following classes are imported when `from smartinspectpython.siauto import *
 - SISession
 - SIWatchEventArgs
 - SmartInspectException
-
-<details>
-  <summary>Revision History</summary>
-
-| Date       | Version     | Description      |
-| ---------- | ----------- | -----------------|
-| 2023/05/30 | 3.0.0.0     | Initial Version. | 
-
-</details>
 """
 
 # all classes to import when "import *" is specified.
@@ -91,14 +91,14 @@ class SIAuto:
 
     from .smartinspectpython.siauto import *
     SIAuto.Si.Connections = 'tcp(host=yourdns.com)'
-    SIAuto.Si.Enabled = True            # connect
-    SIAuto.Main.Level = SILevel.Debug     # set logging level to Debug (ALL msgs)
+    SIAuto.Si.Enabled = True               # connect
+    SIAuto.Main.Level = SILevel.Debug      # set logging level to Debug (ALL msgs)
     #SIAuto.Main.Level = SILevel.Verbose   # set logging level to Verbose
     #SIAuto.Main.Level = SILevel.Message   # set logging level to Message
     #SIAuto.Main.Level = SILevel.Warning   # set logging level to Warning
     #SIAuto.Main.Level = SILevel.Error     # set logging level to Error
 
-    #Use the following in main (or classes) in your project:
+    # Use the following in main (or classes) in your project:
 
     # get logger reference.
     _logsi:SISession = SIAuto.Main
@@ -130,9 +130,10 @@ class SIAuto:
 
     **Example:**
     ``` python
-    Use the following in main (or classes) in your project:
+    # Use the following in main (or classes) in your project:
 
     # get logger reference.
+    from .smartinspectpython.siauto import *
     _logsi:SISession = SIAuto.Main
     
     # log some messages and data.

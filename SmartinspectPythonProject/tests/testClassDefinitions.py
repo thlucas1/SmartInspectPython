@@ -1,16 +1,8 @@
 from io import BufferedReader, TextIOWrapper
 
 # our package imports.
-from smartinspectpython.dotnetcsharp import ArgumentNullException
-from smartinspectpython.sierroreventargs import SIErrorEventArgs
-from smartinspectpython.siinfoeventargs import SIInfoEventArgs
-from smartinspectpython.sifiltereventargs import SIFilterEventArgs
-from smartinspectpython.siwatcheventargs import SIWatchEventArgs
-from smartinspectpython.silogentryeventargs import SILogEntryEventArgs
-from smartinspectpython.siprocessfloweventargs import SIProcessFlowEventArgs
-from smartinspectpython.sicontrolcommandeventargs import SIControlCommandEventArgs
+from smartinspectpython.siauto import *
 from smartinspectpython.sioptionfoundeventargs import SIOptionFoundEventArgs
-from smartinspectpython.sisession import SISession
 
 # auto-generate the "__all__" variable with classes decorated with "@export".
 from smartinspectpython.siutils import export
@@ -186,7 +178,7 @@ class TestMethodTracking:
         logger.EnterMethod()
         logger.LogMessage("Started SIEventHandlerClass.TestMethod1 funciton.")
         try:
-            raise ArgumentNullException("myargument")
+            raise SIArgumentNullException("myargument")
         except Exception as ex:
             logger.LogException("Caught exception1 in TestMethod1", ex)
             logger.LogException(None, ex)
@@ -198,7 +190,7 @@ class TestMethodTracking:
     def TestMethod2(logger:SISession) -> None:
         logger.LogMessage("Started SIEventHandlerClass.TestMethod2 funciton.")
         try:
-            raise ArgumentNullException("myargument")
+            raise SIArgumentNullException("myargument")
         except Exception as ex:
             logger.LogException("Caught exception1 in TestMethod2", ex)
             logger.LogException(None, ex)

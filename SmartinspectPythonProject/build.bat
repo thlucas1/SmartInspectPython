@@ -2,11 +2,16 @@
 cls
 echo Script starting.
 
-rem set python path so source files can be found.
+echo Setting Python Search path (PYTHONPATH).
 set PYTHONPATH=C:\Users\thluc\source\repos\SmartinspectPython\SmartinspectPythonProject\;C:\Users\thluc\source\repos\SmartinspectPython\SmartinspectPythonProject\smartinspectpython
+
 
 echo Changing working directory to package source folder.
 cd C:\Users\thluc\source\repos\SmartinspectPython\SmartinspectPythonProject
+
+
+echo Activating python virtual environment.
+call .\env39\scripts\activate.bat
 
 
 echo Cleaning up the project build output folder.
@@ -40,10 +45,13 @@ echo Restoring current working directory.
 cd C:\Users\thluc\source\repos\SmartinspectPython\SmartinspectPythonProject
 
 
+echo Deactivating python virtual environment.  
+call .\env39\scripts\deactivate.bat
+
+
 @echo.
 echo Compressing Local GIT Repository.
 git gc --auto
-
 
 echo Uploading dist package to TEST Pypi.org site.
 echo Note that this could fail if the version has already been uploaded.
@@ -55,7 +63,7 @@ echo ^> py -m twine upload --repository testpypi dist/*%BUILDENV_PACKAGEVERSION%
 
 echo.
 echo Use the following command to install the package from TEST Pypi:
-echo ^> pip install -i https://test.pypi.org/simple/ smartinspectPython
+echo ^> pip install -i https://test.pypi.org/simple/ %BUILDENV_PACKAGENAME%
 
 echo.
 echo Use the following command to upload the dist package to PROD Pypi:
@@ -63,7 +71,7 @@ echo ^> py -m twine upload --repository pypi dist/*%BUILDENV_PACKAGEVERSION%*
 
 echo.
 echo Use the following command to install the package from PROD Pypi:
-echo ^> pip install smartinspectPython
+echo ^> pip install %BUILDENV_PACKAGENAME%
 
 echo.
 echo Script completed.

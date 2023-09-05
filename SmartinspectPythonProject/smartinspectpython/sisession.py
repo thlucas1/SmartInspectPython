@@ -15,6 +15,7 @@ Module: sisession.py
 | 2023/06/23 | 3.0.13.0    | Changed Session LogAssigned method to properly format the LogMessage title value.
 | 2023/06/28 | 3.0.14.0    | Changed Session class to use temporary logger to capture exception details in LogException method.
 | 2023/07/11 | 3.0.16.0    | Changed Session.GetMethodName method to use inspect.stack(0) instead of inspect.stack() to improve performace.
+| 2023/09/03 | 3.0.20.0    | Changed all Session.LogX method signatures to use the SIColors enum type, or an integer value in ARGB format.
 
 </details>
 """
@@ -40,7 +41,7 @@ import tempfile
 from .sibinarycontext import SIBinaryContext
 from .sibinaryformatter import SIBinaryFormatter
 from .sibinaryviewercontext import SIBinaryViewerContext
-from .sicolor import SIColor
+from .sicolor import SIColor, SIColors
 from .sicontrolcommand import SIControlCommand
 from .sicontrolcommandtype import SIControlCommandType
 from .sidataviewercontext import SIDataViewerContext
@@ -437,7 +438,7 @@ class SISession:
         iList.clear()
 
 
-    def _SendContext(self, level:SILevel, title:str, lt:SILogEntryType, ctx:SIViewerContext, colorValue:int=None) -> None:
+    def _SendContext(self, level:SILevel, title:str, lt:SILogEntryType, ctx:SIViewerContext, colorValue:SIColors=None) -> None:
         """
         Sends a Log Entry packet of information that contains viewer context.
 
@@ -450,8 +451,8 @@ class SISession:
                 Log Entry Type to set in the Log Entry.
             ctx (SIViewerContext):
                 Viewer Context to set in the Log Entry.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
         """
@@ -474,7 +475,7 @@ class SISession:
         self._fParent.SendControlCommand(controlCommand)
 
 
-    def _SendLogEntry(self, level:SILevel, title:str, lt:SILogEntryType, vi:SIViewerId, colorValue:int=None, data:BytesIO=None) -> None:
+    def _SendLogEntry(self, level:SILevel, title:str, lt:SILogEntryType, vi:SIViewerId, colorValue:SIColors=None, data:BytesIO=None) -> None:
         """
         Sends a Log Entry packet of information.
 
@@ -487,8 +488,8 @@ class SISession:
                 Log Entry Type to set in the Log Entry.
             vi (SIViewerId):
                 Viewer Id to set in the Log Entry.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
             data
@@ -514,6 +515,9 @@ class SISession:
         # if yes, then ensure it is transparent.
         if (colorValue == None):
             logEntry.ColorBG = self._fColorBG
+        elif (isinstance(colorValue, SIColors)):
+            colorObj:SIColor = SIColor(colorValue.value)
+            logEntry.ColorBG = colorObj
         else:
             colorObj:SIColor = SIColor(colorValue)
             if (colorObj.A != 0):
@@ -636,7 +640,7 @@ class SISession:
     ###################################################################################
 
 
-    def AddCheckpoint(self, level:SILevel=None, name:str=None, details:str=None, colorValue:int=None) -> None:
+    def AddCheckpoint(self, level:SILevel=None, name:str=None, details:str=None, colorValue:SIColors=None) -> None:
         """
         Increments the counter of a named checkpoint and logs a
         message with a custom log level and an optional message.
@@ -649,8 +653,8 @@ class SISession:
             details (str):
                 An optional message to include in the resulting log entry.
                 Can be null / None.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -1253,7 +1257,7 @@ class SISession:
                 self.LogInternalError("LeaveThread: " + str(ex))
 
 
-    def LogAppDomain(self, level:SILevel=None, title:str=None, colorValue:int=None) -> None:
+    def LogAppDomain(self, level:SILevel=None, title:str=None, colorValue:SIColors=None) -> None:
         """
         Logs information about an application and its setup with a custom log level.
 
@@ -1262,8 +1266,8 @@ class SISession:
                 The log level of this method call.
             title (str):
                 The title to display in the Console.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -1304,7 +1308,7 @@ class SISession:
             self.LogInternalError("LogAppDomain: " + str(ex))
 
 
-    def LogArray(self, level:SILevel=None, title:str=None, oArray:array=None, colorValue:int=None) -> None:
+    def LogArray(self, level:SILevel=None, title:str=None, oArray:array=None, colorValue:SIColors=None) -> None:
         """
         Logs the content of an array with a custom log level.
 
@@ -1315,8 +1319,8 @@ class SISession:
                 The title to display in the Console - "Current stack trace" is used if one is not supplied.
             oArray (array):
                 The array to log.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -1326,7 +1330,7 @@ class SISession:
         self.LogCollection(level, title, oArray, colorValue)
 
 
-    def LogAssert(self, condition:bool=None, title:str=None, colorValue:int=None) -> None:
+    def LogAssert(self, condition:bool=None, title:str=None, colorValue:SIColors=None) -> None:
         """
         Logs an assert message if a condition is false with
         a log level of SILevel.Error.
@@ -1336,8 +1340,8 @@ class SISession:
                 The condition to check.
             title (str):
                 The title of the Log Entry.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -1366,7 +1370,7 @@ class SISession:
                 self.LogInternalError("LogAssert: " + str(ex))
 
 
-    def LogAssigned(self, level:SILevel=None, name:str=None, value:object=None, colorValue:int=None) -> None:
+    def LogAssigned(self, level:SILevel=None, name:str=None, value:object=None, colorValue:SIColors=None) -> None:
         """
         Logs whether a variable is assigned or not with a custom log level.
 
@@ -1377,8 +1381,8 @@ class SISession:
                 The name of the variable.
             value (object):
                 The variable value which should be checked for null.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -1416,7 +1420,7 @@ class SISession:
                 self.LogInternalError("LogAssigned: " + str(ex))
 
 
-    def LogBinary(self, level:SILevel=None, title:str=None, buffer:bytes=None, offset:int=None, count:int=None, colorValue:int=None) -> None:
+    def LogBinary(self, level:SILevel=None, title:str=None, buffer:bytes=None, offset:int=None, count:int=None, colorValue:SIColors=None) -> None:
         """
         Logs a byte array with a custom log level and
         displays it in a hex viewer.
@@ -1432,8 +1436,8 @@ class SISession:
                 The byte offset (zero-based) of buffer at which to display data from.
             count (int):
                 The amount of bytes to display.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
         """
@@ -1469,7 +1473,7 @@ class SISession:
                 self.LogInternalError("LogBinary: " + str(ex))
                 
 
-    def LogBinaryFile(self, level:SILevel=None, title:str=None, fileName:str=None, colorValue:int=None) -> None:
+    def LogBinaryFile(self, level:SILevel=None, title:str=None, fileName:str=None, colorValue:SIColors=None) -> None:
         """
         Logs a binary file and displays its content in
         a hex viewer using a custom title and custom log level.
@@ -1481,15 +1485,15 @@ class SISession:
                 The title to display in the Console.
             fileName (str):
                 The binary file to display in a hex viewer.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
         """
         self.LogCustomFile(level, title, fileName, SILogEntryType.Binary, SIViewerId.Binary, colorValue)
 
 
-    def LogBinaryStream(self, level:SILevel=None, title:str=None, stream:BufferedReader=None, colorValue:int=None) -> None:
+    def LogBinaryStream(self, level:SILevel=None, title:str=None, stream:BufferedReader=None, colorValue:SIColors=None) -> None:
         """
         Logs a binary stream with a custom log level and
         displays its content in a hex viewer.
@@ -1501,15 +1505,15 @@ class SISession:
                 The title to display in the Console.
             stream (BufferedReader):
                 The binary stream to display in a hex viewer.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
         """
         self.LogCustomStream(level, title, stream, SILogEntryType.Binary, SIViewerId.Binary, colorValue)
 
 
-    def LogBitmapFile(self, level:SILevel=None, title:str=None, fileName:str=None, colorValue:int=None) -> None:
+    def LogBitmapFile(self, level:SILevel=None, title:str=None, fileName:str=None, colorValue:SIColors=None) -> None:
         """
         Logs a bitmap file and displays it in the Console
         using a custom title and custom log level.
@@ -1521,15 +1525,15 @@ class SISession:
                 The title to display in the Console.
             fileName (str):
                 The bitmap file to display in the Console.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
         """
         self.LogCustomFile(level, title, fileName, SILogEntryType.Graphic, SIViewerId.Bitmap, colorValue)
 
 
-    def LogBitmapStream(self, level:SILevel=None, title:str=None, stream:BufferedReader=None, colorValue:int=None) -> None:
+    def LogBitmapStream(self, level:SILevel=None, title:str=None, stream:BufferedReader=None, colorValue:SIColors=None) -> None:
         """
         Logs a stream with a custom log level and
         interprets its content as a bitmap.
@@ -1541,15 +1545,15 @@ class SISession:
                 The title to display in the Console.
             stream (BufferedReader):
                 The stream to display as bitmap.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
         """
         self.LogCustomStream(level, title, stream, SILogEntryType.Graphic, SIViewerId.Bitmap, colorValue)
 
 
-    def LogBool(self, level:SILevel=None, name:str=None, value:bool=None, colorValue:int=None) -> None:
+    def LogBool(self, level:SILevel=None, name:str=None, value:bool=None, colorValue:SIColors=None) -> None:
         """
         Logs a bool value with a custom log level.
         
@@ -1560,8 +1564,8 @@ class SISession:
                 The variable name.
             value (bool):
                 The variable value.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -1593,7 +1597,7 @@ class SISession:
                 self.LogInternalError("LogBool: " + str(ex))
 
 
-    def LogByte(self, level:SILevel=None, name:str=None, value:int=None, includeHex:bool=False, colorValue:int=None) -> None:
+    def LogByte(self, level:SILevel=None, name:str=None, value:int=None, includeHex:bool=False, colorValue:SIColors=None) -> None:
         """
         Logs a byte value with an optional hexadecimal representation 
         and custom log level.
@@ -1607,8 +1611,8 @@ class SISession:
                 The variable value.
             includeHex (bool):
                 Indicates if a hexadecimal representation should be included (True) or not (False).
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -1640,7 +1644,7 @@ class SISession:
                 self.LogInternalError("LogByte: " + str(ex))
 
 
-    def LogChar(self, level:SILevel=None, name:str=None, value:chr=None, colorValue:int=None) -> None:
+    def LogChar(self, level:SILevel=None, name:str=None, value:chr=None, colorValue:SIColors=None) -> None:
         """
         Logs a chr value with a custom log level.
         
@@ -1651,8 +1655,8 @@ class SISession:
                 The variable name.
             value (chr):
                 The variable value.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -1677,7 +1681,7 @@ class SISession:
                 self.LogInternalError("LogChar: " + str(ex))
 
 
-    def LogCollection(self, level:SILevel=None, title:str=None, oColl:Collection=None, colorValue:int=None) -> None:
+    def LogCollection(self, level:SILevel=None, title:str=None, oColl:Collection=None, colorValue:SIColors=None) -> None:
         """
         Logs the content of a collection with a custom log level.
 
@@ -1688,8 +1692,8 @@ class SISession:
                 The title to display in the Console; "Current stack trace" is used if one is not supplied.
             oColl (Collection):
                 The collection to log.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -1699,15 +1703,15 @@ class SISession:
         self.LogEnumerable(level, title, oColl, colorValue)
 
 
-    def LogColored(self, level:SILevel=None, colorValue:int=None, title:str=None) -> None:
+    def LogColored(self, level:SILevel=None, colorValue:SIColors=None, title:str=None) -> None:
         """
         Logs a colored message with a custom log level.
 
         Args:
             level (SILevel):
                 The log level of this method call.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
             title (str):
@@ -1725,7 +1729,7 @@ class SISession:
                 self.LogInternalError("LogColored: " + str(ex))
 
 
-    def LogConditional(self, level:SILevel=None, condition:bool=None, title:str=None, colorValue:int=None) -> None:
+    def LogConditional(self, level:SILevel=None, condition:bool=None, title:str=None, colorValue:SIColors=None) -> None:
         """
         Logs a conditional message with a custom log level. The message 
         is created with a format string and a related array of arguments.
@@ -1737,8 +1741,8 @@ class SISession:
                 The condition to evaluate.
             title (str):
                 The title of the conditional message.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
         
@@ -1766,7 +1770,7 @@ class SISession:
                 self.LogInternalError("LogConditional: " + str(ex))
 
 
-    def LogCurrentAppDomain(self, level:SILevel=None, title:str=None, colorValue:int=None) -> None:
+    def LogCurrentAppDomain(self, level:SILevel=None, title:str=None, colorValue:SIColors=None) -> None:
         """
         Logs information about the current application and its setup with a custom log level.
 
@@ -1775,8 +1779,8 @@ class SISession:
                 The log level of this method call.
             title (str):
                 The title to display in the Console.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -1786,7 +1790,7 @@ class SISession:
         self.LogAppDomain(level, title, colorValue)
 
 
-    def LogCurrentStackTrace(self, level:SILevel=None, title:str=None, limit:int=None, colorValue:int=None) -> None:
+    def LogCurrentStackTrace(self, level:SILevel=None, title:str=None, limit:int=None, colorValue:SIColors=None) -> None:
         """
         Logs the current stack trace with a custom title and custom log level.
 
@@ -1797,8 +1801,8 @@ class SISession:
                 The title to display in the Console; "Current stack trace" is used if one is not supplied.
             limit (int):
                 The number of frames to print (specify None to print all remaining frames).
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -1830,7 +1834,7 @@ class SISession:
                 self.LogInternalError("LogCurrentStackTrace: " + str(ex))
 
 
-    def LogCurrentThread(self, level:SILevel=None, title:str=None, colorValue:int=None) -> None:
+    def LogCurrentThread(self, level:SILevel=None, title:str=None, colorValue:SIColors=None) -> None:
         """
         Logs information about the current thread with a custom title and custom log level.
 
@@ -1839,8 +1843,8 @@ class SISession:
                 The log level of this method call.
             title (str):
                 The title to display in the Console.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -1868,7 +1872,7 @@ class SISession:
             self.LogThread(level, title, thread, colorValue)
 
 
-    def LogCustomContext(self, level:SILevel=None, title:str=None, lt:SILogEntryType=None, ctx:SIViewerContext=None, colorValue:int=None) -> None:
+    def LogCustomContext(self, level:SILevel=None, title:str=None, lt:SILogEntryType=None, ctx:SIViewerContext=None, colorValue:SIColors=None) -> None:
         """
         Logs a custom viewer context with a custom log level.
         viewer ID and custom log level.
@@ -1882,8 +1886,8 @@ class SISession:
                 The custom Log Entry type.
             ctx (SIViewerContext):
                 The viewer context which holds the actual data and the appropriate viewer ID.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
         """
@@ -1901,7 +1905,7 @@ class SISession:
                 self.LogInternalError("LogCustomContext: " + str(ex))
 
 
-    def LogCustomFile(self, level:SILevel=None, title:str=None, fileName:str=None, lt:SILogEntryType=None, vi:SIViewerId=None, colorValue:int=None) -> None:
+    def LogCustomFile(self, level:SILevel=None, title:str=None, fileName:str=None, lt:SILogEntryType=None, vi:SIViewerId=None, colorValue:SIColors=None) -> None:
         """
         Logs the content of a file using a custom
         Log Entry type, viewer ID and title and custom log level.
@@ -1918,8 +1922,8 @@ class SISession:
             vi (SIViewerId):
                 The custom viewer ID which specifies the way the Console
                 handles the file content.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -1942,7 +1946,7 @@ class SISession:
                 self.LogInternalError("LogCustomFile: " + str(ex))
 
 
-    def LogCustomReader(self, level:SILevel=None, title:str=None, reader:TextIOWrapper=None, lt:SILogEntryType=None, vi:SIViewerId=None, colorValue:int=None) -> None:
+    def LogCustomReader(self, level:SILevel=None, title:str=None, reader:TextIOWrapper=None, lt:SILogEntryType=None, vi:SIViewerId=None, colorValue:SIColors=None) -> None:
         """
         Logs the content of a text reader using a custom Log
         Entry type and viewer ID and custom log level.
@@ -1959,8 +1963,8 @@ class SISession:
             vi (SIViewerId):
                 The custom viewer ID which specifies the way the Console
                 handles the reader content.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -1983,7 +1987,7 @@ class SISession:
                 self.LogInternalError("LogCustomReader: " + str(ex))
 
 
-    def LogCustomStream(self, level:SILevel=None, title:str=None, stream:BufferedReader=None, lt:SILogEntryType=None, vi:SIViewerId=None, colorValue:int=None) -> None:
+    def LogCustomStream(self, level:SILevel=None, title:str=None, stream:BufferedReader=None, lt:SILogEntryType=None, vi:SIViewerId=None, colorValue:SIColors=None) -> None:
         """
         Logs the content of a stream using a custom Log
         Entry type and viewer ID and custom log level.
@@ -2000,8 +2004,8 @@ class SISession:
             vi (SIViewerId):
                 The custom viewer ID which specifies the way the Console
                 handles the stream content.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -2024,7 +2028,7 @@ class SISession:
                 self.LogInternalError("LogCustomStream: " + str(ex))
 
 
-    def LogCustomText(self, level:SILevel=None, title:str=None, text:str=None, lt:SILogEntryType=None, vi:SIViewerId=None, colorValue:int=None) -> None:
+    def LogCustomText(self, level:SILevel=None, title:str=None, text:str=None, lt:SILogEntryType=None, vi:SIViewerId=None, colorValue:SIColors=None) -> None:
         """
         Logs custom text using a custom Log Entry type and
         viewer ID and custom log level.
@@ -2041,8 +2045,8 @@ class SISession:
             vi (SIViewerId):
                 The custom viewer ID which specifies the way the Console
                 handles the text content.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
         """
@@ -2059,7 +2063,7 @@ class SISession:
                 self.LogInternalError("LogCustomText: " + str(ex))
 
 
-    def LogDateTime(self, level:SILevel=None, name:str=None, value:datetime=None, colorValue:int=None) -> None:
+    def LogDateTime(self, level:SILevel=None, name:str=None, value:datetime=None, colorValue:SIColors=None) -> None:
         """
         Logs a datetime value with a custom log level.
         
@@ -2070,8 +2074,8 @@ class SISession:
                 The variable name.
             value (str):
                 The variable value.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -2096,7 +2100,7 @@ class SISession:
                 self.LogInternalError("LogDateTime: " + str(ex))
 
 
-    def LogDebug(self, title:str, *args, colorValue:int=None) -> None:
+    def LogDebug(self, title:str, *args, colorValue:SIColors=None) -> None:
         """
         Logs a debug message with a log level of SILevel.Debug.
 
@@ -2105,8 +2109,8 @@ class SISession:
                 The message to log.
             *args:
                 Format arguments for the title argument.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
         """
@@ -2126,7 +2130,7 @@ class SISession:
                 self.LogInternalError("LogDebug: " + str(ex))
 
 
-    def LogDictionary(self, level:SILevel=None, title:str=None, oDict:dict=None, colorValue:int=None) -> None:
+    def LogDictionary(self, level:SILevel=None, title:str=None, oDict:dict=None, colorValue:SIColors=None) -> None:
         """
         Logs the content of a dictionary with a custom log level.
 
@@ -2137,8 +2141,8 @@ class SISession:
                 The title to display in the Console; "Current stack trace" is used if one is not supplied.
             oDict (dict):
                 The dictionary to log.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -2181,7 +2185,7 @@ class SISession:
                 self.LogInternalError("LogDictionary: " + str(ex))
 
 
-    def LogComplex(self, level:SILevel=None, name:str=None, value:complex=None, colorValue:int=None) -> None:
+    def LogComplex(self, level:SILevel=None, name:str=None, value:complex=None, colorValue:SIColors=None) -> None:
         """
         Logs a complex value with a custom log level.
         
@@ -2192,8 +2196,8 @@ class SISession:
                 The variable name.
             value (float):
                 The variable value.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -2218,7 +2222,7 @@ class SISession:
                 self.LogInternalError("LogComplex: " + str(ex))
 
 
-    def LogEnumerable(self, level:SILevel=None, title:str=None, oList:list=None, colorValue:int=None) -> None:
+    def LogEnumerable(self, level:SILevel=None, title:str=None, oList:list=None, colorValue:SIColors=None) -> None:
         """
         Logs the content of a list with a custom log level.
 
@@ -2229,8 +2233,8 @@ class SISession:
                 The title to display in the Console; "Current stack trace" is used if one is not supplied.
             oList (list):
                 The list to log.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -2263,7 +2267,7 @@ class SISession:
                 self.LogInternalError("LogEnumerable: " + str(ex))
 
 
-    def LogError(self, title:str, *args, colorValue:int=None) -> None:
+    def LogError(self, title:str, *args, colorValue:SIColors=None) -> None:
         """
         Logs a error message with a log level of SILevel.Error.
 
@@ -2272,8 +2276,8 @@ class SISession:
                 The message to log.
             *args:
                 Format arguments for the title argument.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
         """
@@ -2293,7 +2297,7 @@ class SISession:
                 self.LogInternalError("LogError: " + str(ex))
 
 
-    def LogException(self, title:str=None, ex:Exception=None, colorValue:int=None):
+    def LogException(self, title:str=None, ex:Exception=None, colorValue:SIColors=None):
         """
         Logs the content of an exception with a custom
         title and a log level of SILevel.Error.
@@ -2303,8 +2307,8 @@ class SISession:
                 The title to display in the Console.
             ex (Exception):
                 The exception to log.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
         
@@ -2360,7 +2364,7 @@ class SISession:
                     self.LogInternalError("LogException: " + str(ex2))
 
 
-    def LogFatal(self, title:str, *args, colorValue:int=None) -> None:
+    def LogFatal(self, title:str, *args, colorValue:SIColors=None) -> None:
         """
         Logs a fatal error message with a log level of SILevel.Fatal.
 
@@ -2369,8 +2373,8 @@ class SISession:
                 The message to log.
             *args:
                 Format arguments for the title argument.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -2405,7 +2409,7 @@ class SISession:
                 self.LogInternalError("LogFatal: " + str(ex))
 
 
-    def LogFloat(self, level:SILevel=None, name:str=None, value:float=None, colorValue:int=None) -> None:
+    def LogFloat(self, level:SILevel=None, name:str=None, value:float=None, colorValue:SIColors=None) -> None:
         """
         Logs a float value with a custom log level.
         
@@ -2416,8 +2420,8 @@ class SISession:
                 The variable name.
             value (float):
                 The variable value.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -2442,7 +2446,7 @@ class SISession:
                 self.LogInternalError("LogFloat: " + str(ex))
 
 
-    def LogHtml(self, level:SILevel=None, title:str=None, html:str=None, colorValue:int=None) -> None:
+    def LogHtml(self, level:SILevel=None, title:str=None, html:str=None, colorValue:SIColors=None) -> None:
         """
         Logs HTML code with a custom log level and
         displays it in a web browser.
@@ -2454,8 +2458,8 @@ class SISession:
                 The title to display in the Console.
             html (str):
                 The HTML source code to display.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
         
@@ -2465,7 +2469,7 @@ class SISession:
         self.LogCustomText(level, title, html, SILogEntryType.WebContent, SIViewerId.Web, colorValue)
 
 
-    def LogHtmlFile(self, level:SILevel=None, title:str=None, fileName:str=None, colorValue:int=None) -> None:
+    def LogHtmlFile(self, level:SILevel=None, title:str=None, fileName:str=None, colorValue:SIColors=None) -> None:
         """
         Logs an HTML file and displays the content in a
         web browser using a custom title and custom log level.
@@ -2477,8 +2481,8 @@ class SISession:
                 The title to display in the Console.
             fileName (str):
                 The HTML file to display.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -2488,7 +2492,7 @@ class SISession:
         self.LogCustomFile(level, title, fileName, SILogEntryType.WebContent, SIViewerId.Web, colorValue)
 
 
-    def LogHtmlReader(self, level:SILevel=None, title:str=None, reader:TextIOWrapper=None, colorValue:int=None) -> None:
+    def LogHtmlReader(self, level:SILevel=None, title:str=None, reader:TextIOWrapper=None, colorValue:SIColors=None) -> None:
         """
         Logs a text reader with a custom log level and displays
         the content in a web browser.
@@ -2500,8 +2504,8 @@ class SISession:
                 The title to display in the Console.
             reader (TextIOWrapper):
                 The text reader to display (TextReader).
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -2512,7 +2516,7 @@ class SISession:
         self.LogCustomReader(level, title, reader, SILogEntryType.WebContent, SIViewerId.Web, colorValue)
 
 
-    def LogHtmlStream(self, level:SILevel=None, title:str=None, stream:BufferedReader=None, colorValue:int=None) -> None:
+    def LogHtmlStream(self, level:SILevel=None, title:str=None, stream:BufferedReader=None, colorValue:SIColors=None) -> None:
         """
         Logs a stream with a custom log level and displays
         the content in a web browser.
@@ -2524,8 +2528,8 @@ class SISession:
                 The title to display in the Console.
             stream (BufferedReader):
                 The stream to display.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -2536,7 +2540,7 @@ class SISession:
         self.LogCustomStream(level, title, stream, SILogEntryType.WebContent, SIViewerId.Web, colorValue)
 
 
-    def LogIconFile(self, level:SILevel=None, title:str=None, fileName:str=None, colorValue:int=None) -> None:
+    def LogIconFile(self, level:SILevel=None, title:str=None, fileName:str=None, colorValue:SIColors=None) -> None:
         """
         Logs a Windows icon file and displays it in the
         Console using a custom title and custom log level.
@@ -2548,15 +2552,15 @@ class SISession:
                 The title to display in the Console.
             fileName (str):
                 The Windows icon file to display in the Console.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
         """
         self.LogCustomFile(level, title, fileName, SILogEntryType.Graphic, SIViewerId.Icon, colorValue)
 
 
-    def LogIconStream(self, level:SILevel=None, title:str=None, stream:BufferedReader=None, colorValue:int=None) -> None:
+    def LogIconStream(self, level:SILevel=None, title:str=None, stream:BufferedReader=None, colorValue:SIColors=None) -> None:
         """
         Logs a stream with a custom log level and
         interprets its content as Windows icon.
@@ -2568,15 +2572,15 @@ class SISession:
                 The title to display in the Console.
             stream (BufferedReader):
                 The stream to display as Windows icon.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
         """
         self.LogCustomStream(level, title, stream, SILogEntryType.Graphic, SIViewerId.Icon, colorValue)
 
 
-    def LogInt(self, level:SILevel=None, name:str=None, value:int=None, includeHex:bool=False, colorValue:int=None) -> None:
+    def LogInt(self, level:SILevel=None, name:str=None, value:int=None, includeHex:bool=False, colorValue:SIColors=None) -> None:
         """
         Logs an integer value with an optional hexadecimal representation 
         and custom log level.
@@ -2590,8 +2594,8 @@ class SISession:
                 The variable value.
             includeHex (bool):
                 Indicates if a hexadecimal representation should be included (True) or not (False).
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -2623,15 +2627,15 @@ class SISession:
                 self.LogInternalError("LogInt: " + str(ex))
 
 
-    def LogInternalError(self, title:str, colorValue:int=None) -> None:
+    def LogInternalError(self, title:str, colorValue:SIColors=None) -> None:
         """
         Logs an internal error with a log level of SILevel.Error.
 
         Args:
             title (str):
                 A string which describes the internal error.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -2648,7 +2652,7 @@ class SISession:
             self._SendLogEntry(SILevel.Error, title, SILogEntryType.InternalError, SIViewerId.Title, colorValue)
 
 
-    def LogJpegFile(self, level:SILevel=None, title:str=None, fileName:str=None, colorValue:int=None) -> None:
+    def LogJpegFile(self, level:SILevel=None, title:str=None, fileName:str=None, colorValue:SIColors=None) -> None:
         """
         Logs a JPEG file and displays it in the Console
         using a custom title and custom log level.
@@ -2660,15 +2664,15 @@ class SISession:
                 The title to display in the Console.
             fileName (str):
                 The JPEG file to display in the Console.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
         """
         self.LogCustomFile(level, title, fileName, SILogEntryType.Graphic, SIViewerId.Jpeg, colorValue)
 
 
-    def LogJpegStream(self, level:SILevel=None, title:str=None, stream:BufferedReader=None, colorValue:int=None) -> None:
+    def LogJpegStream(self, level:SILevel=None, title:str=None, stream:BufferedReader=None, colorValue:SIColors=None) -> None:
         """
         Logs a stream with a custom log level and
         interprets its content as JPEG image.
@@ -2680,15 +2684,15 @@ class SISession:
                 The title to display in the Console.
             stream (BuffereReader):
                 The stream to display as JPEG image.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
         """
         self.LogCustomStream(level, title, stream, SILogEntryType.Graphic, SIViewerId.Jpeg, colorValue)
 
 
-    def LogMessage(self, title:str, *args, colorValue:int=None) -> None:
+    def LogMessage(self, title:str, *args, colorValue:SIColors=None) -> None:
         """
         Logs a message with a log level of SILevel.Message.
 
@@ -2697,8 +2701,8 @@ class SISession:
                 The message to log.
             *args:
                 Format arguments for the title argument.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
         """
@@ -2718,7 +2722,7 @@ class SISession:
                 self.LogInternalError("LogMessage: " + str(ex))
 
 
-    def LogMetafileFile(self, level:SILevel=None, title:str=None, fileName:str=None, colorValue:int=None) -> None:
+    def LogMetafileFile(self, level:SILevel=None, title:str=None, fileName:str=None, colorValue:SIColors=None) -> None:
         """
         Logs a Windows Metafile file and displays it in
         the Console using a custom title and custom log level.
@@ -2730,15 +2734,15 @@ class SISession:
                 The title to display in the Console.
             fileName (str):
                 The Windows Metafile file to display in the Console.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
         """
         self.LogCustomFile(level, title, fileName, SILogEntryType.Graphic, SIViewerId.Metafile, colorValue)
 
 
-    def LogMetafileStream(self, level:SILevel=None, title:str=None, stream:BufferedReader=None, colorValue:int=None) -> None:
+    def LogMetafileStream(self, level:SILevel=None, title:str=None, stream:BufferedReader=None, colorValue:SIColors=None) -> None:
         """
         Logs a stream with a custom log level and
         interprets its content as Windows Metafile image.
@@ -2750,15 +2754,15 @@ class SISession:
                 The title to display in the Console.
             stream (BufferedReader):
                 The stream to display as Windows Metafile image.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
         """
         self.LogCustomStream(level, title, stream, SILogEntryType.Graphic, SIViewerId.Metafile, colorValue)
 
 
-    def LogObject(self, level:SILevel=None, title:str=None, instance:object=None, excludeNonPublic:bool=False, excludeBuiltIn:bool=True, excludeFunctions:bool=True, colorValue:int=None) -> None:
+    def LogObject(self, level:SILevel=None, title:str=None, instance:object=None, excludeNonPublic:bool=False, excludeBuiltIn:bool=True, excludeFunctions:bool=True, colorValue:SIColors=None) -> None:
         """
         Logs fields and properties of an object with a custom log level. 
         Lets you specify if non public members should also be logged.
@@ -2778,8 +2782,8 @@ class SISession:
                 be excluded from the log data.
             excludeFunctions (bool):
                 Specifies if routine, function, and method data is included in the log data.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -2905,7 +2909,7 @@ class SISession:
             self.LogInternalError("LogObject: " + str(ex))
 
 
-    def LogObjectValue(self, level:SILevel=None, name:str=None, value:object=None, colorValue:int=None) -> None:
+    def LogObjectValue(self, level:SILevel=None, name:str=None, value:object=None, colorValue:SIColors=None) -> None:
         """
         Logs a object value with a custom log level.
         
@@ -2916,8 +2920,8 @@ class SISession:
                 The variable name.
             value (object):
                 The variable value.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -2947,7 +2951,7 @@ class SISession:
                 self.LogInternalError("LogObject: " + str(ex))
 
 
-    def LogPngFile(self, level:SILevel=None, title:str=None, fileName:str=None, colorValue:int=None) -> None:
+    def LogPngFile(self, level:SILevel=None, title:str=None, fileName:str=None, colorValue:SIColors=None) -> None:
         """
         Logs a PNG file and displays it in the Console
         using a custom title and custom log level.
@@ -2959,8 +2963,8 @@ class SISession:
                 The title to display in the Console.
             fileName (str):
                 The PNG file to display in the Console.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -2970,7 +2974,7 @@ class SISession:
         self.LogCustomFile(level, title, fileName, SILogEntryType.Graphic, SIViewerId.Png, colorValue)
 
 
-    def LogPngStream(self, level:SILevel=None, title:str=None, stream:BufferedReader=None, colorValue:int=None) -> None:
+    def LogPngStream(self, level:SILevel=None, title:str=None, stream:BufferedReader=None, colorValue:SIColors=None) -> None:
         """
         Logs a stream with a custom log level and
         interprets its content as PNG image.
@@ -2982,8 +2986,8 @@ class SISession:
                 The title to display in the Console.
             stream (BuffereReader):
                 The stream to display as PNG image.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -2993,7 +2997,7 @@ class SISession:
         self.LogCustomStream(level, title, stream, SILogEntryType.Graphic, SIViewerId.Png, colorValue)
 
 
-    def LogReader(self, level:SILevel=None, title:str=None, reader:TextIOWrapper=None, colorValue:int=None) -> None:
+    def LogReader(self, level:SILevel=None, title:str=None, reader:TextIOWrapper=None, colorValue:SIColors=None) -> None:
         """
         Logs a reader with a custom log level and
         displays the content in a read-only text field.
@@ -3005,23 +3009,23 @@ class SISession:
                 The title to display in the Console.
             reader (TextIOWrapper):
                 The text reader to log.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
         """
         self.LogCustomReader(level, title, reader, SILogEntryType.Text, SIViewerId.Data, colorValue)
 
 
-    def LogSeparator(self, level:SILevel=None, colorValue:int=None) -> None:
+    def LogSeparator(self, level:SILevel=None, colorValue:SIColors=None) -> None:
         """
         Logs a simple separator with a custom log level.
 
         Args:
             level (SILevel):
                 The log level of this method call.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -3034,7 +3038,7 @@ class SISession:
             self._SendLogEntry(level, "", SILogEntryType.Separator, SIViewerId.NoViewer, colorValue)
 
 
-    def LogSource(self, level:SILevel=None, title:str=None, source:str=None, id:SISourceId=None, colorValue:int=None) -> None:
+    def LogSource(self, level:SILevel=None, title:str=None, source:str=None, id:SISourceId=None, colorValue:SIColors=None) -> None:
         """
         Logs source code that is displayed with syntax
         highlighting in the Console using a custom log level.
@@ -3048,8 +3052,8 @@ class SISession:
                 The source code to log.
             id (SISourceId):
                 Specifies the type of source code.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -3061,7 +3065,7 @@ class SISession:
         self.LogCustomText(level, title, source, SILogEntryType.Source, id, colorValue)
 
 
-    def LogSourceFile(self, level:SILevel=None, title:str=None, fileName:str=None, id:SISourceId=None, colorValue:int=None) -> None:
+    def LogSourceFile(self, level:SILevel=None, title:str=None, fileName:str=None, id:SISourceId=None, colorValue:SIColors=None) -> None:
         """
         Logs the content of a file as source code with
         syntax highlighting using a custom title and custom log
@@ -3076,8 +3080,8 @@ class SISession:
                 The name of the file which contains the source code.
             id (SISourceId):
                 Specifies the type of source code.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -3089,7 +3093,7 @@ class SISession:
         self.LogCustomFile(level, title, fileName, SILogEntryType.Source, id, colorValue)        
 
 
-    def LogSourceReader(self, level:SILevel=None, title:str=None, reader:TextIOWrapper=None, id:SISourceId=None, colorValue:int=None) -> None:
+    def LogSourceReader(self, level:SILevel=None, title:str=None, reader:TextIOWrapper=None, id:SISourceId=None, colorValue:SIColors=None) -> None:
         """
         Logs the content of a text reader as source code with
         syntax highlighting using a custom log level.
@@ -3103,8 +3107,8 @@ class SISession:
                 The text reader which contains the source code.
             id (SISourceId):
                 Specifies the type of source code.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -3116,7 +3120,7 @@ class SISession:
         self.LogCustomReader(level, title, reader, SILogEntryType.Source, id, colorValue)
 
 
-    def LogSourceStream(self, level:SILevel=None, title:str=None, stream:BufferedReader=None, id:SISourceId=None, colorValue:int=None) -> None:
+    def LogSourceStream(self, level:SILevel=None, title:str=None, stream:BufferedReader=None, id:SISourceId=None, colorValue:SIColors=None) -> None:
         """
         Logs the content of a stream as source code with
         syntax highlighting using a custom log level.
@@ -3130,8 +3134,8 @@ class SISession:
                 The stream which contains the source code.
             id (SISourceId):
                 Specifies the type of source code.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -3143,7 +3147,7 @@ class SISession:
         self.LogCustomStream(level, title, stream, SILogEntryType.Source, id, colorValue)
 
 
-    def LogSql(self, level:SILevel=None, title:str=None, source:str=None, colorValue:int=None) -> None:
+    def LogSql(self, level:SILevel=None, title:str=None, source:str=None, colorValue:SIColors=None) -> None:
         """
         Logs a string containing SQL source code with a
         custom log level. The SQL source code is displayed with syntax
@@ -3156,8 +3160,8 @@ class SISession:
                 The title to display in the Console.
             source (str):
                 The SQL source code to log.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -3170,7 +3174,7 @@ class SISession:
         self.LogSource(level, title, source, SISourceId.Sql, colorValue)
 
 
-    def LogSqliteDbCursorData(self, level:SILevel=None, title:str=None, cursor:sqlite3.Cursor=None, colorValue:int=None) -> None:
+    def LogSqliteDbCursorData(self, level:SILevel=None, title:str=None, cursor:sqlite3.Cursor=None, colorValue:SIColors=None) -> None:
         """
         Logs the contents of a Sqlite Cursor with a custom title and custom log level.
 
@@ -3181,8 +3185,8 @@ class SISession:
                 The title to display in the Console.
             cursor (Cursor):
                 The cursor data to log.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -3246,7 +3250,7 @@ class SISession:
             self.LogInternalError("{0}: {1}".format(methodName, str(ex)))
 
 
-    def LogSqliteDbSchemaCursor(self, level:SILevel=None, title:str=None, cursor:sqlite3.Cursor=None, colorValue:int=None) -> None:
+    def LogSqliteDbSchemaCursor(self, level:SILevel=None, title:str=None, cursor:sqlite3.Cursor=None, colorValue:SIColors=None) -> None:
         """
         Logs the schema of a Sqlite Cursor with a custom title and custom log level.
 
@@ -3257,8 +3261,8 @@ class SISession:
                 The title to display in the Console.
             cursor (Cursor):
                 The cursor schema to log.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -3314,7 +3318,7 @@ class SISession:
             self.LogInternalError("LogSqliteCursorSchema: " + str(ex))
 
 
-    def LogSqliteDbSchemaForeignKeyList(self, level:SILevel=None, title:str=None, conn:sqlite3.Connection=None, tableName:str=None, sortByName:bool=False, colorValue:int=None) -> None:
+    def LogSqliteDbSchemaForeignKeyList(self, level:SILevel=None, title:str=None, conn:sqlite3.Connection=None, tableName:str=None, sortByName:bool=False, colorValue:SIColors=None) -> None:
         """
         Logs the schema of a Sqlite DB Table Foreign Key List with a custom title and custom log level.
 
@@ -3329,8 +3333,8 @@ class SISession:
                 The name of the table to obtain schema information for.
             sortByName (bool):
                 Sorts the log data by Table Name (True) or by ID (False, default).
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -3428,7 +3432,7 @@ class SISession:
             self.LogInternalError("{0}: {1}".format(methodName, str(ex)))
 
 
-    def LogSqliteDbSchemaIndexList(self, level:SILevel=None, title:str=None, conn:sqlite3.Connection=None, tableName:str=None, sortByName:bool=False, colorValue:int=None) -> None:
+    def LogSqliteDbSchemaIndexList(self, level:SILevel=None, title:str=None, conn:sqlite3.Connection=None, tableName:str=None, sortByName:bool=False, colorValue:SIColors=None) -> None:
         """
         Logs the schema of a Sqlite DB Table Index List with a custom title and custom log level.
 
@@ -3443,8 +3447,8 @@ class SISession:
                 The name of the table to obtain schema information for.
             sortByName (bool):
                 Sorts the log data by Index Name (True) or by ID (False, default).
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -3547,7 +3551,7 @@ class SISession:
             self.LogInternalError("{0}: {1}".format(methodName, str(ex)))
 
 
-    def LogSqliteDbSchemaTableInfo(self, level:SILevel=None, title:str=None, conn:sqlite3.Connection=None, tableName:str=None, sortByName:bool=False, colorValue:int=None) -> None:
+    def LogSqliteDbSchemaTableInfo(self, level:SILevel=None, title:str=None, conn:sqlite3.Connection=None, tableName:str=None, sortByName:bool=False, colorValue:SIColors=None) -> None:
         """
         Logs the schema of a Sqlite DB Table with a custom title and custom log level.
 
@@ -3562,8 +3566,8 @@ class SISession:
                 The name of the table to obtain schema information for.
             sortByName (bool):
                 Sorts the log data by Table Name (True) or by ID (False, default).
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -3677,7 +3681,7 @@ class SISession:
             self.LogInternalError("{0}: {1}".format(methodName, str(ex)))
 
 
-    def LogSqliteDbSchemaTables(self, level:SILevel=None, title:str=None, conn:sqlite3.Connection=None, sortByName:bool=False, colorValue:int=None) -> None:
+    def LogSqliteDbSchemaTables(self, level:SILevel=None, title:str=None, conn:sqlite3.Connection=None, sortByName:bool=False, colorValue:SIColors=None) -> None:
         """
         Logs the schema table names defined in a Sqlite DB with a custom title and custom log level.
 
@@ -3690,8 +3694,8 @@ class SISession:
                 Sqlite database connection object.
             sortByName (bool):
                 Sorts the log data by Table Name (True) or by entry order (False, default).
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -3779,7 +3783,7 @@ class SISession:
             self.LogInternalError("{0}: {1}".format(methodName, str(ex)))
 
 
-    def LogStackTrace(self, level:SILevel=None, title:str=None, strace:list[FrameInfo]=None, startFrame:int=0, limit:int=None, colorValue:int=None) -> None:
+    def LogStackTrace(self, level:SILevel=None, title:str=None, strace:list[FrameInfo]=None, startFrame:int=0, limit:int=None, colorValue:SIColors=None) -> None:
         """
         Logs a stack trace with a custom log level.
 
@@ -3794,8 +3798,8 @@ class SISession:
                 The offset of the first frame preceding the caller to print (default 0).
             limit (int):
                 The number of frames to print (specify None to print all remaining frames).
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -3856,7 +3860,7 @@ class SISession:
                 self.LogInternalError("LogStackTrace: " + str(ex))
 
 
-    def LogStream(self, level:SILevel=None, title:str=None, stream:BufferedReader=None, colorValue:int=None) -> None:
+    def LogStream(self, level:SILevel=None, title:str=None, stream:BufferedReader=None, colorValue:SIColors=None) -> None:
         """
         Logs a stream with a custom log level and displays
         the content in a read-only text field.
@@ -3868,15 +3872,15 @@ class SISession:
                 The title to display in the Console.
             stream (BufferedStream):
                 The stream to log.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
         """
         self.LogCustomStream(level, title, stream, SILogEntryType.Text, SIViewerId.Data, colorValue)
 
 
-    def LogString(self, level:SILevel=None, name:str=None, value:str=None, colorValue:int=None) -> None:
+    def LogString(self, level:SILevel=None, name:str=None, value:str=None, colorValue:SIColors=None) -> None:
         """
         Logs a string value with a custom log level.
         
@@ -3887,8 +3891,8 @@ class SISession:
                 The variable name.
             value (str):
                 The variable value.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -3913,7 +3917,7 @@ class SISession:
                 self.LogInternalError("LogString: " + str(ex))
 
 
-    def LogSystem(self, level:SILevel=None, title:str=None, colorValue:int=None) -> None:
+    def LogSystem(self, level:SILevel=None, title:str=None, colorValue:SIColors=None) -> None:
         """
         Logs information about the system using a custom title and custom log level.
 
@@ -3922,8 +3926,8 @@ class SISession:
                 The log level of this method call.
             title (str):
                 The title to display in the Console.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -3980,7 +3984,7 @@ class SISession:
                 self.LogInternalError("LogSystem: " + str(ex))
 
 
-    def LogText(self, level:SILevel=None, title:str=None, text:str=None, colorValue:int=None) -> None:
+    def LogText(self, level:SILevel=None, title:str=None, text:str=None, colorValue:SIColors=None) -> None:
         """
         Logs a string with a custom log level and displays
         it in a read-only text field.
@@ -3992,15 +3996,15 @@ class SISession:
                 The title to display in the Console.
             text (str):
                 The text to log.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
         """
         self.LogCustomText(level, title, text, SILogEntryType.Text, SIViewerId.Data, colorValue)
 
 
-    def LogTextFile(self, level:SILevel=None, title:str=None, fileName:str=None, colorValue:int=None) -> None:
+    def LogTextFile(self, level:SILevel=None, title:str=None, fileName:str=None, colorValue:SIColors=None) -> None:
         """
         Logs a text file and displays the content in a
         read-only text field using a custom title and custom log
@@ -4012,15 +4016,15 @@ class SISession:
                 The title to display in the Console.
             fileName (str):
                 The file to log.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
         """
         self.LogCustomFile(level, title, fileName, SILogEntryType.Text, SIViewerId.Data, colorValue)
 
 
-    def LogTextReader(self, level:SILevel=None, title:str=None, reader:TextIOWrapper=None, colorValue:int=None) -> None:
+    def LogTextReader(self, level:SILevel=None, title:str=None, reader:TextIOWrapper=None, colorValue:SIColors=None) -> None:
         """
         Logs a text reader with a custom log level and
         displays the content in a read-only text field.
@@ -4032,15 +4036,15 @@ class SISession:
                 The title to display in the Console.
             reader (TextIOWrapper):
                 The text reader to log.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
         """
         self.LogCustomReader(level, title, reader, SILogEntryType.Text, SIViewerId.Data, colorValue)
 
 
-    def LogTextStream(self, level:SILevel=None, title:str=None, stream:BufferedReader=None, colorValue:int=None) -> None:
+    def LogTextStream(self, level:SILevel=None, title:str=None, stream:BufferedReader=None, colorValue:SIColors=None) -> None:
         """
         Logs a stream with a custom log level and displays
         the content in a read-only text field.
@@ -4052,15 +4056,15 @@ class SISession:
                 The title to display in the Console.
             stream (BufferedStream):
                 The stream to log.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
         """
         self.LogCustomStream(level, title, stream, SILogEntryType.Text, SIViewerId.Data, colorValue)
 
 
-    def LogThread(self, level:SILevel=None, title:str=None, thread:Thread=None, colorValue:int=None) -> None:
+    def LogThread(self, level:SILevel=None, title:str=None, thread:Thread=None, colorValue:SIColors=None) -> None:
         """
         Logs information about a thread with a custom log level.
 
@@ -4071,8 +4075,8 @@ class SISession:
                 The title to display in the Console.
             thread (Thread):
                 The thread to log.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -4117,7 +4121,7 @@ class SISession:
                 self.LogInternalError("LogThread: " + str(ex))
 
 
-    def LogValue(self, level:SILevel=None, name:str=None, value=None, colorValue:int=None) -> None:
+    def LogValue(self, level:SILevel=None, name:str=None, value=None, colorValue:SIColors=None) -> None:
         """
         Logs the name and value of a variable with a custom log level.
 
@@ -4128,8 +4132,8 @@ class SISession:
                 The variable name.
             value (object):
                 The variable value.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
 
@@ -4159,7 +4163,7 @@ class SISession:
                 self.LogObjectValue(level, name, value, colorValue)
 
 
-    def LogVerbose(self, title:str, *args, colorValue:int=None) -> None:
+    def LogVerbose(self, title:str, *args, colorValue:SIColors=None) -> None:
         """
         Logs a verbose message with a log level of SILevel.Verbose.
 
@@ -4168,8 +4172,8 @@ class SISession:
                 The message to log.
             *args:
                 Format arguments for the title argument.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
         """
@@ -4189,7 +4193,7 @@ class SISession:
                 self.LogInternalError("LogVerbose: " + str(ex))
 
 
-    def LogWarning(self, title:str, *args, colorValue:int=None) -> None:
+    def LogWarning(self, title:str, *args, colorValue:SIColors=None) -> None:
         """
         Logs a warning message with a log level of SILevel.Warning.
 
@@ -4198,8 +4202,8 @@ class SISession:
                 The message to log.
             *args:
                 Format arguments for the title argument.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
         """
@@ -4344,7 +4348,7 @@ class SISession:
             self.LogInternalError("SendCustomControlCommand: " + str(ex))
 
 
-    def SendCustomLogEntry(self, level:SILevel, title:str, lt:SILogEntryType, vi:SIViewerId, colorValue:int=None, data:BytesIO=None) -> None:
+    def SendCustomLogEntry(self, level:SILevel, title:str, lt:SILogEntryType, vi:SIViewerId, colorValue:SIColors=None, data:BytesIO=None) -> None:
         """
         Logs a custom Log Entry with a custom log level.
 
@@ -4357,8 +4361,8 @@ class SISession:
                 The Log Entry type to use.
             vi (SIViewerId):
                 The Viewer ID to use.
-            colorValue (int):
-                Background color value (in ARGB integer form) for the message.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
             data

@@ -12,7 +12,14 @@
 .docstring #raises ~ ul strong { color: #f62817 !important; }
 
 /* color changelog list item entries for readability. */
-#change-log ~ ul li h6 { color: #58a6ff; }
+#change-log ~ h6 {
+  color: #ffc633;
+}
+
+/* color all drop down panel summary titles for readability. */
+details summary {
+  color: #58a6ff;
+}
 
 /* color footer text for readability. */
 .footertext {
