@@ -35,7 +35,7 @@ call ".\docspdoc\make.bat"
 
 
 echo Deactivating python virtual environment.
-call .\env39\scripts\deactivate.bat
+call .\env\scripts\deactivate.bat
 
 
 echo.
