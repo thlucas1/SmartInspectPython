@@ -1,7 +1,7 @@
 from smartinspectpython.siauto import *
 
 # load SmartInspect settings from a configuration settings file.
-siConfigPath:str = "./smartinspect.config"
+siConfigPath:str = "./smartinspect.cfg"
 SIAuto.Si.LoadConfiguration(siConfigPath)
 
 # start monitoring the configuration file for changes, and reload it when it changes.

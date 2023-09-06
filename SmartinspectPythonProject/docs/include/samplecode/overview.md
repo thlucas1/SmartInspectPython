@@ -8,11 +8,11 @@ Click on the topics below to expand the section and reveal more information.
 
 <details>
     <summary>Configure Logging Support Settings File</summary><br/>
-    Add the following lines to a new file ("smartinspect.config") in your application startup (or test) directory.  
+    Add the following lines to a new file ("smartinspect.cfg") in your application startup (or test) directory.  
     Note that the file name can be changed to whatever you like (adjust "siConfigPath" in above sample code to match.  
 
 ```ini
-; smartinspect.config
+; smartinspect.cfg
 
 ; SmartInspect Logging Configuration General settings.
 ; - "Enabled" parameter to turn logging on (True) or off (False).
@@ -58,7 +58,7 @@ Session.Main.ColorBG = 0xFFFFFF
 from smartinspectpython.siauto import SIAuto, SISession, SILevel, SIConfigurationTimer
 
 # load SmartInspect settings from a configuration settings file.
-siConfigPath:str = "./tests/smartinspect.config"
+siConfigPath:str = "./tests/smartinspect.cfg"
 SIAuto.Si.LoadConfiguration(siConfigPath)
 
 # start monitoring the configuration file for changes, and reload it when it changes.

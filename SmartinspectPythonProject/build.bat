@@ -51,7 +51,7 @@ call .\env\scripts\deactivate.bat
 
 @echo.
 echo Compressing Local GIT Repository.
-git gc --auto
+git gc
 
 echo Uploading dist package to TEST Pypi.org site.
 echo Note that this could fail if the version has already been uploaded.

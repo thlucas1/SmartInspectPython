@@ -1,4 +1,4 @@
-; smartinspect.config
+; smartinspect.cfg
 
 ; SmartInspect Logging Configuration General settings.
 ; - "Enabled" parameter to turn logging on (True) or off (False).
