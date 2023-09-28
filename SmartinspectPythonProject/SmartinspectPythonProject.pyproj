@@ -5,7 +5,7 @@
     <ProjectGuid>42899ab3-fe6c-4405-b86e-09ddf828ee7a</ProjectGuid>
     <ProjectHome>
     </ProjectHome>
-    <StartupFile>tests\test_SystemLogger.py</StartupFile>
+    <StartupFile>tests\test_SampleCode.py</StartupFile>
     <SearchPath>tests;smartinspectpython</SearchPath>
     <WorkingDirectory>C:\Users\thluc\source\repos\SmartinspectPython\SmartinspectPythonProject</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -45,6 +45,7 @@
     <Compile Include="docs\include\samplecode\SIPipeProtocol\IsValidOption.py" />
     <Compile Include="docs\include\samplecode\SISession\LogFatal.py" />
     <Compile Include="docs\include\samplecode\SISession\LogException.py" />
+    <Compile Include="docs\include\samplecode\SISession\SystemLogger_02.py" />
     <Compile Include="docs\include\samplecode\SISession\SystemLogger.py" />
     <Compile Include="docs\include\samplecode\SITcpProtocol\IsValidOption.py" />
     <Compile Include="docs\include\samplecode\SITextProtocol\IsValidOption.py" />

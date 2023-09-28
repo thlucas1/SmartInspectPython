@@ -282,6 +282,11 @@ class SISession:
         ``` python
         .. include:: ../docs/include/samplecode/SISession/SystemLogger.py
         ```
+        <br/>
+        Create A New Session For Each Module
+        ``` python
+        .. include:: ../docs/include/samplecode/SISession/SystemLogger_02.py
+        ```
         </details>
         """
         return self._fSystemLogger
