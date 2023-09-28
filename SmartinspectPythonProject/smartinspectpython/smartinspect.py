@@ -6,8 +6,9 @@ Module: smartinspect.py
 
 | Date       | Version     | Description      |
 | ---------- | ----------- | -----------------|
-| 2023/05/30 | 3.0.0.0     | Initial Version. | 
+| 2023/09/27 | 3.0.21.0    | Updated documentation sample code and examples.
 | 2023/06/09 | 3.0.8.0     | Added InfoEvent event and RaiseInfoEvent method to convey SI informational events to interested parties (e.g. Si Console Server banner, etc).
+| 2023/05/30 | 3.0.0.0     | Initial Version. | 
 
 </details>
 """
@@ -220,21 +221,9 @@ class SmartInspect:
         Please note that an SIInvalidConnectionsException exception is thrown if an invalid connections string is supplied.
 
         <details>
-            <summary>View Sample Code</summary>
+            <summary>Sample Code</summary>
         ``` python
-        .. include:: ../docs/include/samplecode/smartinspect_classlogging.md
-        # log messages to default file 'log.sil'.
-        SIAuto.Si.Connections = 'file()'
-
-        # log messages to file 'mylog.sil'.
-        SIAuto.Si.Connections = "file(filename=""mylog.sil"", append=true)"
-
-        # log messages to default file "log.sil", as well as to the SmartInspect 
-        # Console viewer running on localhost.
-        SIAuto.Si.Connections = "file(append=true), tcp(host=""localhost"")"
-
-        # log messages to default file "log.sil", as well as to file "anotherlog.sil".
-        SIAuto.Si.Connections = "file(), file(filename=""anotherlog.sil"")"
+        .. include:: ../docs/include/samplecode/SmartInspect/Connections.py
         ```
         </details>
         """
@@ -1259,25 +1248,17 @@ class SmartInspect:
         with the SmartInspect Configuration Builder, the file always has a UTF8 Byte Order Mark and Unicode strings are therefore
         handled automatically.
 
-        **Example:**
+        <details>
+            <summary>Sample Code</summary>
         ``` python
-        ; specify the SmartInspect properties.
-        connections = file(filename=c:\\log.sil)
-        enabled = true
-        level = verbose
-        defaultlevel = message
-        appname = client
-        
-        ; set defaults for new sessions.
-        sessiondefaults.active = false
-        sessiondefaults.level = message
-        sessiondefaults.colorbg = 0xffff7f
-        
-        ; configure some individual sessions.
-        session.main.level = verbose
-        session.client.active = true
-        session.client.colorbg = 0x7fffff
+        .. include:: ../docs/include/samplecode/SIConfigurationTimer/LoadConfiguration.py
         ```
+        <br/>
+        The following is the configuration settings file contents:
+        ``` ini
+        .. include:: ../docs/include/samplecode/smartinspect.cfg
+        ```
+        </details>
         """
         if (fileName == None):
             return
@@ -1415,9 +1396,9 @@ class SmartInspect:
         handlers can cause a presumably undesired recursive behavior!
 
         <details>
-            <summary>View Sample Code</summary>
+            <summary>Sample Code</summary>
         ``` python
-        .. include:: ../docs/include/samplecode/SIEventHandlerClass.md
+        .. include:: ../docs/include/samplecode/SmartInspect/OnEvent.py
         ```
         </details>
         """
@@ -1448,9 +1429,9 @@ class SmartInspect:
         handlers can cause a presumably undesired recursive behavior!
 
         <details>
-            <summary>View Sample Code</summary>
+            <summary>Sample Code</summary>
         ``` python
-        .. include:: ../docs/include/samplecode/SIEventHandlerClass.md
+        .. include:: ../docs/include/samplecode/SmartInspect/OnEvent.py
         ```
         </details>
         """
@@ -1479,9 +1460,9 @@ class SmartInspect:
         handlers can cause a presumably undesired recursive behavior!
 
         <details>
-            <summary>View Sample Code</summary>
+            <summary>Sample Code</summary>
         ``` python
-        .. include:: ../docs/include/samplecode/SIEventHandlerClass.md
+        .. include:: ../docs/include/samplecode/SmartInspect/OnEvent.py
         ```
         </details>
         """
@@ -1511,9 +1492,9 @@ class SmartInspect:
         handlers can cause a presumably undesired recursive behavior!
 
         <details>
-            <summary>View Sample Code</summary>
+            <summary>Sample Code</summary>
         ``` python
-        .. include:: ../docs/include/samplecode/SIEventHandlerClass.md
+        .. include:: ../docs/include/samplecode/SmartInspect/OnEvent.py
         ```
         </details>
         """
@@ -1544,9 +1525,9 @@ class SmartInspect:
         handlers can cause a presumably undesired recursive behavior!
 
         <details>
-            <summary>View Sample Code</summary>
+            <summary>Sample Code</summary>
         ``` python
-        .. include:: ../docs/include/samplecode/SIEventHandlerClass.md
+        .. include:: ../docs/include/samplecode/SmartInspect/OnEvent.py
         ```
         </details>
         """
@@ -1577,9 +1558,9 @@ class SmartInspect:
         handlers can cause a presumably undesired recursive behavior!
 
         <details>
-            <summary>View Sample Code</summary>
+            <summary>Sample Code</summary>
         ``` python
-        .. include:: ../docs/include/samplecode/SIEventHandlerClass.md
+        .. include:: ../docs/include/samplecode/SmartInspect/OnEvent.py
         ```
         </details>
         """
@@ -1610,9 +1591,9 @@ class SmartInspect:
         handlers can cause a presumably undesired recursive behavior!
 
         <details>
-            <summary>View Sample Code</summary>
+            <summary>Sample Code</summary>
         ``` python
-        .. include:: ../docs/include/samplecode/SIEventHandlerClass.md
+        .. include:: ../docs/include/samplecode/SmartInspect/OnEvent.py
         ```
         </details>
         """

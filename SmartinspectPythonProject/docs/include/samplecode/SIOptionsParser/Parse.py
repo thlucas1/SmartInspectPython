@@ -1,4 +1,4 @@
-# our package imports.
+# package imports.
 from smartinspectpython.sioptionsparser import SIOptionsParser
 from smartinspectpython.sioptionfoundeventargs import SIOptionFoundEventArgs
 

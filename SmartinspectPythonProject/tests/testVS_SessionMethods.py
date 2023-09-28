@@ -43,11 +43,11 @@ class Test_SISession(unittest.TestCase):
             SIEventHandlerClass.WireEvents(si)
 
             # add a new session.
-            logsi:SISession = si.AddSession("Main", True)
-            logsi.Level = SILevel.Debug
+            _logsi:SISession = si.AddSession("Main", True)
+            _logsi.Level = SILevel.Debug
 
             # return session instance to caller.
-            return logsi
+            return _logsi
 
         except Exception as ex:
 
@@ -62,15 +62,15 @@ class Test_SISession(unittest.TestCase):
         try:
 
             # create a new smartinspect session for logging.
-            logsi:SISession = Test_SISession._CreateSISession(CONNECTION_FILE_HOURLY24)
+            _logsi:SISession = Test_SISession._CreateSISession(CONNECTION_FILE_HOURLY24)
 
             # perform tests.
-            logsi.LogSeparator()
-            logsi.LogSeparator(SILevel.Debug)
-            logsi.LogSeparator(SILevel.Verbose)
-            logsi.LogSeparator(SILevel.Message)
-            logsi.LogSeparator(SILevel.Warning)
-            logsi.LogSeparator(SILevel.Error)
+            _logsi.LogSeparator()
+            _logsi.LogSeparator(SILevel.Debug)
+            _logsi.LogSeparator(SILevel.Verbose)
+            _logsi.LogSeparator(SILevel.Message)
+            _logsi.LogSeparator(SILevel.Warning)
+            _logsi.LogSeparator(SILevel.Error)
 
         except Exception as ex:
 
@@ -83,15 +83,15 @@ class Test_SISession(unittest.TestCase):
         Test colored message scenarios.
         """
         # create a new smartinspect session for logging.
-        #logsi:SISession = Test_SISession._CreateSISession(CONNECTION_TCP)
+        #_logsi:SISession = Test_SISession._CreateSISession(CONNECTION_TCP)
 
         try:
 
-            logsi.EnterMethod(SILevel.Debug)
+            _logsi.EnterMethod(SILevel.Debug)
        
             # log message in all known color values.
             for s in SIColors:
-                logsi.LogMessage("This is a message in color '{0}'.".format(s.name), s.value)
+                _logsi.LogMessage("This is a message in color '{0}'.".format(s.name), s.value)
 
         except Exception as ex:
 
@@ -100,7 +100,7 @@ class Test_SISession(unittest.TestCase):
 
         finally:
 
-            logsi.LeaveMethod(SILevel.Debug)
+            _logsi.LeaveMethod(SILevel.Debug)
 
 
 
@@ -111,15 +111,15 @@ class Test_SISession(unittest.TestCase):
         try:
 
             # create a new smartinspect session for logging.
-            logsi: SISession = Test_SISession._CreateSISession(CONNECTION_TCP)
+            _logsi: SISession = Test_SISession._CreateSISession(CONNECTION_TCP)
        
             # perform tests.
-            logsi.Watch(None,"string_cs", "string1 value")
-            logsi.Watch(None,"int_cs", int(0))
-            logsi.Watch(None,"float_cs", float(3.14159))
-            logsi.Watch(None,"datetime_cs", datetime(2023,5,11,12,30,10))
-            logsi.Watch(None,"bool_cs", True)
-            logsi.Watch(None,"byte_cs", 0xff)
+            _logsi.Watch(None,"string_cs", "string1 value")
+            _logsi.Watch(None,"int_cs", int(0))
+            _logsi.Watch(None,"float_cs", float(3.14159))
+            _logsi.Watch(None,"datetime_cs", datetime(2023,5,11,12,30,10))
+            _logsi.Watch(None,"bool_cs", True)
+            _logsi.Watch(None,"byte_cs", 0xff)
 
         except Exception as ex:
 
@@ -134,10 +134,10 @@ class Test_SISession(unittest.TestCase):
         try:
 
             # create a new smartinspect session for logging.
-            logsi:SISession = Test_SISession._CreateSISession(CONNECTION_TCP)
+            _logsi:SISession = Test_SISession._CreateSISession(CONNECTION_TCP)
 
             # perform tests.
-            logsi.ClearWatches()
+            _logsi.ClearWatches()
 
         except Exception as ex:
 
@@ -152,10 +152,10 @@ class Test_SISession(unittest.TestCase):
         try:
 
             # create a new smartinspect session for logging.
-            logsi:SISession = Test_SISession._CreateSISession(CONNECTION_TCP)
+            _logsi:SISession = Test_SISession._CreateSISession(CONNECTION_TCP)
 
             # perform tests.
-            logsi.ClearProcessFlow()
+            _logsi.ClearProcessFlow()
 
         except Exception as ex:
 
@@ -170,10 +170,10 @@ class Test_SISession(unittest.TestCase):
         try:
 
             # create a new smartinspect session for logging.
-            logsi:SISession = Test_SISession._CreateSISession(CONNECTION_TCP)
+            _logsi:SISession = Test_SISession._CreateSISession(CONNECTION_TCP)
 
             # perform tests.
-            logsi.ClearLog()
+            _logsi.ClearLog()
 
         except Exception as ex:
 
@@ -188,10 +188,10 @@ class Test_SISession(unittest.TestCase):
         try:
 
             # create a new smartinspect session for logging.
-            logsi:SISession = Test_SISession._CreateSISession(CONNECTION_TCP)
+            _logsi:SISession = Test_SISession._CreateSISession(CONNECTION_TCP)
 
             # perform tests.
-            logsi.ClearAll()
+            _logsi.ClearAll()
 
         except Exception as ex:
 
@@ -206,10 +206,10 @@ class Test_SISession(unittest.TestCase):
         try:
 
             # create a new smartinspect session for logging.
-            logsi:SISession = Test_SISession._CreateSISession(CONNECTION_TCP)
+            _logsi:SISession = Test_SISession._CreateSISession(CONNECTION_TCP)
 
             # perform tests.
-            logsi.ClearAutoViews()
+            _logsi.ClearAutoViews()
 
         except Exception as ex:
 
@@ -224,12 +224,12 @@ class Test_SISession(unittest.TestCase):
         try:
 
             # create a new smartinspect session for logging.
-            logsi:SISession = Test_SISession._CreateSISession(CONNECTION_TCP)
+            _logsi:SISession = Test_SISession._CreateSISession(CONNECTION_TCP)
 
-            inspect.getmembers(logsi)
+            inspect.getmembers(_logsi)
 
             # perform tests.
-            logsi.ClearAutoViews()
+            _logsi.ClearAutoViews()
 
         except Exception as ex:
 
@@ -238,8 +238,8 @@ class Test_SISession(unittest.TestCase):
 
 
 # create a new smartinspect session for logging.
-logsi:SISession = Test_SISession._CreateSISession(CONNECTION_TCP)
+_logsi:SISession = Test_SISession._CreateSISession(CONNECTION_TCP)
 
 if __name__ == '__main__':
-    #logsi:SISession = Test_SISession._CreateSISession(CONNECTION_TCP)
+    #_logsi:SISession = Test_SISession._CreateSISession(CONNECTION_TCP)
     unittest.main()

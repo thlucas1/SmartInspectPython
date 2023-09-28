@@ -833,6 +833,7 @@ class TestSessionMethods:
             logsi.LogEnumerable(SILevel.Error, "LogEnumerable Error Example", oEnumerable)
             logsi.LogEnumerable(SILevel.Fatal, "LogEnumerable Fatal Example", oEnumerable)
 
+            # LogException Examples.
             try:
             
                 logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogException Examples (next 2 messages should be exception data, no messages if Level=Fatal).")

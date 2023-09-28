@@ -35,7 +35,7 @@ The following code snippets will get you started with establishing a connection 
 Please refer to the `smartinspectpython.sisession.SISession` class for all of the various "Logx" methods to log data.
 
 <em>Example 1 - Logging via tcp to a running SmartInspect Console on localhost</em>
-```python
+``` python
 # our package imports.
 from smartinspectpython.siauto import *
 
@@ -44,17 +44,17 @@ SIAuto.Si.Connections = "tcp(host=localhost,port=4228,timeout=5000)"
 SIAuto.Si.Enabled = True    # enable logging
 
 # get smartinspect logger reference.
-logsi:SISession = SIAuto.Main
-logsi.Level = SILevel.Debug   # set Message level logging
+_logsi:SISession = SIAuto.Main
+_logsi.Level = SILevel.Debug   # set Message level logging
 
 # log some test messages.
-logsi.LogSystem(SILevel.Debug, "System Information on application startup")
-logsi.LogMessage("Hello World has started")
+_logsi.LogSystem(SILevel.Debug, "System Information on application startup")
+_logsi.LogMessage("Hello World has started")
 ```
-
+<br/>
 
 <em>Example 2 - Logging to rotating hourly log files in SmartInspect Console format</em>
-```python
+``` python
 # our package imports.
 from smartinspectpython.siauto import *
 
@@ -64,17 +64,17 @@ SIAuto.Si.Connections = "file(filename=\".\\logfiles\\AppLog.sil\", rotate=hourl
 SIAuto.Si.Enabled = True    # enable logging
 
 # get smartinspect logger reference.
-logsi:SISession = SIAuto.Main
-logsi.Level = SILevel.Debug   # set Message level logging
+_logsi:SISession = SIAuto.Main
+_logsi.Level = SILevel.Debug   # set Message level logging
 
 # log some test messages.
-logsi.LogSystem(SILevel.Debug, "System Information on application startup")
-logsi.LogMessage("Hello World has started")
+_logsi.LogSystem(SILevel.Debug, "System Information on application startup")
+_logsi.LogMessage("Hello World has started")
 ```
-
+<br/>
 
 <em>Example 3 - Logging to rotating hourly log files in Plain Text format</em>
-```python
+``` python
 # our package imports.
 from smartinspectpython.siauto import *
 
@@ -84,12 +84,12 @@ SIAuto.Si.Connections = "text(filename=\".\\logfiles\\AppLog.txt\", rotate=hourl
 SIAuto.Si.Enabled = True    # enable logging
 
 # get smartinspect logger reference.
-logsi:SISession = SIAuto.Main
-logsi.Level = SILevel.Debug   # set Message level logging
+_logsi:SISession = SIAuto.Main
+_logsi.Level = SILevel.Debug   # set Message level logging
 
 # log some test messages.
-logsi.LogSystem(SILevel.Debug, "System Information on application startup")
-logsi.LogMessage("Hello World has started")
+_logsi.LogSystem(SILevel.Debug, "System Information on application startup")
+_logsi.LogMessage("Hello World has started")
 ```
 
 # Licensing

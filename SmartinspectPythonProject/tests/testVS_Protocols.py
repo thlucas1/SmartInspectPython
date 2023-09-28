@@ -42,11 +42,11 @@ class Test_Protocols(unittest.TestCase):
             si.Enabled = True
 
             # add a new session.
-            logsi:SISession = si.AddSession("Main", True)
-            logsi.Level = SILevel.Debug
+            _logsi:SISession = si.AddSession("Main", True)
+            _logsi.Level = SILevel.Debug
 
             # return session instance to caller.
-            return logsi
+            return _logsi
 
         except Exception as ex:
 
@@ -58,7 +58,7 @@ class Test_Protocols(unittest.TestCase):
         """
         Test TCP Protocol scenarios.
         """
-        logsi:SISession = None
+        _logsi:SISession = None
 
         try:
 
@@ -68,7 +68,7 @@ class Test_Protocols(unittest.TestCase):
             conn:str = "tcp(host=localhost,port=4228,timeout=30000,reconnect=true,reconnect.interval=10s,async.enabled=false)"
 
             # create a new smartinspect session for logging.
-            logsi = Test_Protocols.CreateSISession(conn)
+            _logsi = Test_Protocols.CreateSISession(conn)
 
             for level in SILevel:
 
@@ -77,22 +77,22 @@ class Test_Protocols(unittest.TestCase):
                     continue
 
                 # reset counters for next test.
-                SIEventHandlerClass.ResetCounters(logsi.Parent)
+                SIEventHandlerClass.ResetCounters(_logsi.Parent)
 
                 # write packet events to console.
                 SIEventHandlerClass.WriteEventPacketsToConsole = True;
 
                 # test all session methods, using specified logging level.
-                logsi.Parent.Level = level
-                logsi.Parent.DefaultLevel = level
-                TestSessionMethods.TestAllMethods(logsi)
+                _logsi.Parent.Level = level
+                _logsi.Parent.DefaultLevel = level
+                TestSessionMethods.TestAllMethods(_logsi)
 
                 # print SI event counts.
-                SIEventHandlerClass.PrintResults(logsi.Parent)
+                SIEventHandlerClass.PrintResults(_logsi.Parent)
 
                 # verify log entry counts; fail test if count does not match expected value for the specified level.
-                SIEventHandlerClass.VerifyLogEntryCounts(logsi, level, TestSessionMethods.TestAllMethods_LogEntryCounts)
-                SIEventHandlerClass.VerifyErrorCount(logsi, level)
+                SIEventHandlerClass.VerifyLogEntryCounts(_logsi, level, TestSessionMethods.TestAllMethods_LogEntryCounts)
+                SIEventHandlerClass.VerifyErrorCount(_logsi, level)
 
                 print("Test was Successful!")
 
@@ -104,16 +104,16 @@ class Test_Protocols(unittest.TestCase):
         finally:
 
             # unwire test events, and dispose of SmartInspect oject.
-            if (logsi != None):
-                SIEventHandlerClass.UnWireEvents(logsi.Parent)
-                logsi.Parent.Dispose()
+            if (_logsi != None):
+                SIEventHandlerClass.UnWireEvents(_logsi.Parent)
+                _logsi.Parent.Dispose()
 
 
     def test_ProtocolTcpAsync(self):
         """
         Test TCP Protocol scenarios, using Asyncronous packet processing.
         """
-        logsi:SISession = None
+        _logsi:SISession = None
 
         try:
 
@@ -124,7 +124,7 @@ class Test_Protocols(unittest.TestCase):
             conn:str = "tcp(host=localhost,port=4228,timeout=30000,reconnect=true,reconnect.interval=10s,async.enabled=true)"
 
             # create a new smartinspect session for logging.
-            logsi = Test_Protocols.CreateSISession(conn)
+            _logsi = Test_Protocols.CreateSISession(conn)
 
             for level in SILevel:
 
@@ -133,14 +133,14 @@ class Test_Protocols(unittest.TestCase):
                     continue
 
                 # reset counters for next test.
-                SIEventHandlerClass.ResetCounters(logsi.Parent)
+                SIEventHandlerClass.ResetCounters(_logsi.Parent)
 
                 # test all session methods, using specified logging level.
-                logsi.Parent.Level = level
-                TestSessionMethods.TestAllMethods(logsi)
+                _logsi.Parent.Level = level
+                TestSessionMethods.TestAllMethods(_logsi)
 
                 # print SI event counts.
-                SIEventHandlerClass.PrintResults(logsi.Parent)
+                SIEventHandlerClass.PrintResults(_logsi.Parent)
 
                 # if any errors occured, then fail the test.
                 #if SIEventHandlerClass.ErrorCount > 0:
@@ -154,16 +154,16 @@ class Test_Protocols(unittest.TestCase):
         finally:
 
             # unwire test events, and dispose of SmartInspect oject.
-            if (logsi != None):
-                SIEventHandlerClass.UnWireEvents(logsi.Parent)
-                logsi.Parent.Dispose()
+            if (_logsi != None):
+                SIEventHandlerClass.UnWireEvents(_logsi.Parent)
+                _logsi.Parent.Dispose()
 
 
     def test_ProtocolPipe(self):
         """
         Test Pipe Protocol scenarios.
         """
-        logsi:SISession = None
+        _logsi:SISession = None
 
         try:
 
@@ -172,7 +172,7 @@ class Test_Protocols(unittest.TestCase):
             conn:str = "pipe(pipename=smartinspect,reconnect=true,reconnect.interval=10s,async.enabled=false)"
 
             # create a new smartinspect session for logging.
-            logsi = Test_Protocols.CreateSISession(conn)
+            _logsi = Test_Protocols.CreateSISession(conn)
 
             for level in SILevel:
 
@@ -181,18 +181,18 @@ class Test_Protocols(unittest.TestCase):
                     continue
 
                 # reset counters for next test.
-                SIEventHandlerClass.ResetCounters(logsi.Parent)
+                SIEventHandlerClass.ResetCounters(_logsi.Parent)
 
                 # test all session methods, using specified logging level.
-                logsi.Parent.Level = level
-                TestSessionMethods.TestAllMethods(logsi)
+                _logsi.Parent.Level = level
+                TestSessionMethods.TestAllMethods(_logsi)
 
                 # print SI event counts.
-                SIEventHandlerClass.PrintResults(logsi.Parent)
+                SIEventHandlerClass.PrintResults(_logsi.Parent)
 
                 # verify log entry counts; fail test if count does not match expected value for the specified level.
-                SIEventHandlerClass.VerifyLogEntryCounts(logsi, level, TestSessionMethods.TestAllMethods_LogEntryCounts)
-                SIEventHandlerClass.VerifyErrorCount(logsi, level)
+                SIEventHandlerClass.VerifyLogEntryCounts(_logsi, level, TestSessionMethods.TestAllMethods_LogEntryCounts)
+                SIEventHandlerClass.VerifyErrorCount(_logsi, level)
 
                 print("Test was Successful!")
 
@@ -204,16 +204,16 @@ class Test_Protocols(unittest.TestCase):
         finally:
 
             # unwire test events, and dispose of SmartInspect oject.
-            if (logsi != None):
-                SIEventHandlerClass.UnWireEvents(logsi.Parent)
-                logsi.Parent.Dispose()
+            if (_logsi != None):
+                SIEventHandlerClass.UnWireEvents(_logsi.Parent)
+                _logsi.Parent.Dispose()
 
 
     def test_ProtocolPipeAsync(self):
         """
         Test Pipe Protocol scenarios, using Asyncronous packet processing.
         """
-        logsi:SISession = None
+        _logsi:SISession = None
 
         try:
 
@@ -223,7 +223,7 @@ class Test_Protocols(unittest.TestCase):
             conn:str = "pipe(pipename=smartinspect,reconnect=true,reconnect.interval=10s,async.enabled=true)"
 
             # create a new smartinspect session for logging.
-            logsi = Test_Protocols.CreateSISession(conn)
+            _logsi = Test_Protocols.CreateSISession(conn)
 
             for level in SILevel:
 
@@ -232,18 +232,18 @@ class Test_Protocols(unittest.TestCase):
                     continue
 
                 # reset counters for next test.
-                SIEventHandlerClass.ResetCounters(logsi.Parent)
+                SIEventHandlerClass.ResetCounters(_logsi.Parent)
 
                 # test all session methods, using specified logging level.
-                logsi.Parent.Level = level
-                TestSessionMethods.TestAllMethods(logsi)
+                _logsi.Parent.Level = level
+                TestSessionMethods.TestAllMethods(_logsi)
 
                 # print SI event counts.
-                SIEventHandlerClass.PrintResults(logsi.Parent)
+                SIEventHandlerClass.PrintResults(_logsi.Parent)
 
                 # verify log entry counts; fail test if count does not match expected value for the specified level.
-                SIEventHandlerClass.VerifyLogEntryCounts(logsi, level, TestSessionMethods.TestAllMethods_LogEntryCounts)
-                SIEventHandlerClass.VerifyErrorCount(logsi, level)
+                SIEventHandlerClass.VerifyLogEntryCounts(_logsi, level, TestSessionMethods.TestAllMethods_LogEntryCounts)
+                SIEventHandlerClass.VerifyErrorCount(_logsi, level)
 
                 print("Test was Successful!")
 
@@ -255,9 +255,9 @@ class Test_Protocols(unittest.TestCase):
         finally:
 
             # unwire test events, and dispose of SmartInspect oject.
-            if (logsi != None):
-                SIEventHandlerClass.UnWireEvents(logsi.Parent)
-                logsi.Parent.Dispose()
+            if (_logsi != None):
+                SIEventHandlerClass.UnWireEvents(_logsi.Parent)
+                _logsi.Parent.Dispose()
 
 
 if __name__ == '__main__':

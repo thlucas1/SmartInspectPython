@@ -26,7 +26,7 @@ config:SIConfigurationTimer = SIConfigurationTimer(SIAuto.Si, configPath, 2)
 print("Monitoring SmartInspect configuration settings for changes.")
 
 # get smartinspect logger reference.
-logsi:SISession = SIAuto.Main
+_logsi:SISession = SIAuto.Main
 SIAuto.Si.AddSession('NewSession1', True)
 
 # keep logging messages every second for 300 seconds.
@@ -34,16 +34,16 @@ SIAuto.Si.AddSession('NewSession1', True)
 # and watch the Si Console to see if changes were applied.
 for i in range(30):
     time.sleep(1)
-    logsi.LogDebug("This is a test Debug message (current Level=\"{0}\").".format(str(logsi.Parent.Level)))
-    logsi.LogVerbose("This is a test Verbose message (current Level=\"{0}\").".format(str(logsi.Parent.Level)))
-    logsi.LogMessage("This is a test Message message (current Level=\"{0}\").".format(str(logsi.Parent.Level)))
-    logsi.LogWarning("This is a test Warning message (current Level=\"{0}\").".format(str(logsi.Parent.Level)))
-    logsi.LogError("This is a test Error message (current Level=\"{0}\").".format(str(logsi.Parent.Level)))
-    logsi.LogFatal("This is a test Fatal message (current Level=\"{0}\").".format(str(logsi.Parent.Level)))
+    _logsi.LogDebug("This is a test Debug message (current Level=\"{0}\").".format(str(_logsi.Parent.Level)))
+    _logsi.LogVerbose("This is a test Verbose message (current Level=\"{0}\").".format(str(_logsi.Parent.Level)))
+    _logsi.LogMessage("This is a test Message message (current Level=\"{0}\").".format(str(_logsi.Parent.Level)))
+    _logsi.LogWarning("This is a test Warning message (current Level=\"{0}\").".format(str(_logsi.Parent.Level)))
+    _logsi.LogError("This is a test Error message (current Level=\"{0}\").".format(str(_logsi.Parent.Level)))
+    _logsi.LogFatal("This is a test Fatal message (current Level=\"{0}\").".format(str(_logsi.Parent.Level)))
 
-    logsi1:SISession = SIAuto.Si.GetSession("NewSession1")
-    if (logsi1 != None):
-        logsi1.LogMessage("LOGSI1 - This is a test Message message (current Level=\"{0}\").".format(str(logsi1.Parent.Level)))
+    _logsi1:SISession = SIAuto.Si.GetSession("NewSession1")
+    if (_logsi1 != None):
+        _logsi1.LogMessage("_logsi1 - This is a test Message message (current Level=\"{0}\").".format(str(_logsi1.Parent.Level)))
 
 
 # stop configuration file monitoring for changes.

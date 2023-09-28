@@ -5,7 +5,7 @@
     <ProjectGuid>42899ab3-fe6c-4405-b86e-09ddf828ee7a</ProjectGuid>
     <ProjectHome>
     </ProjectHome>
-    <StartupFile>tests\test_ProtocolTcp.py</StartupFile>
+    <StartupFile>tests\test_SystemLogger.py</StartupFile>
     <SearchPath>tests;smartinspectpython</SearchPath>
     <WorkingDirectory>C:\Users\thluc\source\repos\SmartinspectPython\SmartinspectPythonProject</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -35,7 +35,22 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="docspdoc\buildEnv.py" />
-    <Compile Include="docs\include\samplecode\SIEventHandlerClass.md" />
+    <Compile Include="docs\include\samplecode\SIAuto\Main.py" />
+    <Compile Include="docs\include\samplecode\SIAuto\_class.py" />
+    <Compile Include="docs\include\samplecode\SIConfigurationTimer\LoadConfiguration.py" />
+    <Compile Include="docs\include\samplecode\SIConnectionsParser\Parse.py" />
+    <Compile Include="docs\include\samplecode\SIFileProtocol\IsValidOption.py" />
+    <Compile Include="docs\include\samplecode\SIMemoryProtocol\IsValidOption.py" />
+    <Compile Include="docs\include\samplecode\SIOptionsParser\Parse.py" />
+    <Compile Include="docs\include\samplecode\SIPipeProtocol\IsValidOption.py" />
+    <Compile Include="docs\include\samplecode\SISession\LogFatal.py" />
+    <Compile Include="docs\include\samplecode\SISession\LogException.py" />
+    <Compile Include="docs\include\samplecode\SISession\SystemLogger.py" />
+    <Compile Include="docs\include\samplecode\SITcpProtocol\IsValidOption.py" />
+    <Compile Include="docs\include\samplecode\SITextProtocol\IsValidOption.py" />
+    <Compile Include="docs\include\samplecode\SIUtils\Event.py" />
+    <Compile Include="docs\include\samplecode\SmartInspect\Connections.py" />
+    <Compile Include="docs\include\samplecode\SmartInspect\OnEvent.py" />
     <Compile Include="setup.py" />
     <Compile Include="smartinspectpython\siargumentnullexception.py" />
     <Compile Include="smartinspectpython\siconfigurationtimer.py" />
@@ -133,6 +148,7 @@
     <Compile Include="tests\testVS_Protocols.py" />
     <Compile Include="tests\test_ConfigurationTimer.py" />
     <Compile Include="tests\test_pdoc.py" />
+    <Compile Include="tests\test_SystemLogger.py" />
     <Compile Include="tests\test_SampleCode.py" />
     <Compile Include="tests\test_TextContext.py" />
     <Compile Include="tests\test_TokenFactory.py" />
@@ -162,6 +178,18 @@
     <Folder Include="docs\" />
     <Folder Include="docs\include\" />
     <Folder Include="docs\include\samplecode\" />
+    <Folder Include="docs\include\samplecode\SIAuto\" />
+    <Folder Include="docs\include\samplecode\SIUtils\" />
+    <Folder Include="docs\include\samplecode\SIPipeProtocol\" />
+    <Folder Include="docs\include\samplecode\SIMemoryProtocol\" />
+    <Folder Include="docs\include\samplecode\SITcpProtocol\" />
+    <Folder Include="docs\include\samplecode\SITextProtocol\" />
+    <Folder Include="docs\include\samplecode\SIFileProtocol\" />
+    <Folder Include="docs\include\samplecode\SmartInspect\" />
+    <Folder Include="docs\include\samplecode\SIConnectionsParser\" />
+    <Folder Include="docs\include\samplecode\SIOptionsParser\" />
+    <Folder Include="docs\include\samplecode\SIConfigurationTimer\" />
+    <Folder Include="docs\include\samplecode\SISession\" />
     <Folder Include="smartinspectpython\" />
     <Folder Include="tests\" />
     <Folder Include="tests\logfilesVSTest\" />
@@ -172,9 +200,7 @@
     <Content Include="builddocs.bat" />
     <Content Include="build.bat" />
     <Content Include="docspdoc\include\smartinspect.ico" />
-    <Content Include="docs\include\samplecode\SIConfigurationTimer.md" />
-    <Content Include="docs\include\samplecode\overview.md" />
-    <Content Include="docs\include\samplecode\smartinspect_config.md" />
+    <Content Include="docs\include\samplecode\smartinspect.cfg" />
     <Content Include="tests\testdata\TestConfigurationSettings.txt" />
     <None Include=".vscode\launch.json" />
     <None Include=".vscode\settings.json" />
@@ -191,12 +217,9 @@
     <Content Include="docspdoc\templates\default\frame.html.jinja2" />
     <Content Include="docspdoc\templates\default\index.html.jinja2" />
     <Content Include="docspdoc\templates\default\module.html.jinja2" />
-    <Content Include="docs\include\samplecode\SIConnectionsParser.md" />
-    <Content Include="docs\include\samplecode\SIOptionsParser.md" />
-    <Content Include="docs\include\samplecode\smartinspect_classlogging.md" />
     <Content Include="LICENSE" />
     <Content Include="MANIFEST.in" />
-    <Content Include="pyproject.toml" />
+    <Content Include="pyproject.toml.bak" />
     <Content Include="CHANGELOG.md" />
     <Content Include="README.md" />
     <Content Include="requirements.txt" />

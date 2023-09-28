@@ -6,8 +6,9 @@ Module: sicolor.py
 
 | Date       | Version     | Description
 | ---------- | ----------- | ----------------------
-| 2023/05/30 | 3.0.0.0     | Initial Version.  
+| 2023/09/27 | 3.0.21.0    | Changed initialiation method to accept either an integer or SIColors enum for value argument.
 | 2023/09/03 | 3.0.20.0    | Changed all alpha byte from 0xFF to 0x00 for all color definitions.
+| 2023/05/30 | 3.0.0.0     | Initial Version.  
 
 </details>
 """
@@ -61,7 +62,6 @@ class SIColor:
         """
 
         # initialize instance.
-        #self.__init__(value, SIColor._StateNameValid, "FromValue", "")
         self._InitializeWithState(value, SIColor._StateNameValid, "FromValue", "")
 
 
@@ -188,7 +188,7 @@ class SIColor:
 
         Args:
             value (int):
-                The raw value of the color in integer form.
+                The raw value of the color in integer form, or SIColors enumeration.
             state (int):
                 The state of the color assignment (e.g. _StateNameValid, etc).
             name (str):
@@ -201,6 +201,8 @@ class SIColor:
             value = 0
 
         # validations.
+        if (isinstance(value, SIColors)):
+            value = value.value
         if (value > SIColor._MaxValueUInt):
             raise ArgumentError(None, SIColor._InvalidEx2BoundArgument.format("value", value, 0, SIColor._MaxValueUInt))
 

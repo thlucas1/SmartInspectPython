@@ -19,26 +19,26 @@ SIAuto.Si.Connections = "pipe(pipename=smartinspect,reconnect=true,reconnect.int
 SIAuto.Si.Enabled = True
 
 # get smartinspect logger reference.
-logsi:SISession = SIAuto.Main
+_logsi:SISession = SIAuto.Main
 
 # test all session methods, using specified logging level.
 # note that we will just change the Parent.Level value for this.
 # the Parent.Default and SISession.Level are set to Debug, in the
 # event that configuration file contains other values.  this
 # makes for a 1-to-1 comparison between level test runs.
-logsi.Parent.Level = logsi.Level
-logsi.Parent.DefaultLevel = SILevel.Debug
-logsi.Level = SILevel.Debug
-TestSessionMethods.TestAllMethods(logsi)
+_logsi.Parent.Level = _logsi.Level
+_logsi.Parent.DefaultLevel = SILevel.Debug
+_logsi.Level = SILevel.Debug
+TestSessionMethods.TestAllMethods(_logsi)
 
 # log counters to SI console.
-logsi.Watch(SILevel.Fatal, "Total Packets LogEntry", SIEventHandlerClass.LogEntryCount)
-logsi.Watch(SILevel.Fatal, "Total Packets ProcessFlow", SIEventHandlerClass.ProcessFlowCount)
-logsi.Watch(SILevel.Fatal, "Total Packets ControlCmd", SIEventHandlerClass.ControlCommandCount)
-logsi.Watch(SILevel.Fatal, "Total Packets Watch", SIEventHandlerClass.WatchCount)
-logsi.Watch(SILevel.Fatal, "Total Packets Filtered", SIEventHandlerClass.FilterCount)
-logsi.Watch(SILevel.Fatal, "Total Error", SIEventHandlerClass.ErrorCount)
-logsi.Watch(SILevel.Fatal, "Total Info", SIEventHandlerClass.InfoCount)
+_logsi.Watch(SILevel.Fatal, "Total Packets LogEntry", SIEventHandlerClass.LogEntryCount)
+_logsi.Watch(SILevel.Fatal, "Total Packets ProcessFlow", SIEventHandlerClass.ProcessFlowCount)
+_logsi.Watch(SILevel.Fatal, "Total Packets ControlCmd", SIEventHandlerClass.ControlCommandCount)
+_logsi.Watch(SILevel.Fatal, "Total Packets Watch", SIEventHandlerClass.WatchCount)
+_logsi.Watch(SILevel.Fatal, "Total Packets Filtered", SIEventHandlerClass.FilterCount)
+_logsi.Watch(SILevel.Fatal, "Total Error", SIEventHandlerClass.ErrorCount)
+_logsi.Watch(SILevel.Fatal, "Total Info", SIEventHandlerClass.InfoCount)
 
 # print SI event counts, unwire events, and dispose of SmartInspect.
 SIEventHandlerClass.PrintResults(SIAuto.Si)

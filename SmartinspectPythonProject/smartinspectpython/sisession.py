@@ -6,16 +6,17 @@ Module: sisession.py
 
 | Date       | Version     | Description
 | ---------- | ----------- | ----------------------
-| 2023/05/30 | 3.0.0.0     | Initial Version.  
-| 2023/06/15 | 3.0.9.0     | Changed the Session.CurrentMethodName, CurrentMethodNameClass, and CurrentMethodNameClassNamespace properties to static methods.
-| 2023/06/17 | 3.0.11.0    | Added *args support to Session class methods: LogDebug, LogVerbose, LogMessage, LogWarning, LogException, and LogFatal methods.
+| 2023/09/27 | 3.0.21.0    | Added SystemLogger functionality to allow logging to system logs.
+| 2023/09/03 | 3.0.20.0    | Changed all Session.LogX method signatures to use the SIColors enum type, or an integer value in ARGB format.
+| 2023/07/11 | 3.0.16.0    | Changed Session.GetMethodName method to use inspect.stack(0) instead of inspect.stack() to improve performace.
+| 2023/06/28 | 3.0.14.0    | Changed Session class to use temporary logger to capture exception details in LogException method.
+| 2023/06/23 | 3.0.13.0    | Changed Session LogAssigned method to properly format the LogMessage title value.
 | 2023/06/17 | 3.0.12.0    | Changed Session EnterMethod, LeaveMethod to include source file.  
 |            |             | Added default title to LogAppDomain method.
 |            |             | Added exception handling in Session.LogSystem for user name value.  It was failing on Windows WSL systems, returning some sort of permissions error.
-| 2023/06/23 | 3.0.13.0    | Changed Session LogAssigned method to properly format the LogMessage title value.
-| 2023/06/28 | 3.0.14.0    | Changed Session class to use temporary logger to capture exception details in LogException method.
-| 2023/07/11 | 3.0.16.0    | Changed Session.GetMethodName method to use inspect.stack(0) instead of inspect.stack() to improve performace.
-| 2023/09/03 | 3.0.20.0    | Changed all Session.LogX method signatures to use the SIColors enum type, or an integer value in ARGB format.
+| 2023/06/17 | 3.0.11.0    | Added *args support to Session class methods: LogDebug, LogVerbose, LogMessage, LogWarning, LogException, and LogFatal methods.
+| 2023/06/15 | 3.0.9.0     | Changed the Session.CurrentMethodName, CurrentMethodNameClass, and CurrentMethodNameClassNamespace properties to static methods.
+| 2023/05/30 | 3.0.0.0     | Initial Version.  
 
 </details>
 """
@@ -123,6 +124,7 @@ class SISession:
         self._fColorBG = SIColor(DEFAULT_COLOR_VALUE)
         self._fCounters = {}
         self._fCheckpoints = {}
+        self._fSystemLogger:logging.Logger = None
 
         if (name != None):
             self._fName = name
@@ -250,6 +252,49 @@ class SISession:
         """
         if value != None:
             self._fLevel = value
+
+
+    @property
+    def SystemLogger(self) -> logging.Logger:
+        """ 
+        A system Logger object, which can be used to write messages
+        to a system-based log file as well as the SmartInspect log.
+
+        Returns:
+            The SystemLogger property value.
+
+        This can be useful when adding logging to third-party products
+        that require a common logging mechanism, but also allows you to
+        capture extended logging information to a SmartInspect console.
+        
+        The following methods will write information to a Logger object
+        assigned to the SystemLogger property:  
+        LogDebug - calls `_LOGGER.debug(msg)` to log a message.  
+        LogVerbose - calls `_LOGGER.debug(msg)` to log a message.  
+        LogMessage - calls `_LOGGER.info(msg)` to log a message.  
+        LogWarning - calls `_LOGGER.warning(msg)` to log a message.  
+        LogError - calls `_LOGGER.error(msg)` to log a message.  
+        LogException - calls `_LOGGER.exception(ex)` to log an exception message.  
+        LogFatal - calls `_LOGGER.critical(msg)` to log a message.  
+        
+        <details>
+          <summary>Sample Code</summary>
+        ``` python
+        .. include:: ../docs/include/samplecode/SISession/SystemLogger.py
+        ```
+        </details>
+        """
+        return self._fSystemLogger
+    
+
+    @SystemLogger.setter
+    def SystemLogger(self, value:logging.Logger) -> None:
+        """ 
+        Sets the SystemLogger property value.
+        """
+        if value != None:
+            if isinstance(value, (logging.Logger)):
+                self._fSystemLogger = value
 
 
     @property
@@ -1729,6 +1774,43 @@ class SISession:
                 self.LogInternalError("LogColored: " + str(ex))
 
 
+    def LogComplex(self, level:SILevel=None, name:str=None, value:complex=None, colorValue:SIColors=None) -> None:
+        """
+        Logs a complex value with a custom log level.
+        
+        Args:
+            level (SILevel):
+                The log level of this method call.
+            name (str):
+                The variable name.
+            value (float):
+                The variable value.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
+                Refer to the SIColors enum in the sicolor module for common color values.
+                Specify None to use default background color.
+
+        This method logs the name and value of a complex variable.
+        A title like "name = 3.14159" will be displayed in the Console.
+        """
+        if (self.IsOn(level)):
+
+            # validations.
+            if (name == None):
+                self.LogInternalError("LogComplex: name argument is null.")
+                return
+
+            try:
+
+                # send log entry packet.
+                title:str = str.format("{0} = {1}", name, str(value))
+                self._SendLogEntry(level, title, SILogEntryType.VariableValue, SIViewerId.Title, colorValue)
+
+            except Exception as ex:
+                
+                self.LogInternalError("LogComplex: " + str(ex))
+
+
     def LogConditional(self, level:SILevel=None, condition:bool=None, title:str=None, colorValue:SIColors=None) -> None:
         """
         Logs a conditional message with a custom log level. The message 
@@ -2113,7 +2195,13 @@ class SISession:
                 Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
+                
+        This method will also log a message to the system log if the `SystemLogger` property is set.
         """
+        # is system logging enabled?  if so, then log the message there.
+        if (self._fSystemLogger != None):
+            self._fSystemLogger.debug(title, *args)
+
         if (self.IsOn(SILevel.Debug)):
 
             try:
@@ -2121,14 +2209,14 @@ class SISession:
                 # format title if *args was supplied.
                 if (title) and (args):
                     title = (title % args)
-
+                
                 # send the packet.
                 self._SendLogEntry(SILevel.Debug, title, SILogEntryType.Debug, SIViewerId.Title, colorValue)
 
             except Exception as ex:
                 
                 self.LogInternalError("LogDebug: " + str(ex))
-
+            
 
     def LogDictionary(self, level:SILevel=None, title:str=None, oDict:dict=None, colorValue:SIColors=None) -> None:
         """
@@ -2183,43 +2271,6 @@ class SISession:
             except Exception as ex:
             
                 self.LogInternalError("LogDictionary: " + str(ex))
-
-
-    def LogComplex(self, level:SILevel=None, name:str=None, value:complex=None, colorValue:SIColors=None) -> None:
-        """
-        Logs a complex value with a custom log level.
-        
-        Args:
-            level (SILevel):
-                The log level of this method call.
-            name (str):
-                The variable name.
-            value (float):
-                The variable value.
-            colorValue (SIColors):
-                Background color value (SIColors enum, or ARGB integer form) for the message.
-                Refer to the SIColors enum in the sicolor module for common color values.
-                Specify None to use default background color.
-
-        This method logs the name and value of a complex variable.
-        A title like "name = 3.14159" will be displayed in the Console.
-        """
-        if (self.IsOn(level)):
-
-            # validations.
-            if (name == None):
-                self.LogInternalError("LogComplex: name argument is null.")
-                return
-
-            try:
-
-                # send log entry packet.
-                title:str = str.format("{0} = {1}", name, str(value))
-                self._SendLogEntry(level, title, SILogEntryType.VariableValue, SIViewerId.Title, colorValue)
-
-            except Exception as ex:
-                
-                self.LogInternalError("LogComplex: " + str(ex))
 
 
     def LogEnumerable(self, level:SILevel=None, title:str=None, oList:list=None, colorValue:SIColors=None) -> None:
@@ -2280,7 +2331,13 @@ class SISession:
                 Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
+                
+        This method will also log a message to the system log if the `SystemLogger` property is set.
         """
+        # is system logging enabled?  if so, then log the message there.
+        if (self._fSystemLogger != None):
+            self._fSystemLogger.error(title, *args)
+
         if (self.IsOn(SILevel.Error)):
 
             try:
@@ -2318,20 +2375,19 @@ class SISession:
         exception handlers. See LogError for a more general method
         with a similar intention.
 
+        This method will also log a message to the system log if the `SystemLogger` property is set.
+        
         <details>
-            <summary>View Sample Code</summary>
+            <summary>Sample Code</summary>
         ``` python
-        .. include:: ../docs/include/samplecode/smartinspect_classlogging.md
-        try:
-            logsi.LogMessage("Forcing a divide by zero error ...")
-            1/0   # force an exception
-            logsi.LogMessage("You should not see this message due to the above exception.")
-        except Exception as ex:
-            logsi.LogException("*** Caught exception!", ex)
-            logsi.LogException(None, ex)
+        .. include:: ../docs/include/samplecode/SISession/LogException.py
         ```
         </details>
         """
+        # is system logging enabled?  if so, then log the message there.
+        if (self._fSystemLogger != None) and (ex != None):
+            self._fSystemLogger.exception(ex)
+
         if (self.IsOn(SILevel.Error)):
             
             if (ex == None):
@@ -2384,15 +2440,19 @@ class SISession:
         configurations. See LogError for a method which does not
         describe fatal but recoverable errors.
 
+        This method will also log a message to the system log if the `SystemLogger` property is set.
+        
         <details>
-            <summary>View Sample Code</summary>
+            <summary>Sample Code</summary>
         ``` python
-        .. include:: ../docs/include/samplecode/smartinspect_classlogging.md
-        logsi.LogFatal("This is a fatal error message in RED.", SIColors.Red)
-        logsi.LogFatal("This is a fatal error message in regular background color.")
+        .. include:: ../docs/include/samplecode/SISession/LogFatal.py
         ```
         </details>
         """
+        # is system logging enabled?  if so, then log the message there.
+        if (self._fSystemLogger != None):
+            self._fSystemLogger.critical(title, *args)
+
         if (self.IsOn(SILevel.Fatal)):
 
             try:
@@ -2403,7 +2463,7 @@ class SISession:
 
                 # send the packet.
                 self._SendLogEntry(SILevel.Fatal, title, SILogEntryType.Fatal, SIViewerId.Title, colorValue)
-
+                    
             except Exception as ex:
                 
                 self.LogInternalError("LogFatal: " + str(ex))
@@ -2705,7 +2765,13 @@ class SISession:
                 Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
+
+        This method will also log a message to the system log if the `SystemLogger` property is set.
         """
+        # is system logging enabled?  if so, then log the message there.
+        if (self._fSystemLogger != None):
+            self._fSystemLogger.info(title, *args)
+
         if (self.IsOn(SILevel.Message)):
 
             try:
@@ -2720,7 +2786,7 @@ class SISession:
             except Exception as ex:
                 
                 self.LogInternalError("LogMessage: " + str(ex))
-
+                
 
     def LogMetafileFile(self, level:SILevel=None, title:str=None, fileName:str=None, colorValue:SIColors=None) -> None:
         """
@@ -4176,7 +4242,13 @@ class SISession:
                 Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
+
+        This method will also log a message to the system log if the `SystemLogger` property is set.
         """
+        # is system logging enabled?  if so, then log the message there.
+        if (self._fSystemLogger != None):
+            self._fSystemLogger.debug(title, *args)
+
         if (self.IsOn(SILevel.Verbose)):
 
             try:
@@ -4206,7 +4278,13 @@ class SISession:
                 Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
+
+        This method will also log a message to the system log if the `SystemLogger` property is set.
         """
+        # is system logging enabled?  if so, then log the message there.
+        if (self._fSystemLogger != None):
+            self._fSystemLogger.warning(title, *args)
+
         if (self.IsOn(SILevel.Warning)):
 
             try:
@@ -4221,7 +4299,7 @@ class SISession:
             except Exception as ex:
                 
                 self.LogInternalError("LogWarning: " + str(ex))
-
+                
 
     def ResetCallstack(self, level:SILevel=None) -> None:
         """

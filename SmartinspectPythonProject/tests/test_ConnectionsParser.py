@@ -15,9 +15,9 @@ def AddConnection(sender: object, args: SIConnectionFoundEventArgs):
 parser:SIConnectionsParser = SIConnectionsParser()
 parser.ConnectionFoundEvent += AddConnection
 
-parser.Parse("tcp(host=thlucasi9.netlucas.com,port=4228,timeout=30000)")                               # test single protocol
+parser.Parse("tcp(host=myserver.example.com,port=4228,timeout=30000)")                               # test single protocol
 print("")
-parser.Parse("tcp(host=thlucasi9.netlucas.com,port=4228,timeout=30000),file(filename=c:\\log.sil,rotate=weekly)")     # test multiple protocols
+parser.Parse("tcp(host=myserver.example.com,port=4228,timeout=30000),file(filename=c:\\log.sil,rotate=weekly)")     # test multiple protocols
 print("")
 #parser.Parse("tcp(host=localhost")     # test missing closed parenthesis
 #parser.Parse('tcp(host="localhost")')  # test quoted values

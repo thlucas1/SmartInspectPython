@@ -6,6 +6,7 @@ Module: siconnectionsparser.py
 
 | Date       | Version     | Description
 | ---------- | ----------- | ----------------------
+| 2023/09/27 | 3.0.21.0    | Updated documentation sample code and examples.
 | 2023/05/30 | 3.0.0.0     | Initial Version.  
 
 </details>
@@ -93,9 +94,9 @@ class SIConnectionsParser:
         property.
 
         <details>
-            <summary>View Sample Code</summary>
+            <summary>Sample Code</summary>
         ``` python
-        .. include:: ../docs/include/samplecode/SIConnectionsParser.md
+        .. include:: ../docs/include/samplecode/SIConnectionsParser/Parse.py
         ```
         </details>
         """

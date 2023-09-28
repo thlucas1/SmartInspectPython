@@ -6,6 +6,7 @@ Module: siauto.py
 
 | Date       | Version     | Description      |
 | ---------- | ----------- | -----------------|
+| 2023/09/27 | 3.0.21.0    | Updated documentation sample code and examples.
 | 2023/05/30 | 3.0.0.0     | Initial Version. | 
 
 </details>
@@ -85,31 +86,17 @@ class SIAuto:
     Threadsafety:
         The public static members of this class are thread-safe.
 
-    **Example:**
+    <details>
+        <summary>Sample Code</summary>
     ``` python
-    # Use the following for 1-time initialization code:
-
-    from .smartinspectpython.siauto import *
-    SIAuto.Si.Connections = 'tcp(host=yourdns.com)'
-    SIAuto.Si.Enabled = True               # connect
-    SIAuto.Main.Level = SILevel.Debug      # set logging level to Debug (ALL msgs)
-    #SIAuto.Main.Level = SILevel.Verbose   # set logging level to Verbose
-    #SIAuto.Main.Level = SILevel.Message   # set logging level to Message
-    #SIAuto.Main.Level = SILevel.Warning   # set logging level to Warning
-    #SIAuto.Main.Level = SILevel.Error     # set logging level to Error
-
-    # Use the following in main (or classes) in your project:
-
-    # get logger reference.
-    _logsi:SISession = SIAuto.Main
-    
-    # log some messages and data.
-    _logsi.LogSystem(SILevel.Debug)
-    _logsi.LogDebug("This is a Debug message.")
-    _logsi.LogMessage("This is a Message.")
-    _logsi.LogWarning("You have been warned!")
-    _logsi.LogError("Danger Will Robinson!")
+    .. include:: ../docs/include/samplecode/SIAuto/_class.py
     ```
+    <br/>
+    The following is the configuration settings file contents:
+    ``` ini
+    .. include:: ../docs/include/samplecode/smartinspect.cfg
+    ```
+    </details>  
     """
 
     """
@@ -122,32 +109,21 @@ class SIAuto:
     SmartInspect logging instance (automatically created). 
     """
 
+
     Main:SISession = None
     """ 
     SmartInspect logging Session instance ('Main', automatically created). 
 
     The SISession.Name is set to "Main" and the SISession.Parent to SIAuto.Si.
 
-    **Example:**
+    <details>
+        <summary>Sample Code</summary>
     ``` python
-    # Use the following in main (or classes) in your project:
-
-    # get logger reference.
-    from .smartinspectpython.siauto import *
-    _logsi:SISession = SIAuto.Main
-    
-    # log some messages and data.
-    _logsi.LogSystem(SILevel.Debug)
-    _logsi.LogDebug("This is a Debug message.")
-    _logsi.LogMessage("This is a Message.")
-    _logsi.LogWarning("You have been warned!")
-    _logsi.LogError("Danger Will Robinson!")
+    .. include:: ../docs/include/samplecode/SIAuto/Main.py
     ```
+    </details>   
     """
 
-    """
-    ## Methods
-    """
 
     @classmethod
     def static_init(cls) -> None:

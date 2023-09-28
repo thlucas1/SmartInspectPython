@@ -6,8 +6,9 @@ Module: sitcpprotocol.py
 
 | Date       | Version     | Description
 | ---------- | ----------- | ----------------------
-| 2023/05/30 | 3.0.0.0     | Initial Version.  
+| 2023/09/27 | 3.0.21.0    | Updated documentation sample code and examples.
 | 2023/06/09 | 3.0.8.0     | Added call to RaiseInfoEvent for the SI Console Server banner.
+| 2023/05/30 | 3.0.0.0     | Initial Version.  
 
 </details>
 """
@@ -171,18 +172,11 @@ class SITcpProtocol(SIProtocol):
         timeout (30000)                | Specifies the connect, receive and send timeout in milliseconds.
 
         <details>
-            <summary>View Sample Code</summary>
+            <summary>Sample Code</summary>
         ``` python
-        from smartinspectpython.siauto import *
-
-        # the following are sample SI Connections options for this protocol.
-
-        # log messages using all default options (localhost, port 4228, 30s timeout).
-        SIAuto.Si.Connections = "tcp()"
-
-        # log messages using localhost, port 4228, 30s timeout, asynchronous processing.
-        SIAuto.Si.Connections = "tcp(host=localhost,port=4228,timeout=30000,reconnect=true,reconnect.interval=10s,async.enabled=true)
+        .. include:: ../docs/include/samplecode/SITcpProtocol/IsValidOption.py
         ```
+        </details>
         """
         return \
             (name == "host") or \

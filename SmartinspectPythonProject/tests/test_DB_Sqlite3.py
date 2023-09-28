@@ -21,7 +21,7 @@ SIAuto.Si.Connections = "tcp(host=192.168.1.1,port=4228,timeout=30000,reconnect=
 SIAuto.Si.Enabled = True
 
 # get smartinspect logger reference.
-logsi:SISession = SIAuto.Main
+_logsi:SISession = SIAuto.Main
 
 # connect to the database.
 conn = sqlite3.connect("./tests/testdata/TestDBSqlite.db")
@@ -36,31 +36,31 @@ conn = sqlite3.connect("./tests/testdata/TestDBSqlite.db")
 
 # execute a query, returning a cursor.
 cursor = conn.execute("SELECT * FROM tracks_view ORDER BY album ASC, name ASC;")
-logsi.LogSqliteDbCursorData(None, None, cursor)
+_logsi.LogSqliteDbCursorData(None, None, cursor)
 cursor = conn.execute("SELECT * FROM tracks_view WHERE name='xxxxxxx';")
-logsi.LogSqliteDbCursorData(None, "LogSqliteDbCursorData No Data Test", cursor)
+_logsi.LogSqliteDbCursorData(None, "LogSqliteDbCursorData No Data Test", cursor)
 cursor = conn.execute("SELECT * FROM MyTestTable2;")
-logsi.LogSqliteDbCursorData(None, "MyTestTable2 Data", cursor)
+_logsi.LogSqliteDbCursorData(None, "MyTestTable2 Data", cursor)
 cursor = conn.execute("SELECT * FROM tracks;")
-logsi.LogSqliteDbCursorData(None, None, cursor)
+_logsi.LogSqliteDbCursorData(None, None, cursor)
 
-logsi.LogSqliteDbSchemaTables(None, conn=conn, sortByName=True)
-logsi.LogSqliteDbSchemaTables(None, conn=conn)
+_logsi.LogSqliteDbSchemaTables(None, conn=conn, sortByName=True)
+_logsi.LogSqliteDbSchemaTables(None, conn=conn)
 
-logsi.LogSqliteDbSchemaIndexList(None, conn=conn, tableName="invoice_items", sortByName=True)
-logsi.LogSqliteDbSchemaIndexList(None, conn=conn, tableName="invoice_items")
+_logsi.LogSqliteDbSchemaIndexList(None, conn=conn, tableName="invoice_items", sortByName=True)
+_logsi.LogSqliteDbSchemaIndexList(None, conn=conn, tableName="invoice_items")
 
-logsi.LogSqliteDbSchemaForeignKeyList(None, conn=conn, tableName="invoice_items", sortByName=True)
-logsi.LogSqliteDbSchemaForeignKeyList(None, conn=conn, tableName="invoice_items")
+_logsi.LogSqliteDbSchemaForeignKeyList(None, conn=conn, tableName="invoice_items", sortByName=True)
+_logsi.LogSqliteDbSchemaForeignKeyList(None, conn=conn, tableName="invoice_items")
 
-logsi.LogSqliteDbSchemaTableInfo(None, conn=conn, tableName="MyTestTable2", sortByName=True)
-logsi.LogSqliteDbSchemaTableInfo(None, conn=conn, tableName="employees")
-logsi.LogSqliteDbSchemaTableInfo(None, "LogSqliteDBTableSchema sorted by Column ID", conn, "employees")
-logsi.LogSqliteDbSchemaTableInfo(None, "LogSqliteDBTableSchema sorted by Column Name", conn, "employees", True)
+_logsi.LogSqliteDbSchemaTableInfo(None, conn=conn, tableName="MyTestTable2", sortByName=True)
+_logsi.LogSqliteDbSchemaTableInfo(None, conn=conn, tableName="employees")
+_logsi.LogSqliteDbSchemaTableInfo(None, "LogSqliteDBTableSchema sorted by Column ID", conn, "employees")
+_logsi.LogSqliteDbSchemaTableInfo(None, "LogSqliteDBTableSchema sorted by Column Name", conn, "employees", True)
 
-logsi.LogObject(None,"Cursor Object", cursor)
-logsi.LogSqliteDbSchemaCursor(None, None, cursor)
-logsi.LogSqliteDbSchemaCursor(None, "LogSqliteCursorSchema Title", cursor)
+_logsi.LogObject(None,"Cursor Object", cursor)
+_logsi.LogSqliteDbSchemaCursor(None, None, cursor)
+_logsi.LogSqliteDbSchemaCursor(None, "LogSqliteCursorSchema Title", cursor)
 
 # close db connection.
 conn.close()

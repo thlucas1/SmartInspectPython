@@ -1,3 +1,4 @@
+# package imports.
 from smartinspectpython.siauto import *
 
 # load SmartInspect settings from a configuration settings file.
@@ -8,7 +9,5 @@ SIAuto.Si.LoadConfiguration(siConfigPath)
 # this will check the file for changes every 60 seconds.
 siConfigTask:SIConfigurationTimer = SIConfigurationTimer(SIAuto.Si, siConfigPath, 60)
 
-...
 # get smartinspect logger reference.
 logsi:SISession = SIAuto.Main
-...

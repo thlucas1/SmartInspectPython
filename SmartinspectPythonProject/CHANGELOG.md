@@ -7,6 +7,12 @@ Change are listed in reverse chronological order (newest to oldest).
 
 <span class="changelog">
 
+###### [ 3.0.21 ] - 2023/09/27
+
+  * Added SystemLogger functionality to allow logging to system logs.
+  * Changed SIColors class initialiation method to accept either an integer or SIColors enum for value argument.
+  * Updated documentation sample code and examples.
+
 ###### [ 3.0.20 ] - 2023/09/03
 
   * Changed alpha byte from 0xFF to 0x00 for all color definitions in the SIColors enum class.

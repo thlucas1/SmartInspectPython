@@ -6,8 +6,9 @@ Module: siconfigurationtimer.py
 
 | Date       | Version     | Description
 | ---------- | ----------- | ----------------------
-| 2023/05/30 | 3.0.0.0     | Initial Version.  
+| 2023/09/27 | 3.0.21.0    | Updated documentation sample code and examples.
 | 2023/06/09 | 3.0.8.0     | Added call to RaiseInfoEvent for when a configuration settings file is changed and reloaded.
+| 2023/05/30 | 3.0.0.0     | Initial Version.  
 
 </details>
 """
@@ -48,14 +49,14 @@ class SIConfigurationTimer:
         This class is fully thread-safe.
 
     <details>
-        <summary>View Sample Code</summary>
+        <summary>Sample Code</summary>
     ``` python
-    .. include:: ../docs/include/samplecode/SIConfigurationTimer.md
+    .. include:: ../docs/include/samplecode/SIConfigurationTimer/LoadConfiguration.py
     ```
-
+    <br/>
     The following is the configuration settings file contents:
     ``` ini
-    .. include:: ../docs/include/samplecode/smartinspect_config.md
+    .. include:: ../docs/include/samplecode/smartinspect.cfg
     ```
     </details>
     """

@@ -6,6 +6,7 @@ Module: simemoryprotocol.py
 
 | Date       | Version     | Description
 | ---------- | ----------- | ----------------------
+| 2023/09/27 | 3.0.21.0    | Updated documentation sample code and examples.
 | 2023/05/30 | 3.0.0.0     | Initial Version.  
 
 </details>
@@ -315,24 +316,11 @@ class SIMemoryProtocol(SIProtocol):
         SIProtocol.IsValidOption method of the parent class.
 
         <details>
-            <summary>View Sample Code</summary>
+            <summary>Sample Code</summary>
         ``` python
-        from smartinspectpython.siauto import *
-
-        # the following are sample SI Connections options for this protocol.
-
-        # log messages using all default options (binary log, no indent).
-        SIAuto.Si.Connections = "mem()"
-
-        # log messages using max packet queue size of 8 MB.
-        SIAuto.Si.Connections = "mem(maxsize=\\"8MB\\")"
-
-        # log messages using text instead of binary.
-        SIAuto.Si.Connections = "mem(astext=true)"
-
-        # log messages using indented text and a custom pattern.
-        SIAuto.Si.Connections = "mem(astext=true, indent=true, pattern=\"%level% [%timestamp%]: %title%\")"
+        .. include:: ../docs/include/samplecode/SIMemoryProtocol/IsValidOption.py
         ```
+        </details>
         """
         # encryption related options are NOT supported for memory logging.
         if ((name == "encrypt") or (name == "key")):

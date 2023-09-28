@@ -24,7 +24,7 @@ SIAuto.Si.Connections = "tcp(host=192.168.1.1,port=4228,timeout=30000,reconnect=
 SIAuto.Si.Enabled = True
 
 # get smartinspect logger reference.
-logsi:SISession = SIAuto.Main
+_logsi:SISession = SIAuto.Main
 
 for level in SILevel:
 
@@ -32,7 +32,7 @@ for level in SILevel:
         continue
 
     # reset counters for next test.
-    SIEventHandlerClass.ResetCounters(logsi.Parent)
+    SIEventHandlerClass.ResetCounters(_logsi.Parent)
 
     # write packet events to console.
     #SIEventHandlerClass.WriteEventPacketsToConsole = True
@@ -42,26 +42,26 @@ for level in SILevel:
     # the Parent.Default and SISession.Level are set to Debug, in the
     # event that configuration file contains other values.  this
     # makes for a 1-to-1 comparison between level test runs.
-    logsi.Parent.Level = level
-    logsi.Parent.DefaultLevel = SILevel.Debug
-    logsi.Level = SILevel.Debug
-    TestSessionMethods.TestAllMethods(logsi)
+    _logsi.Parent.Level = level
+    _logsi.Parent.DefaultLevel = SILevel.Debug
+    _logsi.Level = SILevel.Debug
+    TestSessionMethods.TestAllMethods(_logsi)
 
     # log counters to SI console.
-    logsi.Watch(SILevel.Fatal, "Total Packets LogEntry", SIEventHandlerClass.LogEntryCount)
-    logsi.Watch(SILevel.Fatal, "Total Packets ProcessFlow", SIEventHandlerClass.ProcessFlowCount)
-    logsi.Watch(SILevel.Fatal, "Total Packets ControlCmd", SIEventHandlerClass.ControlCommandCount)
-    logsi.Watch(SILevel.Fatal, "Total Packets Watch", SIEventHandlerClass.WatchCount)
-    logsi.Watch(SILevel.Fatal, "Total Packets Filtered", SIEventHandlerClass.FilterCount)
-    logsi.Watch(SILevel.Fatal, "Total Error", SIEventHandlerClass.ErrorCount)
-    logsi.Watch(SILevel.Fatal, "Total Info", SIEventHandlerClass.InfoCount)
+    _logsi.Watch(SILevel.Fatal, "Total Packets LogEntry", SIEventHandlerClass.LogEntryCount)
+    _logsi.Watch(SILevel.Fatal, "Total Packets ProcessFlow", SIEventHandlerClass.ProcessFlowCount)
+    _logsi.Watch(SILevel.Fatal, "Total Packets ControlCmd", SIEventHandlerClass.ControlCommandCount)
+    _logsi.Watch(SILevel.Fatal, "Total Packets Watch", SIEventHandlerClass.WatchCount)
+    _logsi.Watch(SILevel.Fatal, "Total Packets Filtered", SIEventHandlerClass.FilterCount)
+    _logsi.Watch(SILevel.Fatal, "Total Error", SIEventHandlerClass.ErrorCount)
+    _logsi.Watch(SILevel.Fatal, "Total Info", SIEventHandlerClass.InfoCount)
 
     # print SI event counts.
-    SIEventHandlerClass.PrintResults(logsi.Parent)
+    SIEventHandlerClass.PrintResults(_logsi.Parent)
 
     # verify log entry counts. fail test if count does not match expected value for the specified level.
-    SIEventHandlerClass.VerifyLogEntryCounts(logsi, level, TestSessionMethods.TestAllMethods_LogEntryCounts)
-    SIEventHandlerClass.VerifyErrorCount(logsi, level)
+    SIEventHandlerClass.VerifyLogEntryCounts(_logsi, level, TestSessionMethods.TestAllMethods_LogEntryCounts)
+    SIEventHandlerClass.VerifyErrorCount(_logsi, level)
 
     print("Test was Successful!")
 

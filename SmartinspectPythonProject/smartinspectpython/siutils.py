@@ -6,6 +6,7 @@ Module: siutils.py
 
 | Date       | Version     | Description
 | ---------- | ----------- | ----------------------
+| 2023/09/27 | 3.0.21.0    | Updated documentation sample code and examples.
 | 2023/05/30 | 3.0.0.0     | Initial Version.  
 
 </details>
@@ -51,29 +52,9 @@ class Event:
     C# like event processing in Python3.
 
     <details>
-        <summary>View Sample Code</summary>
+        <summary>Sample Code</summary>
     ``` python
-    # Define the class that will be raising events:
-    class MyFileWatcher:
-        def __init__(self):
-            self.fileChanged = Event()      # define event
-
-        def watchFiles(self):
-            source_path = "foo"
-            self.fileChanged(source_path)   # fire event
-
-    def log_file_change(source_path):       # event handler 1
-        print "%r changed." % (source_path,)
-
-    def log_file_change2(source_path):      # event handler 2
-        print "%r changed!" % (source_path,)
-
-    # Define the code that will be handling raised events.
-    watcher              = MyFileWatcher()
-    watcher.fileChanged += log_file_change2
-    watcher.fileChanged += log_file_change
-    watcher.fileChanged -= log_file_change2
-    watcher.watchFiles()
+    .. include:: ../docs/include/samplecode/SIUtils/Event.py
     ```
     </details>
     """

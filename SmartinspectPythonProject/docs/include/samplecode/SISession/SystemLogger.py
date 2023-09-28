@@ -1,15 +1,5 @@
-# add project drectory to python search paths for relative references
-import sys
-sys.path.append(".")
-
-# import classes used for test scenarios.
-from testClassDefinitions import SIEventHandlerClass
-
 # package imports.
 from smartinspectpython.siauto import *
-
-# wire up smartinspect events.
-SIEventHandlerClass.WireEvents(SIAuto.Si)
 
 # set smartinspect connections, and enable logging.
 SIAuto.Si.Connections = "tcp(host=localhost,port=4228,timeout=30000)"
@@ -63,8 +53,3 @@ except Exception as ex:
 
     _logsi.LogException("LogException - with Custom title, exception details in SI Console viewer area.", ex)
     _logsi.LogException(None, ex)
-
-# print SI event counts, unwire events, and dispose of SmartInspect.
-SIEventHandlerClass.PrintResults(SIAuto.Si)
-SIEventHandlerClass.UnWireEvents(SIAuto.Si)
-SIAuto.Si.Dispose()

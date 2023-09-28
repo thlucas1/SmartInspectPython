@@ -6,8 +6,9 @@ Module: sipipeprotocol.py
 
 | Date       | Version     | Description
 | ---------- | ----------- | ----------------------
-| 2023/05/30 | 3.0.0.0     | Initial Version.  
+| 2023/09/27 | 3.0.21.0    | Updated documentation sample code and examples.
 | 2023/06/09 | 3.0.8.0     | Added call to RaiseInfoEvent for the SI Console Server banner.
+| 2023/05/30 | 3.0.0.0     | Initial Version.  
 
 </details>
 """
@@ -233,18 +234,11 @@ class SIPipeProtocol(SIProtocol):
         - pipename ("smartinspect")    | Specifies the named pipe for sending log packets to the SmartInspect Console.  This value must match the pipe name in the SmartInspect Console options.
 
         <details>
-            <summary>View Sample Code</summary>
+            <summary>Sample Code</summary>
         ``` python
-        from smartinspectpython.siauto import *
-
-        # the following are sample SI Connections options for this protocol.
-
-        # log messages to SI Console using all default options (pipename=smartinspect).
-        SIAuto.Si.Connections = "pipe()"
-
-        # log messages to SI Console using pipe name "sipipe", with asyncronous send enabled.
-        SIAuto.Si.Connections = "pipe(pipename=sipipe,reconnect=true,reconnect.interval=10s,async.enabled=true)
+        .. include:: ../docs/include/samplecode/SIPipeProtocol/IsValidOption.py
         ```
+        </details>
         """
         return \
             (name == "pipename") or \
