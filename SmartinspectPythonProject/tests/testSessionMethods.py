@@ -843,8 +843,8 @@ class TestSessionMethods:
             except Exception as ex:
             
                 logsi.LogException("LogException - with Custom title, exception details in SI Console viewer area.", ex)
-                logsi.LogException(None, ex)
-            
+                logsi.LogException("LogException - with Custom title, exception details in SI Console viewer area. It will not be logged to the SystemLogger.", ex, logToSystemLogger=False)
+                logsi.LogException(None, ex)           
 
             # LogFloat Examples.
             logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogFloat Examples.")
@@ -973,21 +973,27 @@ class TestSessionMethods:
             # Log Message Types Examples.
             logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogDebug, LogVerbose, LogMessage, LogWarning, LogError, LogFatal Examples.")
             logsi.LogDebug("This is a debug message.  It will not be displayed if Level=Verbose or above.")
+            logsi.LogDebug("This is a debug message.  It will not be displayed if Level=Verbose or above. It will not be logged to the SystemLogger.", logToSystemLogger=False)
             logsi.LogDebug("This is a debug message with *args: str1='%s', int2=%i.  It will not be displayed if Level=Verbose or above.", argsVar1, argsVar2)
             logsi.LogDebug("This is a debug message with *args: str1='%s', int2=%i and a 'colorValue=' of Gainsboro.  It will not be displayed if Level=Verbose or above.", argsVar1, argsVar2, colorValue=SIColors.Gainsboro)
             logsi.LogVerbose("This is a verbose message.  It will not be displayed if Level=Message or above.")
+            logsi.LogVerbose("This is a verbose message.  It will not be displayed if Level=Message or above. It will not be logged to the SystemLogger.", logToSystemLogger=False)
             logsi.LogVerbose("This is a verbose message with *args: str1='%s', int2=%i.  It will not be displayed if Level=Message or above.", argsVar1, argsVar2)
             logsi.LogVerbose("This is a verbose message with *args: str1='%s', int2=%i and a 'colorValue=' of Gainsboro.  It will not be displayed if Level=Message or above.", argsVar1, argsVar2, colorValue=SIColors.Gainsboro)
             logsi.LogMessage("This is a message.  It will not be displayed if Level=Warning or above.")
+            logsi.LogMessage("This is a message.  It will not be displayed if Level=Warning or above. It will not be logged to the SystemLogger.", logToSystemLogger=False)
             logsi.LogMessage("This is a message with *args: str1='%s', int2=%i.  It will not be displayed if Level=Warning or above.", argsVar1, argsVar2)
             logsi.LogMessage("This is a message with *args: str1='%s', int2=%i and a 'colorValue=' of Gainsboro.  It will not be displayed if Level=Warning or above.", argsVar1, argsVar2, colorValue=SIColors.Gainsboro)
             logsi.LogWarning("This is a warning message.  It will not be displayed if Level=Error or above.")
+            logsi.LogWarning("This is a warning message.  It will not be displayed if Level=Error or above. It will not be logged to the SystemLogger.", logToSystemLogger=False)
             logsi.LogWarning("This is a warning message with *args: str1='%s', int2=%i.  It will not be displayed if Level=Error or above.", argsVar1, argsVar2)
             logsi.LogWarning("This is a warning message with *args: str1='%s', int2=%i and a 'colorValue=' of Gainsboro.  It will not be displayed if Level=Error or above.", argsVar1, argsVar2, colorValue=SIColors.Gainsboro)
             logsi.LogError("This is a error message.  It will not be displayed if Level=Fatal or above.")
+            logsi.LogError("This is a error message.  It will not be displayed if Level=Fatal or above. It will not be logged to the SystemLogger.", logToSystemLogger=False)
             logsi.LogError("This is a error message with *args: str1='%s', int2=%i.  It will not be displayed if Level=Fatal or above.", argsVar1, argsVar2)
             logsi.LogError("This is a error message with *args: str1='%s', int2=%i and a 'colorValue=' of Gainsboro.  It will not be displayed if Level=Fatal or above.", argsVar1, argsVar2, colorValue=SIColors.Gainsboro)
             logsi.LogFatal("This is a fatal error message.")
+            logsi.LogFatal("This is a fatal error message. It will not be logged to the SystemLogger.", logToSystemLogger=False)
             logsi.LogFatal("This is a fatal error message with *args: str1='%s', int2=%i.", argsVar1, argsVar2)
             logsi.LogFatal("This is a fatal error message with *args: str1='%s', int2=%i and a 'colorValue=' of Gainsboro.", argsVar1, argsVar2, colorValue=SIColors.Gainsboro)
 

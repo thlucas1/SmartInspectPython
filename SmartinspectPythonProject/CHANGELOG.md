@@ -7,6 +7,12 @@ Change are listed in reverse chronological order (newest to oldest).
 
 <span class="changelog">
 
+###### [ 3.0.22 ] - 2023/09/29
+
+  * Set Logger.propagate = False so that our exception capture process does not forward the message on to other loggers.
+  * Changed methods in SISession that support SystemLogger functionality to allow bypass of logging to the system logger.
+  * Updated documentation sample code and examples.
+
 ###### [ 3.0.21 ] - 2023/09/27
 
   * Added SystemLogger functionality to allow logging to system logs.

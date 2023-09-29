@@ -6,6 +6,8 @@ Module: sisession.py
 
 | Date       | Version     | Description
 | ---------- | ----------- | ----------------------
+| 2023/09/29 | 3.0.22.0    | Set Logger.propagate = False so that our exception capture process does not forward the message on to other loggers.
+|            |             | Changed methods that support SystemLogger functionality to allow bypass of logging to the system logger.
 | 2023/09/27 | 3.0.21.0    | Added SystemLogger functionality to allow logging to system logs.
 | 2023/09/03 | 3.0.20.0    | Changed all Session.LogX method signatures to use the SIColors enum type, or an integer value in ARGB format.
 | 2023/07/11 | 3.0.16.0    | Changed Session.GetMethodName method to use inspect.stack(0) instead of inspect.stack() to improve performace.
@@ -132,11 +134,13 @@ class SISession:
         self.ResetColor()
 
         # configure temporary logger and stream to capture exception message logging.
+        # note that propagate = False is set so logged messages are not propagated to other loggers.
         self._fTempLogger = logging.getLogger('smartinspectpython_temp_log')
         self._fTempLogger.setLevel(logging.ERROR)
         self._fTempLoggingStream = StringIO()
         handler = logging.StreamHandler(stream=self._fTempLoggingStream)
         self._fTempLogger.addHandler(handler)
+        self._fTempLogger.propagate = False
 
 
     @property
@@ -2187,7 +2191,7 @@ class SISession:
                 self.LogInternalError("LogDateTime: " + str(ex))
 
 
-    def LogDebug(self, title:str, *args, colorValue:SIColors=None) -> None:
+    def LogDebug(self, title:str, *args, colorValue:SIColors=None, logToSystemLogger:bool=True) -> None:
         """
         Logs a debug message with a log level of SILevel.Debug.
 
@@ -2204,7 +2208,7 @@ class SISession:
         This method will also log a message to the system log if the `SystemLogger` property is set.
         """
         # is system logging enabled?  if so, then log the message there.
-        if (self._fSystemLogger != None):
+        if (self._fSystemLogger != None) and (logToSystemLogger):
             self._fSystemLogger.debug(title, *args)
 
         if (self.IsOn(SILevel.Debug)):
@@ -2323,7 +2327,7 @@ class SISession:
                 self.LogInternalError("LogEnumerable: " + str(ex))
 
 
-    def LogError(self, title:str, *args, colorValue:SIColors=None) -> None:
+    def LogError(self, title:str, *args, colorValue:SIColors=None, logToSystemLogger:bool=True) -> None:
         """
         Logs a error message with a log level of SILevel.Error.
 
@@ -2336,11 +2340,15 @@ class SISession:
                 Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
+            logToSystemLogger (bool):
+                True to log the exception to the SystemLogger instance (if one was supplied);  
+                otherwise, False to not log the exception to the SystemLogger instance.  
+                Default is True.
                 
         This method will also log a message to the system log if the `SystemLogger` property is set.
         """
         # is system logging enabled?  if so, then log the message there.
-        if (self._fSystemLogger != None):
+        if (self._fSystemLogger != None) and (logToSystemLogger):
             self._fSystemLogger.error(title, *args)
 
         if (self.IsOn(SILevel.Error)):
@@ -2359,7 +2367,7 @@ class SISession:
                 self.LogInternalError("LogError: " + str(ex))
 
 
-    def LogException(self, title:str=None, ex:Exception=None, colorValue:SIColors=None):
+    def LogException(self, title:str=None, ex:Exception=None, colorValue:SIColors=None, logToSystemLogger:bool=True):
         """
         Logs the content of an exception with a custom
         title and a log level of SILevel.Error.
@@ -2373,6 +2381,10 @@ class SISession:
                 Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
+            logToSystemLogger (bool):
+                True to log the exception to the SystemLogger instance (if one was supplied);  
+                otherwise, False to not log the exception to the SystemLogger instance.  
+                Default is True.
         
         This method extracts the exception message and stack trace
         from the supplied exception and logs an error with this data.
@@ -2380,7 +2392,9 @@ class SISession:
         exception handlers. See LogError for a more general method
         with a similar intention.
 
-        This method will also log a message to the system log if the `SystemLogger` property is set.
+        This method will also automatically log the exception to the 
+        system log if the `SystemLogger` property is set and the 
+        logToSystemLogger argument is True.
         
         <details>
             <summary>Sample Code</summary>
@@ -2390,7 +2404,7 @@ class SISession:
         </details>
         """
         # is system logging enabled?  if so, then log the message there.
-        if (self._fSystemLogger != None) and (ex != None):
+        if (self._fSystemLogger != None) and (logToSystemLogger) and (ex != None):
             self._fSystemLogger.exception(ex)
 
         if (self.IsOn(SILevel.Error)):
@@ -2425,7 +2439,7 @@ class SISession:
                     self.LogInternalError("LogException: " + str(ex2))
 
 
-    def LogFatal(self, title:str, *args, colorValue:SIColors=None) -> None:
+    def LogFatal(self, title:str, *args, colorValue:SIColors=None, logToSystemLogger:bool=True) -> None:
         """
         Logs a fatal error message with a log level of SILevel.Fatal.
 
@@ -2438,6 +2452,10 @@ class SISession:
                 Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
+            logToSystemLogger (bool):
+                True to log the exception to the SystemLogger instance (if one was supplied);  
+                otherwise, False to not log the exception to the SystemLogger instance.  
+                Default is True.
 
         This method is ideally used in error handling code such as
         exception handlers. If this method is used consequently, it
@@ -2455,7 +2473,7 @@ class SISession:
         </details>
         """
         # is system logging enabled?  if so, then log the message there.
-        if (self._fSystemLogger != None):
+        if (self._fSystemLogger != None) and (logToSystemLogger):
             self._fSystemLogger.critical(title, *args)
 
         if (self.IsOn(SILevel.Fatal)):
@@ -2757,7 +2775,7 @@ class SISession:
         self.LogCustomStream(level, title, stream, SILogEntryType.Graphic, SIViewerId.Jpeg, colorValue)
 
 
-    def LogMessage(self, title:str, *args, colorValue:SIColors=None) -> None:
+    def LogMessage(self, title:str, *args, colorValue:SIColors=None, logToSystemLogger:bool=True) -> None:
         """
         Logs a message with a log level of SILevel.Message.
 
@@ -2770,11 +2788,15 @@ class SISession:
                 Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
+            logToSystemLogger (bool):
+                True to log the exception to the SystemLogger instance (if one was supplied);  
+                otherwise, False to not log the exception to the SystemLogger instance.  
+                Default is True.
 
         This method will also log a message to the system log if the `SystemLogger` property is set.
         """
         # is system logging enabled?  if so, then log the message there.
-        if (self._fSystemLogger != None):
+        if (self._fSystemLogger != None) and (logToSystemLogger):
             self._fSystemLogger.info(title, *args)
 
         if (self.IsOn(SILevel.Message)):
@@ -4234,7 +4256,7 @@ class SISession:
                 self.LogObjectValue(level, name, value, colorValue)
 
 
-    def LogVerbose(self, title:str, *args, colorValue:SIColors=None) -> None:
+    def LogVerbose(self, title:str, *args, colorValue:SIColors=None, logToSystemLogger:bool=True) -> None:
         """
         Logs a verbose message with a log level of SILevel.Verbose.
 
@@ -4247,11 +4269,15 @@ class SISession:
                 Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
+            logToSystemLogger (bool):
+                True to log the exception to the SystemLogger instance (if one was supplied);  
+                otherwise, False to not log the exception to the SystemLogger instance.  
+                Default is True.
 
         This method will also log a message to the system log if the `SystemLogger` property is set.
         """
         # is system logging enabled?  if so, then log the message there.
-        if (self._fSystemLogger != None):
+        if (self._fSystemLogger != None) and (logToSystemLogger):
             self._fSystemLogger.debug(title, *args)
 
         if (self.IsOn(SILevel.Verbose)):
@@ -4270,7 +4296,7 @@ class SISession:
                 self.LogInternalError("LogVerbose: " + str(ex))
 
 
-    def LogWarning(self, title:str, *args, colorValue:SIColors=None) -> None:
+    def LogWarning(self, title:str, *args, colorValue:SIColors=None, logToSystemLogger:bool=True) -> None:
         """
         Logs a warning message with a log level of SILevel.Warning.
 
@@ -4283,11 +4309,15 @@ class SISession:
                 Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
+            logToSystemLogger (bool):
+                True to log the exception to the SystemLogger instance (if one was supplied);  
+                otherwise, False to not log the exception to the SystemLogger instance.  
+                Default is True.
 
         This method will also log a message to the system log if the `SystemLogger` property is set.
         """
         # is system logging enabled?  if so, then log the message there.
-        if (self._fSystemLogger != None):
+        if (self._fSystemLogger != None) and (logToSystemLogger):
             self._fSystemLogger.warning(title, *args)
 
         if (self.IsOn(SILevel.Warning)):

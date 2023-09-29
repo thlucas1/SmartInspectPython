@@ -20,7 +20,7 @@ from .sicolor import SIColor
 # constants are placed in this file if they are used across multiple files.
 # the only exception to this is for the VERSION constant, which is placed here for convenience.
 
-VERSION:str = "3.0.21"
+VERSION:str = "3.0.22"
 """ 
 Current version of the SmartInspect Python3 Library. 
 """
