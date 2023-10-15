@@ -46,6 +46,7 @@ __all__ = [
     'SILogEntryEventArgs',
     'SIProcessFlowEventArgs',
     'SISession',
+    'SISourceId',
     'SIWatchEventArgs',
     'SmartInspectException'
 ]
@@ -65,6 +66,7 @@ from .silevel import SILevel
 from .silogentryeventargs import SILogEntryEventArgs
 from .siprocessfloweventargs import SIProcessFlowEventArgs
 from .sisession import SISession
+from .sisourceid import SISourceId
 from .siutils import static_init
 from .siwatcheventargs import SIWatchEventArgs
 from .smartinspect import SmartInspect

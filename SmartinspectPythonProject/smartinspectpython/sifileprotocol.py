@@ -1,17 +1,3 @@
-"""
-Module: sifileprotocol.py
-
-<details>
-  <summary>Revision History</summary>
-
-| Date       | Version     | Description
-| ---------- | ----------- | ----------------------
-| 2023/09/27 | 3.0.21.0    | Updated documentation sample code and examples.
-| 2023/05/30 | 3.0.0.0     | Initial Version.  
-
-</details>
-"""
-
 from Crypto.Hash import MD5
 from Crypto.Cipher import AES
 from datetime import datetime

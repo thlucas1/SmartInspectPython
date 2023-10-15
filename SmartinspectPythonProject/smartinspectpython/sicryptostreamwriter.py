@@ -1,16 +1,3 @@
-"""
-Module: sicryptostreamwriter.py
-
-<details>
-  <summary>Revision History</summary>
-
-| Date       | Version     | Description
-| ---------- | ----------- | ----------------------
-| 2023/05/30 | 3.0.0.0     | Initial Version.  
-
-</details>
-"""
-
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
 from io import BytesIO, BufferedWriter

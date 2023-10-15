@@ -1,28 +1,3 @@
-"""
-Module: sisession.py
-
-<details>
-  <summary>Revision History</summary>
-
-| Date       | Version     | Description
-| ---------- | ----------- | ----------------------
-| 2023/09/29 | 3.0.22.0    | Set Logger.propagate = False so that our exception capture process does not forward the message on to other loggers.
-|            |             | Changed methods that support SystemLogger functionality to allow bypass of logging to the system logger.
-| 2023/09/27 | 3.0.21.0    | Added SystemLogger functionality to allow logging to system logs.
-| 2023/09/03 | 3.0.20.0    | Changed all Session.LogX method signatures to use the SIColors enum type, or an integer value in ARGB format.
-| 2023/07/11 | 3.0.16.0    | Changed Session.GetMethodName method to use inspect.stack(0) instead of inspect.stack() to improve performace.
-| 2023/06/28 | 3.0.14.0    | Changed Session class to use temporary logger to capture exception details in LogException method.
-| 2023/06/23 | 3.0.13.0    | Changed Session LogAssigned method to properly format the LogMessage title value.
-| 2023/06/17 | 3.0.12.0    | Changed Session EnterMethod, LeaveMethod to include source file.  
-|            |             | Added default title to LogAppDomain method.
-|            |             | Added exception handling in Session.LogSystem for user name value.  It was failing on Windows WSL systems, returning some sort of permissions error.
-| 2023/06/17 | 3.0.11.0    | Added *args support to Session class methods: LogDebug, LogVerbose, LogMessage, LogWarning, LogException, and LogFatal methods.
-| 2023/06/15 | 3.0.9.0     | Changed the Session.CurrentMethodName, CurrentMethodNameClass, and CurrentMethodNameClassNamespace properties to static methods.
-| 2023/05/30 | 3.0.0.0     | Initial Version.  
-
-</details>
-"""
-
 # external package imports.
 from array import array
 from datetime import datetime

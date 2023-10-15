@@ -1,18 +1,3 @@
-"""
-Module: sitcpprotocol.py
-
-<details>
-  <summary>Revision History</summary>
-
-| Date       | Version     | Description
-| ---------- | ----------- | ----------------------
-| 2023/09/27 | 3.0.21.0    | Updated documentation sample code and examples.
-| 2023/06/09 | 3.0.8.0     | Added call to RaiseInfoEvent for the SI Console Server banner.
-| 2023/05/30 | 3.0.0.0     | Initial Version.  
-
-</details>
-"""
-
 # external package imports.
 from io import BufferedRWPair, BytesIO
 import socket

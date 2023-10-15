@@ -1,17 +1,3 @@
-"""
-Module: siprotocol.py
-
-<details>
-  <summary>Revision History</summary>
-
-| Date       | Version     | Description
-| ---------- | ----------- | ----------------------
-| 2023/05/30 | 3.0.0.0     | Initial Version.  
-| 2023/06/09 | 3.0.8.0     | Added InfoEvent event and RaiseInfoEvent method to convey SI informational events to interested parties.
-
-</details>
-"""
-
 # external package imports.
 import _threading_local
 from datetime import datetime, timedelta 

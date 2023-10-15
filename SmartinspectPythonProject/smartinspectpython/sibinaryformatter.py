@@ -1,16 +1,3 @@
-"""
-Module: sibinaryformatter.py
-
-<details>
-  <summary>Revision History</summary>
-
-| Date       | Version     | Description
-| ---------- | ----------- | ----------------------
-| 2023/05/30 | 3.0.0.0     | Initial Version.  
-
-</details>
-"""
-
 # system imports.
 from datetime import datetime
 from io import BytesIO

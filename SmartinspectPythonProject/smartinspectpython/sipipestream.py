@@ -1,16 +1,3 @@
-"""
-Module: sipipestream.py
-
-<details>
-  <summary>Revision History</summary>
-
-| Date       | Version     | Description
-| ---------- | ----------- | ----------------------
-| 2023/05/30 | 3.0.0.0     | Initial Version.  
-
-</details>
-"""
-
 # conditional import of the "pywin32" module.  this module utilizes
 # the pywin32 module (for Win32 API calls), which is not defined on other systems!
 # we only want to include this module if running on Windows.

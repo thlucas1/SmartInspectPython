@@ -1,16 +1,3 @@
-"""
-Module: siinfoeventargs.py
-
-<details>
-  <summary>Revision History</summary>
-
-| Date       | Version     | Description
-| ---------- | ----------- | ----------------------
-| 2023/05/30 | 3.0.0.0     | Initial Version.  
-
-</details>
-"""
-
 # our package constants.
 from .siconst import (
     UNKNOWN_VALUE

@@ -35,12 +35,12 @@ class TestSessionMethods:
 
     # TestAllMethods method message count values for each log level type.
     TestAllMethods_LogEntryCounts = {}
-    TestAllMethods_LogEntryCounts[str(SILevel.Debug.name)] = 972
-    TestAllMethods_LogEntryCounts[str(SILevel.Verbose.name)] = 758
-    TestAllMethods_LogEntryCounts[str(SILevel.Message.name)] = 647
-    TestAllMethods_LogEntryCounts[str(SILevel.Warning.name)] = 530
-    TestAllMethods_LogEntryCounts[str(SILevel.Error.name)] = 421
-    TestAllMethods_LogEntryCounts[str(SILevel.Fatal.name)] = 308
+    TestAllMethods_LogEntryCounts[str(SILevel.Debug.name)] = 979
+    TestAllMethods_LogEntryCounts[str(SILevel.Verbose.name)] = 764
+    TestAllMethods_LogEntryCounts[str(SILevel.Message.name)] = 652
+    TestAllMethods_LogEntryCounts[str(SILevel.Warning.name)] = 534
+    TestAllMethods_LogEntryCounts[str(SILevel.Error.name)] = 424
+    TestAllMethods_LogEntryCounts[str(SILevel.Fatal.name)] = 309
 
     @staticmethod
     def TestAllMethods(logsi:SISession) -> None:

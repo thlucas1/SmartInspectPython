@@ -1,18 +1,3 @@
-"""
-Module: siconfigurationtimer.py
-
-<details>
-  <summary>Revision History</summary>
-
-| Date       | Version     | Description
-| ---------- | ----------- | ----------------------
-| 2023/09/27 | 3.0.21.0    | Updated documentation sample code and examples.
-| 2023/06/09 | 3.0.8.0     | Added call to RaiseInfoEvent for when a configuration settings file is changed and reloaded.
-| 2023/05/30 | 3.0.0.0     | Initial Version.  
-
-</details>
-"""
-
 import _threading_local
 from ctypes import ArgumentError
 from datetime import datetime, timedelta
