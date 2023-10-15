@@ -23,7 +23,7 @@
             {% if submodule == "__init__" %}
                 <span class="modulename">Module Overview</span>
             {% else %}
-                {{ submodule.split('.')[1] }}
+                {{ submodule.split('.',1)[1] }}
             {% endif %}
             </a></li>
         {% endfor %}

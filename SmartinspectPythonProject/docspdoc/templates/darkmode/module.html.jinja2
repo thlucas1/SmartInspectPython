@@ -21,12 +21,9 @@
     <!-- build env - Package Version = "{{ env["BUILDENV_PACKAGEVERSION"] }}" -->
     <!-- pdoc module.modulename = "{{ module.modulename }}" -->
     <!-- pdoc module.is_package = "{{ module.is_package }}" -->
-    <!-- pdoc root_module_name = "{{ root_module_name }}" -->
-    {% if module.modulename == "__init__" %}
-        <script type="text/javascript" src="codecopy.js"></script>
-    {% else %}
-        <script type="text/javascript" src="../codecopy.js"></script>
-    {% endif %}
+    <!-- pdoc root_module_name  = "{{ root_module_name }}" -->
+    <!-- pdoc namespace levels  =  "{{ module.modulename.count('.') }}" -->
+    <script type="text/javascript" src="{{ "../" * module.modulename.count('.') }}codecopy.js"></script>
 {% endblock %}
 
 
@@ -45,7 +42,7 @@ For example, if the `--favicon` option does not do what you want, you can specif
         {{ env["BUILDENV_PACKAGENAME"] | default("") }}</br>
         Version {{ env["BUILDENV_PACKAGEVERSION"] | default("0.0.0") }}</br>
         <a href="{{ env["BUILDENV_PDOC_BRAND_ICON_URL"] }}" target="_blank">
-          <img src="{{ env["BUILDENV_PDOC_BRAND_ICON_URL_SRC"] }}" alt="brand icon"/>
+          <img src="{{ "../" * module.modulename.count('.') + env["BUILDENV_PDOC_BRAND_ICON_URL_SRC"] }}" alt="brand icon"/>
           {{ env["BUILDENV_PDOC_BRAND_ICON_URL_TITLE"] }}
         </a>
         {% if footer_text %}

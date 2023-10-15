@@ -1072,10 +1072,10 @@ class SISession:
             includeSourcePos (bool):
                 True to append the module name and source line # to the method name; 
                 otherwise False (default) to return only the method name.
-            includeNameSpace
+            includeNameSpace (bool):
                 True to prefix the returned method name with the name-space identifier; otherwise False to
                 not return the name-space identifier.
-            includeClassName
+            includeClassName (bool):
                 True to prefix the returned method name with the class name; otherwise False to
                 not return the class name.
         

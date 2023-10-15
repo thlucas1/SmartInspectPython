@@ -22,15 +22,14 @@ echo - BUILDENV_PDOC_BRAND_ICON_URL_TITLE = %BUILDENV_PDOC_BRAND_ICON_URL_TITLE%
 
 
 echo Cleaning up the PDoc Documentation output folder.
-del /Q .\build\smartinspectpython\*.*
-del /Q .\build\*.*
+del /S /Q .\build\smartinspectpython\*.*
+del /S /Q .\build\*.*
 
 
 echo Copying include files to PDoc output folder.
 mkdir .\build\smartinspectpython
 copy .\include\*.js .\build
 copy .\include\*.ico .\build
-copy .\include\*.ico .\build\smartinspectpython
 
 
 echo Changing working directory to package source folder.

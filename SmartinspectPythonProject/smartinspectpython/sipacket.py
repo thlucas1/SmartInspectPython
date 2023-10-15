@@ -11,10 +11,10 @@ Module: sipacket.py
 </details>
 """
 
+from ctypes import c_int32
 import os
 import _thread
 import _threading_local
-
 
 # our package imports.
 from .silevel import SILevel
@@ -217,7 +217,22 @@ class SIPacket:
         threadId:int = 0
 
         try:
+            # get current thread id.
             threadId = _thread.get_ident()
+            
+            # check the returned value for a 32-byte structure, which is the maximum size that
+            # can be sent to the console viewer for a thread id.  if larger than 32-bits, then
+            # we will truncate the value to 32-bits (rather than just reporting zero).
+            # yes, the value will be incorrect (technically), but at least it will be something 
+            # that the user can use to determine that the thread id is different in the console.
+            if (threadId >= -2147483647) and (threadId <= 2147483648):  # max int range
+                pass                                                    # 32-bit value
+            elif (threadId >= 0) and (threadId <= 4294967295):          # max uint range
+                pass                                                    # 32-bit value
+            else:
+                # trim the value to 32-bits.
+                threadId = c_int32(threadId).value
+
         except:
             threadId = 0
 
@@ -240,7 +255,21 @@ class SIPacket:
         processId:int = 0
 
         try:
+            # get current process id.
             processId = os.getpid()
+
+            # check the returned value for a 32-byte structure, which is the maximum size that
+            # can be sent to the console viewer for a process id.  if larger than 32-bits, then
+            # we will truncate the value to 32-bits (rather than just reporting zero).
+            # yes, the value will be incorrect (technically), but at least it will be something 
+            # that the user can use to determine that the process id is different in the console.
+            if (processId >= -2147483647) and (processId <= 2147483648):  # max int range
+                pass                                                    # 32-bit value
+            elif (processId >= 0) and (processId <= 4294967295):          # max uint range
+                pass                                                    # 32-bit value
+            else:
+                # trim the value to 32-bits.
+                processId = c_int32(processId).value
         except:
             processId = 0
 
