@@ -7,6 +7,10 @@ Change are listed in reverse chronological order (newest to oldest).
 
 <span class="changelog">
 
+###### [ 3.0.24 ] - 2023/10/18
+
+  * Changed various SISession methods to not log internal errors if an object to be logged was null.  Prior to this fix, the console viewer would only display a "LogX: X argument is null" message and drop the title text completely.  This fix will allow the title text to be logged, as well as indicate to the user that the supplied object to log was null.  Methods changed were: LogDictionary, LogEnunmerable, LogBool, LogByte, LogChar, LogComplex, LogDateTime, LogFloat, LogInt, LogObject, LogObjectValue, LogSqliteDbSchemaCursor, LogString, LogThread.
+
 ###### [ 3.0.23 ] - 2023/10/15
 
   * Changed SIPacket methods GetThreadId and GetProcessId to verify the returned size of their values do not exceed 32-bits.  Prior to this fix, the console viewer would report a value of zero if the values exceeded 32-bits in length.  Python frequently returns thread id's larger than 32-bits on most operating systems.  Although the value is incorrect, it is better than a zero value.  The only way to truly fix this is to expand the thread id and process id sizes in the console viewer; until then, this is the best we can do.

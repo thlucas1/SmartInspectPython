@@ -1426,11 +1426,10 @@ class SISession:
         if (self.IsOn(level)):
 
             # validations.
-            if (name == None):
-                self.LogInternalError("LogAssigned: name argument is null.")
-                return
+            if (name is None):
+                name = "<null name>"
 
-            # not sure why SI authors chose to use "Logmessage" here, since a "level" was 
+            # not sure why SI authors chose to use "LogMessage" here, since a "level" was 
             # passed and an "IsOn(level)" check is performed.
             # this will only log a message if the level is Message or less!
 
@@ -1604,9 +1603,8 @@ class SISession:
         if (self.IsOn(level)):
 
             # validations.
-            if (name == None):
-                self.LogInternalError("LogBool: name argument is null.")
-                return
+            if (name is None):
+                name = "<null name>"
 
             try:
 
@@ -1651,9 +1649,8 @@ class SISession:
         if (self.IsOn(level)):
 
             # validations.
-            if (name == None):
-                self.LogInternalError("LogByte: name argument is null.")
-                return
+            if (name is None):
+                name = "<null name>"
 
             try:
 
@@ -1695,9 +1692,8 @@ class SISession:
         if (self.IsOn(level)):
 
             # validations.
-            if (name == None):
-                self.LogInternalError("LogChar: name argument is null.")
-                return
+            if (name is None):
+                name = "<null name>"
 
             try:
 
@@ -1780,9 +1776,8 @@ class SISession:
         if (self.IsOn(level)):
 
             # validations.
-            if (name == None):
-                self.LogInternalError("LogComplex: name argument is null.")
-                return
+            if (name is None):
+                name = "<null name>"
 
             try:
 
@@ -2151,9 +2146,8 @@ class SISession:
         if (self.IsOn(level)):
 
             # validations.
-            if (name == None):
-                self.LogInternalError("LogDateTime: name argument is null.")
-                return
+            if (name is None):
+                name = "<null name>"
 
             try:
 
@@ -2224,30 +2218,34 @@ class SISession:
         """
         if (self.IsOn(level)):
 
-            if (oDict == None):
-                self.LogInternalError("LogDictionary: oDict argument is null.")
-                return
-
             ctx:SIValueListViewerContext = SIValueListViewerContext()
 
             try:
             
-                # add all keys and values to the context viewer.
-                for key in oDict.keys():
+                # was an object to log supplied?
+                if (oDict is None):
+                    
+                    # no - just append a line to the context viewer.
+                    ctx.AppendLine("<The oDict argument was null>")
 
-                    val:object = oDict[key]
+                else:
+                    
+                    # add all keys and values to the context viewer.
+                    for key in oDict.keys():
 
-                    if (key == oDict):
-                        strKey = "<cycle>"
-                    else:
-                        strKey = SIObjectRenderer.RenderObject(key)
+                        val:object = oDict[key]
 
-                    if (val == oDict):
-                        strVal = "<cycle>"
-                    else:
-                        strVal = SIObjectRenderer.RenderObject(val)
+                        if (key == oDict):
+                            strKey = "<cycle>"
+                        else:
+                            strKey = SIObjectRenderer.RenderObject(key)
 
-                    ctx.AppendKeyValue(strKey, strVal)
+                        if (val == oDict):
+                            strVal = "<cycle>"
+                        else:
+                            strVal = SIObjectRenderer.RenderObject(val)
+
+                        ctx.AppendKeyValue(strKey, strVal)
 
                 # send the packet.
                 self._SendContext(level, title, SILogEntryType.Text, ctx, colorValue)
@@ -2278,21 +2276,25 @@ class SISession:
         """
         if (self.IsOn(level)):
 
-            if (oList == None):
-                self.LogInternalError("LogEnumerable: oList argument is null.")
-                return
-
             ctx:SIListViewerContext = SIListViewerContext()
 
             try:
             
-                # add all items to the context viewer.
-                for item in oList:
+                # was an object to log supplied?
+                if (oList is None):
+                    
+                    # no - just append a line to the context viewer.
+                    ctx.AppendLine("<The oList argument was null>")
 
-                    if (item == oList):
-                        ctx.AppendLine("<cycle>")
-                    else:
-                        ctx.AppendLine(SIObjectRenderer.RenderObject(item))
+                else:
+                    
+                    # add all items to the context viewer.
+                    for item in oList:
+
+                        if (item == oList):
+                            ctx.AppendLine("<cycle>")
+                        else:
+                            ctx.AppendLine(SIObjectRenderer.RenderObject(item))
 
                 # send the packet.
                 self._SendContext(level, title, SILogEntryType.Text, ctx, colorValue)
@@ -2489,9 +2491,8 @@ class SISession:
         if (self.IsOn(level)):
 
             # validations.
-            if (name == None):
-                self.LogInternalError("LogFloat: name argument is null.")
-                return
+            if (name is None):
+                name = "<null name>"
 
             try:
 
@@ -2663,9 +2664,8 @@ class SISession:
         if (self.IsOn(level)):
 
             # validations.
-            if (name == None):
-                self.LogInternalError("LogInt: name argument is null.")
-                return
+            if (name is None):
+                name = "<null name>"
 
             try:
 
@@ -2866,108 +2866,113 @@ class SISession:
         if (not self.IsOn(level)):
             return
 
-        if (instance == None):
-            self.LogInternalError("LogObject: instance argument is null.")
-            return
-
         try:
 
             ctx:SIInspectorViewerContext = SIInspectorViewerContext()
-            instanceType = type(instance)
-            iList:list[str] = []
-
-            # Example of inspect.getmembers(instance, None) output:
-            # - PropertyBool : True
-            # - PropertyString : 'This is a string property value'
-            # - PublicEvent : <bound method InstanceGetMembersTestClass.PublicEvent of <__main__.InstanceGetMembersTestClass object at 0x0000026B84569AC0>>
-            # - PublicFunctionString : <bound method InstanceGetMembersTestClass.PublicFunctionString of <__main__.InstanceGetMembersTestClass object at 0x0000026B84569AC0>>
-            # - PublicMethod : <bound method InstanceGetMembersTestClass.PublicMethod of <__main__.InstanceGetMembersTestClass object at 0x0000026B84569AC0>>
-            # - PublicStaticFunction : <function InstanceGetMembersTestClass.PublicStaticFunction at 0x0000026B859F1EE0>
-            # - PublicStaticMethod : <function InstanceGetMembersTestClass.PublicStaticMethod at 0x0000026B859F1E50>
-            # - STATIC_VAR_BOOL : True
-            # - STATIC_VAR_INT : 69
-            # - STATIC_VAR_STRING : 'Static String'
-            # - _InstanceGetMembersTestClass__fPropertyBool : True
-            # - _InstanceGetMembersTestClass__fPropertyBoolDynamic : True
-            # - _InstanceGetMembersTestClass__fPropertyString : 'This is a string property value'
-            # - _InstanceGetMembersTestClass__fPropertyStringDynamic : 'This is a INTERNAL string property value'
-
-            # --------------------------------------------------------------------------------------------------
-            # get all members of the instance and add field types to the context viewer.
-            # --------------------------------------------------------------------------------------------------
-            members = inspect.getmembers(instance, None)
-            self._LogObjectBuildContext("Fields", instance, members, ctx, excludeNonPublic, excludeBuiltIn, True, True)
-
-            # --------------------------------------------------------------------------------------------------
-            # get all properties decorated with "@property" attribute.
-            # --------------------------------------------------------------------------------------------------
-            members = inspect.getmembers(type(instance), lambda o: isinstance(o, property)) 
-
-            # add member data to context viewer.
-            for name, data in members:
-
-                sb:str = ""
-
-                try:
-
-                    # map the property object.
-                    propobj:property = data
-
-                    # try to determine if this is a "private" property.  if the "fget()"
-                    # method of the property definition contains a "._" value then it usually
-                    # indicates a "private" property. 
-                    # Example fget, private property: '<function SISession._IsStored at 0x000001FCEDE96550>'
-                    # Example fget, public  property: '<function SISession.Active at 0x000001FCEDE75650>'
-
-                    propobjfgetdef = str(propobj.fget)
-                    if (propobjfgetdef != None):
-                        if (propobjfgetdef.find("._") != -1):
-                            if (excludeNonPublic):
-                                continue
             
-                    sb += ctx.EscapeItem(name)
-                    sb += "="
-                    sb += ctx.EscapeItem(SIObjectRenderer.RenderObject(propobj.fget(instance)))
+            # was an object to log supplied?
+            if (instance is None):
+                    
+                # no - just append a line to the context viewer.
+                ctx.StartGroup("<The instance argument was null>")
+
+            else:
+                    
+                #instanceType = type(instance)
+                iList:list[str] = []
+
+                # Example of inspect.getmembers(instance, None) output:
+                # - PropertyBool : True
+                # - PropertyString : 'This is a string property value'
+                # - PublicEvent : <bound method InstanceGetMembersTestClass.PublicEvent of <__main__.InstanceGetMembersTestClass object at 0x0000026B84569AC0>>
+                # - PublicFunctionString : <bound method InstanceGetMembersTestClass.PublicFunctionString of <__main__.InstanceGetMembersTestClass object at 0x0000026B84569AC0>>
+                # - PublicMethod : <bound method InstanceGetMembersTestClass.PublicMethod of <__main__.InstanceGetMembersTestClass object at 0x0000026B84569AC0>>
+                # - PublicStaticFunction : <function InstanceGetMembersTestClass.PublicStaticFunction at 0x0000026B859F1EE0>
+                # - PublicStaticMethod : <function InstanceGetMembersTestClass.PublicStaticMethod at 0x0000026B859F1E50>
+                # - STATIC_VAR_BOOL : True
+                # - STATIC_VAR_INT : 69
+                # - STATIC_VAR_STRING : 'Static String'
+                # - _InstanceGetMembersTestClass__fPropertyBool : True
+                # - _InstanceGetMembersTestClass__fPropertyBoolDynamic : True
+                # - _InstanceGetMembersTestClass__fPropertyString : 'This is a string property value'
+                # - _InstanceGetMembersTestClass__fPropertyStringDynamic : 'This is a INTERNAL string property value'
+
+                # --------------------------------------------------------------------------------------------------
+                # get all members of the instance and add field types to the context viewer.
+                # --------------------------------------------------------------------------------------------------
+                members = inspect.getmembers(instance, None)
+                self._LogObjectBuildContext("Fields", instance, members, ctx, excludeNonPublic, excludeBuiltIn, True, True)
+
+                # --------------------------------------------------------------------------------------------------
+                # get all properties decorated with "@property" attribute.
+                # --------------------------------------------------------------------------------------------------
+                members = inspect.getmembers(type(instance), lambda o: isinstance(o, property)) 
+
+                # add member data to context viewer.
+                for name, data in members:
+
+                    sb:str = ""
+
+                    try:
+
+                        # map the property object.
+                        propobj:property = data
+
+                        # try to determine if this is a "private" property.  if the "fget()"
+                        # method of the property definition contains a "._" value then it usually
+                        # indicates a "private" property. 
+                        # Example fget, private property: '<function SISession._IsStored at 0x000001FCEDE96550>'
+                        # Example fget, public  property: '<function SISession.Active at 0x000001FCEDE75650>'
+
+                        propobjfgetdef = str(propobj.fget)
+                        if (propobjfgetdef != None):
+                            if (propobjfgetdef.find("._") != -1):
+                                if (excludeNonPublic):
+                                    continue
             
-                except Exception as ex:
+                        sb += ctx.EscapeItem(name)
+                        sb += "="
+                        sb += ctx.EscapeItem(SIObjectRenderer.RenderObject(propobj.fget(instance)))
             
-                    sb += "<not accessible>"
+                    except Exception as ex:
+            
+                        sb += "<not accessible>"
 
-                # add context entry to the list.
-                iList.append(sb)
-                sb = ""
+                    # add context entry to the list.
+                    iList.append(sb)
+                    sb = ""
 
-            # sort context items - the member name is the first thing displayed
-            # in the item, so the list is sorted by member name.
-            # note that in Python, UPPER-case items are sorted above lower-case items,
-            # so we use the "key=str.lower) syntax to force the case-insensitive sort.
-            iList.sort(key=str.lower)
+                # sort context items - the member name is the first thing displayed
+                # in the item, so the list is sorted by member name.
+                # note that in Python, UPPER-case items are sorted above lower-case items,
+                # so we use the "key=str.lower) syntax to force the case-insensitive sort.
+                iList.sort(key=str.lower)
 
-            # begin a new group and append the list to the inspector context.
-            ctx.StartGroup("Properties")
-            for line in iList:
-                ctx.AppendLine(str(line))
+                # begin a new group and append the list to the inspector context.
+                ctx.StartGroup("Properties")
+                for line in iList:
+                    ctx.AppendLine(str(line))
 
-            iList.clear()
+                iList.clear()
 
-            # --------------------------------------------------------------------------------------------------
-            # get everything else about the instance.
-            # --------------------------------------------------------------------------------------------------
+                # --------------------------------------------------------------------------------------------------
+                # get everything else about the instance.
+                # --------------------------------------------------------------------------------------------------
 
-            # are we including routines, functions, and methods?
-            if (not excludeFunctions):
+                # are we including routines, functions, and methods?
+                if (not excludeFunctions):
 
-                # get routine members (e.g. non-static methods) of the instance and add field types to the context viewer.
-                members = inspect.getmembers(instance, predicate=inspect.isroutine)
-                self._LogObjectBuildContext("Routines", instance, members, ctx, excludeNonPublic, excludeBuiltIn, False)
+                    # get routine members (e.g. non-static methods) of the instance and add field types to the context viewer.
+                    members = inspect.getmembers(instance, predicate=inspect.isroutine)
+                    self._LogObjectBuildContext("Routines", instance, members, ctx, excludeNonPublic, excludeBuiltIn, False)
 
-                # get function members (e.g. static methods) of the instance and add field types to the context viewer.
-                members = inspect.getmembers(instance, predicate=inspect.isfunction)
-                self._LogObjectBuildContext("Functions", instance, members, ctx, excludeNonPublic, excludeBuiltIn, False)
+                    # get function members (e.g. static methods) of the instance and add field types to the context viewer.
+                    members = inspect.getmembers(instance, predicate=inspect.isfunction)
+                    self._LogObjectBuildContext("Functions", instance, members, ctx, excludeNonPublic, excludeBuiltIn, False)
 
-                # get method members (e.g. non-static methods) of the instance and add field types to the context viewer.
-                members = inspect.getmembers(instance, predicate=inspect.ismethod)
-                self._LogObjectBuildContext("Methods", instance, members, ctx, excludeNonPublic, excludeBuiltIn, False)
+                    # get method members (e.g. non-static methods) of the instance and add field types to the context viewer.
+                    members = inspect.getmembers(instance, predicate=inspect.ismethod)
+                    self._LogObjectBuildContext("Methods", instance, members, ctx, excludeNonPublic, excludeBuiltIn, False)
 
             # send the packet.
             self._SendContext(level, title, SILogEntryType.Object, ctx, colorValue);
@@ -3000,9 +3005,8 @@ class SISession:
         if (self.IsOn(level)):
 
             # validations.
-            if (name == None):
-                self.LogInternalError("LogObject: name argument is null.")
-                return
+            if (name is None):
+                name = "<null name>"
 
             try:
 
@@ -3345,38 +3349,46 @@ class SISession:
         if (not self.IsOn(level)):
             return
 
-        if (cursor == None):
-            self.LogInternalError("LogSqliteCursorSchema: cursor argument is null.")
-            return
-
-        # default title if one was not supplied.
-        if (title == None) or (len(title) == 0):
-            title = "Sqlite Cursor Schema"
-
-        # sqllite cursor description is a list (7 items) containing the description of columns.
-        # as of this writing, only the first (of 7) list items is populated, which is the column name.
-        columns:list[(str,None,None,None,None,None,None)] = cursor.description
-        if (columns == None):
-            self.LogInternalError("LogSqliteCursorSchema: table is empty.");
-            return;
-
         ctx:SITableViewerContext = SITableViewerContext()
 
         try:
         
-            # write the header first.
-            ctx.AppendHeader("\"Column Name\"")
+            # default title if one was not supplied.
+            if (title == None) or (len(title) == 0):
+                title = "Sqlite Cursor Schema"
 
-            # write the columns.
-            for column in columns:
-
-                # map the column schema.
-                sColName:str = str(column[0])
-
-                # add column info to the context view.
+            # was an object to log supplied?
+            if (cursor is None):
+                    
+                # no - just append a line to the context viewer.
                 ctx.BeginRow()
-                ctx.AddRowEntry(sColName)
+                ctx.AddRowEntry("<The cursor argument was null>")
                 ctx.EndRow()
+
+            else:
+
+                # sqllite cursor description is a list (7 items) containing the description of columns.
+                # as of this writing, only the first (of 7) list items is populated, which is the column name.
+                columns:list[(str,None,None,None,None,None,None)] = cursor.description
+                if (columns is None):
+                    ctx.BeginRow()
+                    ctx.AddRowEntry("<The cursor table is empty>")
+                    ctx.EndRow()
+                else:
+
+                    # write the header first.
+                    ctx.AppendHeader("\"Column Name\"")
+
+                    # write the columns.
+                    for column in columns:
+
+                        # map the column schema.
+                        sColName:str = str(column[0])
+
+                        # add column info to the context view.
+                        ctx.BeginRow()
+                        ctx.AddRowEntry(sColName)
+                        ctx.EndRow()
 
             # send the packet.
             self._SendContext(level, title, SILogEntryType.DatabaseStructure, ctx, colorValue)
@@ -3970,9 +3982,8 @@ class SISession:
         if (self.IsOn(level)):
 
             # validations.
-            if (name == None):
-                self.LogInternalError("LogString: name argument is null.")
-                return
+            if (name is None):
+                name = "<null name>"
 
             try:
 
@@ -4158,28 +4169,32 @@ class SISession:
         """
         if (self.IsOn(level)):
 
-            if (thread == None):
-                self.LogInternalError("LogThread: thread argument is null.")
-                return
-
-            # set default title if one was not supplied.
-            if ((title == None) or (len(title) == 0)):
-                title = self._GetThreadTitle(thread, None)
-
             ctx:SIValueListViewerContext = SIValueListViewerContext()
         
             try:
-
-                # gather information about the thread.           
-                ctx.AppendKeyValue("Thread Name", thread.name)
-                ctx.AppendKeyValue("Is Alive?", str(thread.is_alive()))
-
-                if (thread.is_alive):
                 
-                    #ctx.AppendKeyValue("Priority", thread. .Priority.ToString())
-                    ctx.AppendKeyValue("ID", str(thread.ident))
-                    ctx.AppendKeyValue("Native ID", str(thread.native_id))
-                    ctx.AppendKeyValue("Is Daemon?", str(thread.isDaemon()))
+                # was an object to log supplied?
+                if (thread is None):
+                    
+                    # no - just append a line to the context viewer.
+                    ctx.AppendLine("<The thread argument was null>")
+
+                else:
+                    
+                    # set default title if one was not supplied.
+                    if ((title == None) or (len(title) == 0)):
+                        title = self._GetThreadTitle(thread, None)
+
+                    # gather information about the thread.           
+                    ctx.AppendKeyValue("Thread Name", thread.name)
+                    ctx.AppendKeyValue("Is Alive?", str(thread.is_alive()))
+
+                    if (thread.is_alive):
+                
+                        #ctx.AppendKeyValue("Priority", thread. .Priority.ToString())
+                        ctx.AppendKeyValue("ID", str(thread.ident))
+                        ctx.AppendKeyValue("Native ID", str(thread.native_id))
+                        ctx.AppendKeyValue("Is Daemon?", str(thread.isDaemon()))
 
                 # send the packet.
                 self._SendContext(level, title, SILogEntryType.Text, ctx, colorValue)

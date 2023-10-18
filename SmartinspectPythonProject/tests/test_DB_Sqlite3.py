@@ -61,6 +61,7 @@ _logsi.LogSqliteDbSchemaTableInfo(None, "LogSqliteDBTableSchema sorted by Column
 _logsi.LogObject(None,"Cursor Object", cursor)
 _logsi.LogSqliteDbSchemaCursor(None, None, cursor)
 _logsi.LogSqliteDbSchemaCursor(None, "LogSqliteCursorSchema Title", cursor)
+_logsi.LogSqliteDbSchemaCursor(None, "LogSqliteCursorSchema Title (empty cursor)", None)
 
 # close db connection.
 conn.close()
