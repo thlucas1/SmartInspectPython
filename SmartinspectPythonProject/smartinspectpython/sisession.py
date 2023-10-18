@@ -696,29 +696,30 @@ class SISession:
         can use the ResetCheckpoint method to reset the counter to 0
         again. 
         """
-        if (self.IsOn(level)):
-
-            # validations.
-            if (name == None):
-                name = "Checkpoint"
+        if (not self.IsOn(level)):
+            return
         
-            try:
+        # validations.
+        if (name == None):
+            name = "Checkpoint"
+        
+        try:
 
-                # update checkpoint value.                
-                value:int = self._UpdateCheckpoint(name, True)
+            # update checkpoint value.                
+            value:int = self._UpdateCheckpoint(name, True)
 
-                # format checkpoint message details.
-                subtitle:str = ""
-                if (details != None):
-                    subtitle = str.format(" ({0})", details)
-                title:str = str.format("{0} #{1}{2}", name, str(value), subtitle)
+            # format checkpoint message details.
+            subtitle:str = ""
+            if (details != None):
+                subtitle = str.format(" ({0})", details)
+            title:str = str.format("{0} #{1}{2}", name, str(value), subtitle)
 
-                # send log entry packet.
-                self._SendLogEntry(level, title, SILogEntryType.Checkpoint, SIViewerId.Title, colorValue)
+            # send log entry packet.
+            self._SendLogEntry(level, title, SILogEntryType.Checkpoint, SIViewerId.Title, colorValue)
 
-            except Exception as ex:
+        except Exception as ex:
                 
-                self.LogInternalError("AddCheckpoint: " + str(ex))
+            self.LogInternalError("AddCheckpoint: " + str(ex))
 
 
     def ClearAll(self, level:SILevel=None) -> None:
@@ -733,16 +734,17 @@ class SISession:
         Watches, Log Entries, Process Flow entries and AutoViews
         will be deleted.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            try:
+        try:
                 
-                # send control command.
-                self._SendControlCommand(SIControlCommandType.ClearAll, None)
+            # send control command.
+            self._SendControlCommand(SIControlCommandType.ClearAll, None)
 
-            except Exception as ex:
+        except Exception as ex:
                 
-                self.LogInternalError("ClearAll: " + str(ex))
+            self.LogInternalError("ClearAll: " + str(ex))
 
 
     def ClearAutoViews(self, level:SILevel=None) -> None:
@@ -753,16 +755,17 @@ class SISession:
             level (SILevel):
                 The log level of this method call.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            try:
+        try:
                 
-                # send control command.
-                self._SendControlCommand(SIControlCommandType.ClearAutoViews, None)
+            # send control command.
+            self._SendControlCommand(SIControlCommandType.ClearAutoViews, None)
 
-            except Exception as ex:
+        except Exception as ex:
                 
-                self.LogInternalError("ClearAutoViews: " + str(ex))
+            self.LogInternalError("ClearAutoViews: " + str(ex))
 
 
     def ClearLog(self, level:SILevel=None) -> None:
@@ -773,16 +776,17 @@ class SISession:
             level (SILevel):
                 The log level of this method call.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            try:
+        try:
                 
-                # send control command.
-                self._SendControlCommand(SIControlCommandType.ClearLog, None)
+            # send control command.
+            self._SendControlCommand(SIControlCommandType.ClearLog, None)
 
-            except Exception as ex:
+        except Exception as ex:
                 
-                self.LogInternalError("ClearLog: " + str(ex))
+            self.LogInternalError("ClearLog: " + str(ex))
 
 
     def ClearProcessFlow(self, level:SILevel=None) -> None:
@@ -793,16 +797,17 @@ class SISession:
             level (SILevel):
                 The log level of this method call.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            try:
+        try:
                 
-                # send control command.
-                self._SendControlCommand(SIControlCommandType.ClearProcessFlow, None)
+            # send control command.
+            self._SendControlCommand(SIControlCommandType.ClearProcessFlow, None)
 
-            except Exception as ex:
+        except Exception as ex:
                 
-                self.LogInternalError("ClearProcessFlow: " + str(ex))
+            self.LogInternalError("ClearProcessFlow: " + str(ex))
 
 
     def ClearWatches(self, level:SILevel=None) -> None:
@@ -813,16 +818,17 @@ class SISession:
             level (SILevel):
                 The log level of this method call.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            try:
+        try:
                 
-                # send control command.
-                self._SendControlCommand(SIControlCommandType.ClearWatches, None)
+            # send control command.
+            self._SendControlCommand(SIControlCommandType.ClearWatches, None)
 
-            except Exception as ex:
+        except Exception as ex:
                 
-                self.LogInternalError("ClearWatches: " + str(ex))
+            self.LogInternalError("ClearWatches: " + str(ex))
 
 
     @staticmethod
@@ -901,22 +907,23 @@ class SISession:
         See IncCounter for a method which increments the value of a
         named counter instead of decrementing it.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            # validations.
-            if (name == None):
-                self.LogInternalError("DecCounter: name argument is null.")
-                return
+        # validations.
+        if (name == None):
+            self.LogInternalError("DecCounter: name argument is null.")
+            return
         
-            try:
+        try:
                 
-                # send watch packet.
-                value:int = self._UpdateCounter(name, False)
-                self._SendWatch(level, name, str(value), SIWatchType.Integer)
+            # send watch packet.
+            value:int = self._UpdateCounter(name, False)
+            self._SendWatch(level, name, str(value), SIWatchType.Integer)
 
-            except Exception as ex:
+        except Exception as ex:
                 
-                self.LogInternalError("DecCounter: " + str(ex))
+            self.LogInternalError("DecCounter: " + str(ex))
 
 
     def EnterMethod(self, level:SILevel=None, methodName:str=None) -> None:
@@ -948,21 +955,22 @@ class SISession:
         parameter is set to None (default).  Otherwise, the specified level
         is utilized.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            # if method name was not specified then get it from the stack frame.
-            if (methodName is None):
-                methodName = SISession.GetMethodName(1, True)  # start=1 excludes our EnterMethod
+        # if method name was not specified then get it from the stack frame.
+        if (methodName is None):
+            methodName = SISession.GetMethodName(1, True)  # start=1 excludes our EnterMethod
         
-            try:
+        try:
                 
-                # send two packets: one log entry, and one process flow entry.
-                self._SendLogEntry(level, methodName, SILogEntryType.EnterMethod, SIViewerId.Title)
-                self._SendProcessFlow(level, methodName, SIProcessFlowType.EnterMethod)
+            # send two packets: one log entry, and one process flow entry.
+            self._SendLogEntry(level, methodName, SILogEntryType.EnterMethod, SIViewerId.Title)
+            self._SendProcessFlow(level, methodName, SIProcessFlowType.EnterMethod)
 
-            except Exception as ex:
+        except Exception as ex:
                 
-                self.LogInternalError("EnterMethod: " + str(ex))
+            self.LogInternalError("EnterMethod: " + str(ex))
 
 
     def EnterProcess(self, level:SILevel=None, processName:str=None) -> None:
@@ -984,21 +992,22 @@ class SISession:
         parameter is set to None (default).  Otherwise, the specified level
         is utilized.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            # validations.
-            if (processName == None):
-                processName = ""
+        # validations.
+        if (processName == None):
+            processName = ""
         
-            try:
+        try:
                 
-                # send two packets: one for process name entry, and one for process thread entry.
-                self._SendProcessFlow(level, processName, SIProcessFlowType.EnterProcess)
-                self._SendProcessFlow(level, "Main Thread", SIProcessFlowType.EnterThread)
+            # send two packets: one for process name entry, and one for process thread entry.
+            self._SendProcessFlow(level, processName, SIProcessFlowType.EnterProcess)
+            self._SendProcessFlow(level, "Main Thread", SIProcessFlowType.EnterThread)
 
-            except Exception as ex:
+        except Exception as ex:
                 
-                self.LogInternalError("EnterProcess: " + str(ex))
+            self.LogInternalError("EnterProcess: " + str(ex))
 
 
     def EnterThread(self, level:SILevel=None, threadName:str=None) -> None:
@@ -1020,20 +1029,21 @@ class SISession:
         parameter is set to None (default).  Otherwise, the specified level
         is utilized.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            # validations.
-            if (threadName == None):
-                threadName = ""
+        # validations.
+        if (threadName == None):
+            threadName = ""
         
-            try:
+        try:
                 
-                # send process thread entry packet.
-                self._SendProcessFlow(level, threadName, SIProcessFlowType.EnterThread)
+            # send process thread entry packet.
+            self._SendProcessFlow(level, threadName, SIProcessFlowType.EnterThread)
 
-            except Exception as ex:
+        except Exception as ex:
                 
-                self.LogInternalError("EnterThread: " + str(ex))
+            self.LogInternalError("EnterThread: " + str(ex))
 
 
     @staticmethod
@@ -1132,22 +1142,23 @@ class SISession:
         See DecCounter for a method which decrements the value of a
         named counter instead of incrementing it.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            # validations.
-            if (name == None):
-                self.LogInternalError("IncCounter: name argument is null.")
-                return
+        # validations.
+        if (name == None):
+            self.LogInternalError("IncCounter: name argument is null.")
+            return
         
-            try:
+        try:
                 
-                # send watch packet.
-                value:int = self._UpdateCounter(name, True)
-                self._SendWatch(level, name, str(value), SIWatchType.Integer)
+            # send watch packet.
+            value:int = self._UpdateCounter(name, True)
+            self._SendWatch(level, name, str(value), SIWatchType.Integer)
 
-            except Exception as ex:
+        except Exception as ex:
                 
-                self.LogInternalError("IncCounter: " + str(ex))
+            self.LogInternalError("IncCounter: " + str(ex))
 
 
     def IsOn(self, level:SILevel=None) -> bool:
@@ -1198,21 +1209,22 @@ class SISession:
         parameter is set to None (default).  Otherwise, the specified level
         is utilized.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            # if method name was not specified then get it from the stack frame.
-            if (methodName is None):
-                methodName = SISession.GetMethodName(1, True)  # start=1 excludes our EnterMethod
+        # if method name was not specified then get it from the stack frame.
+        if (methodName is None):
+            methodName = SISession.GetMethodName(1, True)  # start=1 excludes our EnterMethod
         
-            try:
+        try:
                 
-                # send two packets: one log entry, and one process flow entry.
-                self._SendLogEntry(level, methodName, SILogEntryType.LeaveMethod, SIViewerId.Title)
-                self._SendProcessFlow(level, methodName, SIProcessFlowType.LeaveMethod)
+            # send two packets: one log entry, and one process flow entry.
+            self._SendLogEntry(level, methodName, SILogEntryType.LeaveMethod, SIViewerId.Title)
+            self._SendProcessFlow(level, methodName, SIProcessFlowType.LeaveMethod)
 
-            except Exception as ex:
+        except Exception as ex:
                 
-                self.LogInternalError("LeaveMethod: " + str(ex))
+            self.LogInternalError("LeaveMethod: " + str(ex))
 
 
     def LeaveProcess(self, level:SILevel=None, processName:str=None) -> None:
@@ -1234,21 +1246,22 @@ class SISession:
         parameter is set to None (default).  Otherwise, the specified level
         is utilized.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            # validations.
-            if (processName == None):
-                processName = ""
+        # validations.
+        if (processName == None):
+            processName = ""
         
-            try:
+        try:
                 
-                # send two packets: one for process thread exit, and one for process name exit.
-                self._SendProcessFlow(level, "Main Thread", SIProcessFlowType.LeaveThread)
-                self._SendProcessFlow(level, processName, SIProcessFlowType.LeaveProcess)
+            # send two packets: one for process thread exit, and one for process name exit.
+            self._SendProcessFlow(level, "Main Thread", SIProcessFlowType.LeaveThread)
+            self._SendProcessFlow(level, processName, SIProcessFlowType.LeaveProcess)
 
-            except Exception as ex:
+        except Exception as ex:
                 
-                self.LogInternalError("LeaveProcess: " + str(ex))
+            self.LogInternalError("LeaveProcess: " + str(ex))
 
 
     def LeaveThread(self, level:SILevel=None, threadName:str=None) -> None:
@@ -1270,20 +1283,21 @@ class SISession:
         parameter is set to None (default).  Otherwise, the specified level
         is utilized.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            # validations.
-            if (threadName == None):
-                threadName = ""
+        # validations.
+        if (threadName == None):
+            threadName = ""
         
-            try:
+        try:
                 
-                # send process thread exit packet.
-                self._SendProcessFlow(level, threadName, SIProcessFlowType.LeaveThread)
+            # send process thread exit packet.
+            self._SendProcessFlow(level, threadName, SIProcessFlowType.LeaveThread)
 
-            except Exception as ex:
+        except Exception as ex:
                 
-                self.LogInternalError("LeaveThread: " + str(ex))
+            self.LogInternalError("LeaveThread: " + str(ex))
 
 
     def LogAppDomain(self, level:SILevel=None, title:str=None, colorValue:SIColors=None) -> None:
@@ -1385,18 +1399,19 @@ class SISession:
         "instance != null" as first parameter. If the reference is null
         and thus the expression evaluates to false, a message is logged.
         """
-        if (self.IsOn(SILevel.Error)):
+        if (not self.IsOn(SILevel.Error)):
+            return
 
-            try:
+        try:
 
-                if (not condition):
+            if (not condition):
 
-                    # send the packet.
-                    self._SendLogEntry(SILevel.Error, title, SILogEntryType.Assert, SIViewerId.Title, colorValue)
+                # send the packet.
+                self._SendLogEntry(SILevel.Error, title, SILogEntryType.Assert, SIViewerId.Title, colorValue)
 
-            except Exception as ex:
+        except Exception as ex:
                 
-                self.LogInternalError("LogAssert: " + str(ex))
+            self.LogInternalError("LogAssert: " + str(ex))
 
 
     def LogAssigned(self, level:SILevel=None, name:str=None, value:object=None, colorValue:SIColors=None) -> None:
@@ -1423,29 +1438,30 @@ class SISession:
         in places where you experienced or expect problems and want to
         log possible null references.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            # validations.
-            if (name is None):
-                name = "<null name>"
+        # validations.
+        if (name is None):
+            name = "<null name>"
 
-            # not sure why SI authors chose to use "LogMessage" here, since a "level" was 
-            # passed and an "IsOn(level)" check is performed.
-            # this will only log a message if the level is Message or less!
+        # not sure why SI authors chose to use "LogMessage" here, since a "level" was 
+        # passed and an "IsOn(level)" check is performed.
+        # this will only log a message if the level is Message or less!
 
-            try:
+        try:
 
-                # send log entry packet.
-                if (value != None):
-                    self.LogMessage(str.format("{0}: Assigned", name), colorValue=colorValue)
-                    #self.LogText(level, str.format("{0}: Assigned", name), "", colorValue)
-                else:
-                    self.LogMessage(str.format("{0}: Not assigned", name), colorValue=colorValue)
-                    #self.LogText(level, str.format("{0}: Not assigned", name), "", colorValue)
+            # send log entry packet.
+            if (value != None):
+                self.LogMessage(str.format("{0}: Assigned", name), colorValue=colorValue)
+                #self.LogText(level, str.format("{0}: Assigned", name), "", colorValue)
+            else:
+                self.LogMessage(str.format("{0}: Not assigned", name), colorValue=colorValue)
+                #self.LogText(level, str.format("{0}: Not assigned", name), "", colorValue)
 
-            except Exception as ex:
+        except Exception as ex:
                 
-                self.LogInternalError("LogAssigned: " + str(ex))
+            self.LogInternalError("LogAssigned: " + str(ex))
 
 
     def LogBinary(self, level:SILevel=None, title:str=None, buffer:bytes=None, offset:int=None, count:int=None, colorValue:SIColors=None) -> None:
@@ -1469,36 +1485,37 @@ class SISession:
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            # validations.
-            if (offset == None) and (count != None):
-                self.LogInternalError("LogBinary: count argument is required if offset argument is not null.")
+        # validations.
+        if (offset == None) and (count != None):
+            self.LogInternalError("LogBinary: count argument is required if offset argument is not null.")
+            return
+
+        if (offset != None) and (count == None):
+            self.LogInternalError("LogBinary: offset argument is required if count argument is not null.")
+            return
+
+        if (offset != None) and (count != None) and (buffer != None):
+            if ((offset + count) > len(buffer)):
+                self.LogInternalError("LogBinary: offset + count arguments exceed the length of the buffer.")
                 return
 
-            if (offset != None) and (count == None):
-                self.LogInternalError("LogBinary: offset argument is required if count argument is not null.")
-                return
+        ctx:SIBinaryViewerContext = SIBinaryViewerContext()
+        try:
 
-            if (offset != None) and (count != None) and (buffer != None):
-                if ((offset + count) > len(buffer)):
-                    self.LogInternalError("LogBinary: offset + count arguments exceed the length of the buffer.")
-                    return
+            if ((offset == None) and (count == None)):                
+                ctx.AppendBytes(buffer)
+            else:
+                ctx.AppendBytes(buffer[offset:offset + count])
 
-            ctx:SIBinaryViewerContext = SIBinaryViewerContext()
-            try:
-
-                if ((offset == None) and (count == None)):                
-                    ctx.AppendBytes(buffer)
-                else:
-                    ctx.AppendBytes(buffer[offset:offset + count])
-
-                # send the packet.
-                self._SendContext(level, title, SILogEntryType.Binary, ctx, colorValue)
+            # send the packet.
+            self._SendContext(level, title, SILogEntryType.Binary, ctx, colorValue)
                 
-            except Exception as ex:
+        except Exception as ex:
                 
-                self.LogInternalError("LogBinary: " + str(ex))
+            self.LogInternalError("LogBinary: " + str(ex))
                 
 
     def LogBinaryFile(self, level:SILevel=None, title:str=None, fileName:str=None, colorValue:SIColors=None) -> None:
@@ -1600,28 +1617,29 @@ class SISession:
         This method logs the name and value of a boolean variable.
         A title like "name = True" will be displayed in the Console.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            # validations.
-            if (name is None):
-                name = "<null name>"
+        # validations.
+        if (name is None):
+            name = "<null name>"
 
-            try:
+        try:
 
-                # use "True"/"False" in case other boolean values passed (e.g. 0/1, yes/no, on/off, etc).
-                v:str
-                if (value == True):
-                    v:str = "True"
-                else:
-                    v:str = "False"
+            # use "True"/"False" in case other boolean values passed (e.g. 0/1, yes/no, on/off, etc).
+            v:str
+            if (value == True):
+                v:str = "True"
+            else:
+                v:str = "False"
 
-                # send log entry packet.
-                title:str = str.format("{0} = {1}", name, v)
-                self._SendLogEntry(level, title, SILogEntryType.VariableValue, SIViewerId.Title, colorValue)
+            # send log entry packet.
+            title:str = str.format("{0} = {1}", name, v)
+            self._SendLogEntry(level, title, SILogEntryType.VariableValue, SIViewerId.Title, colorValue)
 
-            except Exception as ex:
+        except Exception as ex:
                 
-                self.LogInternalError("LogBool: " + str(ex))
+            self.LogInternalError("LogBool: " + str(ex))
 
 
     def LogByte(self, level:SILevel=None, name:str=None, value:int=None, includeHex:bool=False, colorValue:SIColors=None) -> None:
@@ -1646,28 +1664,29 @@ class SISession:
         This method logs the name and value of a single byte variable.
         A title like "name = 10" will be displayed in the Console.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            # validations.
-            if (name is None):
-                name = "<null name>"
+        # validations.
+        if (name is None):
+            name = "<null name>"
 
-            try:
+        try:
 
-                vhex:str = ""
-                if (includeHex):
-                    vhex = " (" + hex(value).upper() + ")"
-                    if (value < 0):
-                        vhex = vhex.replace("-","")     # remove minus sign for negative values.
-                    vhex = vhex.replace("0X","0x")      # make "0X" lower-case since hex values will be in upper-case
+            vhex:str = ""
+            if (includeHex):
+                vhex = " (" + hex(value).upper() + ")"
+                if (value < 0):
+                    vhex = vhex.replace("-","")     # remove minus sign for negative values.
+                vhex = vhex.replace("0X","0x")      # make "0X" lower-case since hex values will be in upper-case
 
-                # send log entry packet.
-                title:str = str.format("{0} = {1}{2}", name, str(value), vhex)
-                self._SendLogEntry(level, title, SILogEntryType.VariableValue, SIViewerId.Title, colorValue)
+            # send log entry packet.
+            title:str = str.format("{0} = {1}{2}", name, str(value), vhex)
+            self._SendLogEntry(level, title, SILogEntryType.VariableValue, SIViewerId.Title, colorValue)
 
-            except Exception as ex:
+        except Exception as ex:
                 
-                self.LogInternalError("LogByte: " + str(ex))
+            self.LogInternalError("LogByte: " + str(ex))
 
 
     def LogChar(self, level:SILevel=None, name:str=None, value:chr=None, colorValue:SIColors=None) -> None:
@@ -1689,21 +1708,22 @@ class SISession:
         This method logs the name and value of a chr variable.
         A title like "name = 'c'" will be displayed in the Console.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            # validations.
-            if (name is None):
-                name = "<null name>"
+        # validations.
+        if (name is None):
+            name = "<null name>"
 
-            try:
+        try:
 
-                # send log entry packet.
-                title:str = str.format("{0} = '{1}'", name, str(value))
-                self._SendLogEntry(level, title, SILogEntryType.VariableValue, SIViewerId.Title, colorValue)
+            # send log entry packet.
+            title:str = str.format("{0} = '{1}'", name, str(value))
+            self._SendLogEntry(level, title, SILogEntryType.VariableValue, SIViewerId.Title, colorValue)
 
-            except Exception as ex:
+        except Exception as ex:
                 
-                self.LogInternalError("LogChar: " + str(ex))
+            self.LogInternalError("LogChar: " + str(ex))
 
 
     def LogCollection(self, level:SILevel=None, title:str=None, oColl:Collection=None, colorValue:SIColors=None) -> None:
@@ -1742,16 +1762,17 @@ class SISession:
             title (str):
                 The message to log.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            try:
+        try:
                 
-                # send the packet.
-                self._SendLogEntry(level, title, SILogEntryType.Message, SIViewerId.Title, colorValue, None)
+            # send the packet.
+            self._SendLogEntry(level, title, SILogEntryType.Message, SIViewerId.Title, colorValue, None)
 
-            except Exception as ex:
+        except Exception as ex:
                 
-                self.LogInternalError("LogColored: " + str(ex))
+            self.LogInternalError("LogColored: " + str(ex))
 
 
     def LogComplex(self, level:SILevel=None, name:str=None, value:complex=None, colorValue:SIColors=None) -> None:
@@ -1773,21 +1794,22 @@ class SISession:
         This method logs the name and value of a complex variable.
         A title like "name = 3.14159" will be displayed in the Console.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            # validations.
-            if (name is None):
-                name = "<null name>"
+        # validations.
+        if (name is None):
+            name = "<null name>"
 
-            try:
+        try:
 
-                # send log entry packet.
-                title:str = str.format("{0} = {1}", name, str(value))
-                self._SendLogEntry(level, title, SILogEntryType.VariableValue, SIViewerId.Title, colorValue)
+            # send log entry packet.
+            title:str = str.format("{0} = {1}", name, str(value))
+            self._SendLogEntry(level, title, SILogEntryType.VariableValue, SIViewerId.Title, colorValue)
 
-            except Exception as ex:
+        except Exception as ex:
                 
-                self.LogInternalError("LogComplex: " + str(ex))
+            self.LogInternalError("LogComplex: " + str(ex))
 
 
     def LogConditional(self, level:SILevel=None, condition:bool=None, title:str=None, colorValue:SIColors=None) -> None:
@@ -1817,18 +1839,19 @@ class SISession:
         the String.Format method and the resulting string will be the
         conditional message.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            try:
+        try:
 
-                if (condition):
+            if (condition):
 
-                    # send the packet.
-                    self._SendLogEntry(level, title, SILogEntryType.Conditional, SIViewerId.Title, colorValue)
+                # send the packet.
+                self._SendLogEntry(level, title, SILogEntryType.Conditional, SIViewerId.Title, colorValue)
 
-            except Exception as ex:
+        except Exception as ex:
                 
-                self.LogInternalError("LogConditional: " + str(ex))
+            self.LogInternalError("LogConditional: " + str(ex))
 
 
     def LogCurrentAppDomain(self, level:SILevel=None, title:str=None, colorValue:SIColors=None) -> None:
@@ -1873,26 +1896,27 @@ class SISession:
         Please note that the stack frame information results will NOT include 2 frames that are used
         by the SmartInspect API to process the frame data.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            # default title if one was not supplied.
-            if ((title == None) or (len(title) == 0)):
-                title = "Current stack trace"
+        # default title if one was not supplied.
+        if ((title == None) or (len(title) == 0)):
+            title = "Current stack trace"
 
-            try:
+        try:
 
-                # get current stack trace.
-                strace:list[FrameInfo] = inspect.stack()
+            # get current stack trace.
+            strace:list[FrameInfo] = inspect.stack()
 
-                # skip our "LogCurrentStackTrace" method and start at the caller to this function.
-                startFrame:int = 1
+            # skip our "LogCurrentStackTrace" method and start at the caller to this function.
+            startFrame:int = 1
 
-                # call overloaded method.
-                self.LogStackTrace(level, title, strace, startFrame, limit, colorValue)
+            # call overloaded method.
+            self.LogStackTrace(level, title, strace, startFrame, limit, colorValue)
 
-            except Exception as ex:
+        except Exception as ex:
             
-                self.LogInternalError("LogCurrentStackTrace: " + str(ex))
+            self.LogInternalError("LogCurrentStackTrace: " + str(ex))
 
 
     def LogCurrentThread(self, level:SILevel=None, title:str=None, colorValue:SIColors=None) -> None:
@@ -1920,17 +1944,18 @@ class SISession:
         See LogThread for a more general method which can handle any thread.
         public void LogCurrentThread(Level level, string title)
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            # get reference to the current thread.
-            thread:Thread = currentThread()
+        # get reference to the current thread.
+        thread:Thread = currentThread()
 
-            # set default title if one was not supplied.
-            if ((title == None) or (len(title) == 0)):
-                title = self._GetThreadTitle(thread, "Current thread info:")
+        # set default title if one was not supplied.
+        if ((title == None) or (len(title) == 0)):
+            title = self._GetThreadTitle(thread, "Current thread info:")
 
-            # call LogThread method to do the rest.
-            self.LogThread(level, title, thread, colorValue)
+        # call LogThread method to do the rest.
+        self.LogThread(level, title, thread, colorValue)
 
 
     def LogCustomContext(self, level:SILevel=None, title:str=None, lt:SILogEntryType=None, ctx:SIViewerContext=None, colorValue:SIColors=None) -> None:
@@ -1952,18 +1977,19 @@ class SISession:
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
         
-            try:
+        try:
            
-                if (ctx == None):
-                    self.LogInternalError("LogCustomContext: ctx argument is null.");
-                else:
-                    self._SendContext(level, title, lt, ctx, colorValue)
+            if (ctx == None):
+                self.LogInternalError("LogCustomContext: ctx argument is null.");
+            else:
+                self._SendContext(level, title, lt, ctx, colorValue)
             
-            except Exception as ex:
+        except Exception as ex:
             
-                self.LogInternalError("LogCustomContext: " + str(ex))
+            self.LogInternalError("LogCustomContext: " + str(ex))
 
 
     def LogCustomFile(self, level:SILevel=None, title:str=None, fileName:str=None, lt:SILogEntryType=None, vi:SIViewerId=None, colorValue:SIColors=None) -> None:
@@ -1994,17 +2020,18 @@ class SISession:
         Thus you can extend the functionality of the SmartInspect
         library with this method.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
         
-            ctx:SIBinaryContext = SIBinaryContext(vi)
-            try:
+        ctx:SIBinaryContext = SIBinaryContext(vi)
+        try:
             
-                ctx.LoadFromFile(fileName)
-                self._SendContext(level, title, lt, ctx, colorValue)
+            ctx.LoadFromFile(fileName)
+            self._SendContext(level, title, lt, ctx, colorValue)
             
-            except Exception as ex:
+        except Exception as ex:
             
-                self.LogInternalError("LogCustomFile: " + str(ex))
+            self.LogInternalError("LogCustomFile: " + str(ex))
 
 
     def LogCustomReader(self, level:SILevel=None, title:str=None, reader:TextIOWrapper=None, lt:SILogEntryType=None, vi:SIViewerId=None, colorValue:SIColors=None) -> None:
@@ -2035,17 +2062,18 @@ class SISession:
         Thus you can extend the functionality of the SmartInspect
         library with this method.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
         
-            ctx:SITextContext = SITextContext(vi)
-            try:
+        ctx:SITextContext = SITextContext(vi)
+        try:
             
-                ctx.LoadFromReader(reader)
-                self._SendContext(level, title, lt, ctx, colorValue)
+            ctx.LoadFromReader(reader)
+            self._SendContext(level, title, lt, ctx, colorValue)
             
-            except Exception as ex:
+        except Exception as ex:
             
-                self.LogInternalError("LogCustomReader: " + str(ex))
+            self.LogInternalError("LogCustomReader: " + str(ex))
 
 
     def LogCustomStream(self, level:SILevel=None, title:str=None, stream:BufferedReader=None, lt:SILogEntryType=None, vi:SIViewerId=None, colorValue:SIColors=None) -> None:
@@ -2076,17 +2104,18 @@ class SISession:
         Thus you can extend the functionality of the SmartInspect
         Python library with this method.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
         
-            ctx:SIBinaryContext = SIBinaryContext(vi)
-            try:
+        ctx:SIBinaryContext = SIBinaryContext(vi)
+        try:
             
-                ctx.LoadFromStream(stream)
-                self._SendContext(level, title, lt, ctx, colorValue)
+            ctx.LoadFromStream(stream)
+            self._SendContext(level, title, lt, ctx, colorValue)
             
-            except Exception as ex:
+        except Exception as ex:
             
-                self.LogInternalError("LogCustomStream: " + str(ex))
+            self.LogInternalError("LogCustomStream: " + str(ex))
 
 
     def LogCustomText(self, level:SILevel=None, title:str=None, text:str=None, lt:SILogEntryType=None, vi:SIViewerId=None, colorValue:SIColors=None) -> None:
@@ -2111,17 +2140,18 @@ class SISession:
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
         
-            ctx:SITextContext = SITextContext(vi)
-            try:
+        ctx:SITextContext = SITextContext(vi)
+        try:
             
-                ctx.LoadFromText(text)
-                self._SendContext(level, title, lt, ctx, colorValue)
+            ctx.LoadFromText(text)
+            self._SendContext(level, title, lt, ctx, colorValue)
             
-            except Exception as ex:
+        except Exception as ex:
             
-                self.LogInternalError("LogCustomText: " + str(ex))
+            self.LogInternalError("LogCustomText: " + str(ex))
 
 
     def LogDateTime(self, level:SILevel=None, name:str=None, value:datetime=None, colorValue:SIColors=None) -> None:
@@ -2143,21 +2173,22 @@ class SISession:
         This method logs the name and value of a datetime variable.
         A title like "name = 05/15/2023 02:15:30 PM" will be displayed in the Console.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            # validations.
-            if (name is None):
-                name = "<null name>"
+        # validations.
+        if (name is None):
+            name = "<null name>"
 
-            try:
+        try:
 
-                # send log entry packet.
-                title:str = str.format("{0} = {1}", name, str(value))
-                self._SendLogEntry(level, title, SILogEntryType.VariableValue, SIViewerId.Title, colorValue)
+            # send log entry packet.
+            title:str = str.format("{0} = {1}", name, str(value))
+            self._SendLogEntry(level, title, SILogEntryType.VariableValue, SIViewerId.Title, colorValue)
 
-            except Exception as ex:
+        except Exception as ex:
                 
-                self.LogInternalError("LogDateTime: " + str(ex))
+            self.LogInternalError("LogDateTime: " + str(ex))
 
 
     def LogDebug(self, title:str, *args, colorValue:SIColors=None, logToSystemLogger:bool=True) -> None:
@@ -2180,20 +2211,21 @@ class SISession:
         if (self._fSystemLogger != None) and (logToSystemLogger):
             self._fSystemLogger.debug(title, *args)
 
-        if (self.IsOn(SILevel.Debug)):
+        if (not self.IsOn(SILevel.Debug)):
+            return 
 
-            try:
+        try:
                 
-                # format title if *args was supplied.
-                if (title) and (args):
-                    title = (title % args)
+            # format title if *args was supplied.
+            if (title) and (args):
+                title = (title % args)
                 
-                # send the packet.
-                self._SendLogEntry(SILevel.Debug, title, SILogEntryType.Debug, SIViewerId.Title, colorValue)
+            # send the packet.
+            self._SendLogEntry(SILevel.Debug, title, SILogEntryType.Debug, SIViewerId.Title, colorValue)
 
-            except Exception as ex:
+        except Exception as ex:
                 
-                self.LogInternalError("LogDebug: " + str(ex))
+            self.LogInternalError("LogDebug: " + str(ex))
             
 
     def LogDictionary(self, level:SILevel=None, title:str=None, oDict:dict=None, colorValue:SIColors=None) -> None:
@@ -2216,43 +2248,44 @@ class SISession:
         render every key/value pair into a string. These pairs will be displayed in a key/value viewer 
         in the Console.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            ctx:SIValueListViewerContext = SIValueListViewerContext()
+        ctx:SIValueListViewerContext = SIValueListViewerContext()
 
-            try:
+        try:
             
-                # was an object to log supplied?
-                if (oDict is None):
+            # was an object to log supplied?
+            if (oDict is None):
                     
-                    # no - just append a line to the context viewer.
-                    ctx.AppendLine("<The oDict argument was null>")
+                # no - just append a line to the context viewer.
+                ctx.AppendLine("<The dictionary argument to log was null>")
 
-                else:
+            else:
                     
-                    # add all keys and values to the context viewer.
-                    for key in oDict.keys():
+                # add all keys and values to the context viewer.
+                for key in oDict.keys():
 
-                        val:object = oDict[key]
+                    val:object = oDict[key]
 
-                        if (key == oDict):
-                            strKey = "<cycle>"
-                        else:
-                            strKey = SIObjectRenderer.RenderObject(key)
+                    if (key == oDict):
+                        strKey = "<cycle>"
+                    else:
+                        strKey = SIObjectRenderer.RenderObject(key)
 
-                        if (val == oDict):
-                            strVal = "<cycle>"
-                        else:
-                            strVal = SIObjectRenderer.RenderObject(val)
+                    if (val == oDict):
+                        strVal = "<cycle>"
+                    else:
+                        strVal = SIObjectRenderer.RenderObject(val)
 
-                        ctx.AppendKeyValue(strKey, strVal)
+                    ctx.AppendKeyValue(strKey, strVal)
 
-                # send the packet.
-                self._SendContext(level, title, SILogEntryType.Text, ctx, colorValue)
+            # send the packet.
+            self._SendContext(level, title, SILogEntryType.Text, ctx, colorValue)
             
-            except Exception as ex:
+        except Exception as ex:
             
-                self.LogInternalError("LogDictionary: " + str(ex))
+            self.LogInternalError("LogDictionary: " + str(ex))
 
 
     def LogEnumerable(self, level:SILevel=None, title:str=None, oList:list=None, colorValue:SIColors=None) -> None:
@@ -2274,34 +2307,35 @@ class SISession:
         This method iterates through the supplied list and calls SIObjectRenderer.RenderObject to
         render every element into a string. These elements will be displayed in a listview in the Console.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            ctx:SIListViewerContext = SIListViewerContext()
+        ctx:SIListViewerContext = SIListViewerContext()
 
-            try:
+        try:
             
-                # was an object to log supplied?
-                if (oList is None):
+            # was an object to log supplied?
+            if (oList is None):
                     
-                    # no - just append a line to the context viewer.
-                    ctx.AppendLine("<The oList argument was null>")
+                # no - just append a line to the context viewer.
+                ctx.AppendLine("<The list argument to log was null>")
 
-                else:
+            else:
                     
-                    # add all items to the context viewer.
-                    for item in oList:
+                # add all items to the context viewer.
+                for item in oList:
 
-                        if (item == oList):
-                            ctx.AppendLine("<cycle>")
-                        else:
-                            ctx.AppendLine(SIObjectRenderer.RenderObject(item))
+                    if (item == oList):
+                        ctx.AppendLine("<cycle>")
+                    else:
+                        ctx.AppendLine(SIObjectRenderer.RenderObject(item))
 
-                # send the packet.
-                self._SendContext(level, title, SILogEntryType.Text, ctx, colorValue)
+            # send the packet.
+            self._SendContext(level, title, SILogEntryType.Text, ctx, colorValue)
             
-            except Exception as ex:
+        except Exception as ex:
             
-                self.LogInternalError("LogEnumerable: " + str(ex))
+            self.LogInternalError("LogEnumerable: " + str(ex))
 
 
     def LogError(self, title:str, *args, colorValue:SIColors=None, logToSystemLogger:bool=True) -> None:
@@ -2328,20 +2362,21 @@ class SISession:
         if (self._fSystemLogger != None) and (logToSystemLogger):
             self._fSystemLogger.error(title, *args)
 
-        if (self.IsOn(SILevel.Error)):
+        if (not self.IsOn(SILevel.Error)):
+            return
 
-            try:
+        try:
                 
-                # format title if *args was supplied.
-                if (title) and (args):
-                    title = (title % args)
+            # format title if *args was supplied.
+            if (title) and (args):
+                title = (title % args)
 
-                # send the packet.
-                self._SendLogEntry(SILevel.Error, title, SILogEntryType.Error, SIViewerId.Title, colorValue)
+            # send the packet.
+            self._SendLogEntry(SILevel.Error, title, SILogEntryType.Error, SIViewerId.Title, colorValue)
 
-            except Exception as ex:
+        except Exception as ex:
                 
-                self.LogInternalError("LogError: " + str(ex))
+            self.LogInternalError("LogError: " + str(ex))
 
 
     def LogException(self, title:str=None, ex:Exception=None, colorValue:SIColors=None, logToSystemLogger:bool=True):
@@ -2384,36 +2419,37 @@ class SISession:
         if (self._fSystemLogger != None) and (logToSystemLogger) and (ex != None):
             self._fSystemLogger.exception(ex)
 
-        if (self.IsOn(SILevel.Error)):
+        if (not self.IsOn(SILevel.Error)):
+            return
             
-            if (ex == None):
-                self.LogInternalError("LogException: ex argument is null.")
-            else:
+        if (ex == None):
+            self.LogInternalError("LogException: ex argument is null.")
+        else:
 
-                try:
+            try:
 
-                    # capture exception details to string via standard Python (temporary) logger.
-                    # we first clear the stream, then capture the recent exception details.
-                    self._fTempLoggingStream.seek(0)
-                    self._fTempLoggingStream.truncate(0)
-                    self._fTempLogger.exception(ex,exc_info=True)
-                    self._fTempLoggingStream.flush()
-                    errdtls:str = self._fTempLoggingStream.getvalue()
+                # capture exception details to string via standard Python (temporary) logger.
+                # we first clear the stream, then capture the recent exception details.
+                self._fTempLoggingStream.seek(0)
+                self._fTempLoggingStream.truncate(0)
+                self._fTempLogger.exception(ex,exc_info=True)
+                self._fTempLoggingStream.flush()
+                errdtls:str = self._fTempLoggingStream.getvalue()
 
-                    # if title not specified, then use the exception string as a title.                    
-                    if (title == None):
-                        title = str(ex)
+                # if title not specified, then use the exception string as a title.                    
+                if (title == None):
+                    title = str(ex)
 
-                    # prepare a custom context with the exception details and traceback info.
-                    ctx:SIDataViewerContext = SIDataViewerContext()
-                    ctx.LoadFromText(errdtls)
+                # prepare a custom context with the exception details and traceback info.
+                ctx:SIDataViewerContext = SIDataViewerContext()
+                ctx.LoadFromText(errdtls)
 
-                    # send the packet.
-                    self._SendContext(SILevel.Error, title, SILogEntryType.Error, ctx, colorValue)
+                # send the packet.
+                self._SendContext(SILevel.Error, title, SILogEntryType.Error, ctx, colorValue)
                     
-                except Exception as ex2:
+            except Exception as ex2:
                     
-                    self.LogInternalError("LogException: " + str(ex2))
+                self.LogInternalError("LogException: " + str(ex2))
 
 
     def LogFatal(self, title:str, *args, colorValue:SIColors=None, logToSystemLogger:bool=True) -> None:
@@ -2453,20 +2489,21 @@ class SISession:
         if (self._fSystemLogger != None) and (logToSystemLogger):
             self._fSystemLogger.critical(title, *args)
 
-        if (self.IsOn(SILevel.Fatal)):
+        if (not self.IsOn(SILevel.Fatal)):
+            return
 
-            try:
+        try:
                 
-                # format title if *args was supplied.
-                if (title) and (args):
-                    title = (title % args)
+            # format title if *args was supplied.
+            if (title) and (args):
+                title = (title % args)
 
-                # send the packet.
-                self._SendLogEntry(SILevel.Fatal, title, SILogEntryType.Fatal, SIViewerId.Title, colorValue)
+            # send the packet.
+            self._SendLogEntry(SILevel.Fatal, title, SILogEntryType.Fatal, SIViewerId.Title, colorValue)
                     
-            except Exception as ex:
+        except Exception as ex:
                 
-                self.LogInternalError("LogFatal: " + str(ex))
+            self.LogInternalError("LogFatal: " + str(ex))
 
 
     def LogFloat(self, level:SILevel=None, name:str=None, value:float=None, colorValue:SIColors=None) -> None:
@@ -2488,21 +2525,22 @@ class SISession:
         This method logs the name and value of a float variable.
         A title like "name = 3.14159" will be displayed in the Console.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            # validations.
-            if (name is None):
-                name = "<null name>"
+        # validations.
+        if (name is None):
+            name = "<null name>"
 
-            try:
+        try:
 
-                # send log entry packet.
-                title:str = str.format("{0} = {1}", name, str(value))
-                self._SendLogEntry(level, title, SILogEntryType.VariableValue, SIViewerId.Title, colorValue)
+            # send log entry packet.
+            title:str = str.format("{0} = {1}", name, str(value))
+            self._SendLogEntry(level, title, SILogEntryType.VariableValue, SIViewerId.Title, colorValue)
 
-            except Exception as ex:
+        except Exception as ex:
                 
-                self.LogInternalError("LogFloat: " + str(ex))
+            self.LogInternalError("LogFloat: " + str(ex))
 
 
     def LogHtml(self, level:SILevel=None, title:str=None, html:str=None, colorValue:SIColors=None) -> None:
@@ -2661,28 +2699,29 @@ class SISession:
         This method logs the name and value of a integer variable.
         A title like "name = 10" will be displayed in the Console.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            # validations.
-            if (name is None):
-                name = "<null name>"
+        # validations.
+        if (name is None):
+            name = "<null name>"
 
-            try:
+        try:
 
-                vhex:str = ""
-                if (includeHex):
-                    vhex = " (" + hex(value).upper() + ")"
-                    if (value < 0):
-                        vhex = vhex.replace("-","")     # remove minus sign for negative values.
-                    vhex = vhex.replace("0X","0x")      # make "0X" lower-case since hex values will be in upper-case
+            vhex:str = ""
+            if (includeHex):
+                vhex = " (" + hex(value).upper() + ")"
+                if (value < 0):
+                    vhex = vhex.replace("-","")     # remove minus sign for negative values.
+                vhex = vhex.replace("0X","0x")      # make "0X" lower-case since hex values will be in upper-case
 
-                # send log entry packet.
-                title:str = str.format("{0} = {1}{2}", name, str(value), vhex)
-                self._SendLogEntry(level, title, SILogEntryType.VariableValue, SIViewerId.Title, colorValue)
+            # send log entry packet.
+            title:str = str.format("{0} = {1}{2}", name, str(value), vhex)
+            self._SendLogEntry(level, title, SILogEntryType.VariableValue, SIViewerId.Title, colorValue)
 
-            except Exception as ex:
+        except Exception as ex:
                 
-                self.LogInternalError("LogInt: " + str(ex))
+            self.LogInternalError("LogInt: " + str(ex))
 
 
     def LogInternalError(self, title:str, colorValue:SIColors=None) -> None:
@@ -2706,8 +2745,10 @@ class SISession:
         This method is also intended to be used in derived classes
         to report any errors in your own methods.
         """
-        if (self.IsOn(SILevel.Error)):
-            self._SendLogEntry(SILevel.Error, title, SILogEntryType.InternalError, SIViewerId.Title, colorValue)
+        if (not self.IsOn(SILevel.Error)):
+            return
+        
+        self._SendLogEntry(SILevel.Error, title, SILogEntryType.InternalError, SIViewerId.Title, colorValue)
 
 
     def LogJpegFile(self, level:SILevel=None, title:str=None, fileName:str=None, colorValue:SIColors=None) -> None:
@@ -2774,20 +2815,21 @@ class SISession:
         if (self._fSystemLogger != None) and (logToSystemLogger):
             self._fSystemLogger.info(title, *args)
 
-        if (self.IsOn(SILevel.Message)):
+        if (not self.IsOn(SILevel.Message)):
+            return
 
-            try:
+        try:
                 
-                # format title if *args was supplied.
-                if (title) and (args):
-                    title = (title % args)
+            # format title if *args was supplied.
+            if (title) and (args):
+                title = (title % args)
 
-                # send the packet.
-                self._SendLogEntry(SILevel.Message, title, SILogEntryType.Message, SIViewerId.Title, colorValue)
+            # send the packet.
+            self._SendLogEntry(SILevel.Message, title, SILogEntryType.Message, SIViewerId.Title, colorValue)
 
-            except Exception as ex:
+        except Exception as ex:
                 
-                self.LogInternalError("LogMessage: " + str(ex))
+            self.LogInternalError("LogMessage: " + str(ex))
                 
 
     def LogMetafileFile(self, level:SILevel=None, title:str=None, fileName:str=None, colorValue:SIColors=None) -> None:
@@ -2874,7 +2916,7 @@ class SISession:
             if (instance is None):
                     
                 # no - just append a line to the context viewer.
-                ctx.StartGroup("<The instance argument was null>")
+                ctx.StartGroup("<The instance argument to log was null>")
 
             else:
                     
@@ -3002,25 +3044,26 @@ class SISession:
         A title like "name = My Object" will be displayed in the Console.
         If the value is null, then a title like "name = null" will be displayed in the Console.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            # validations.
-            if (name is None):
-                name = "<null name>"
+        # validations.
+        if (name is None):
+            name = "<null name>"
 
-            try:
+        try:
 
-                # send log entry packet.
-                title:str = ""
-                if (value == None):
-                    title = str.format("{0} = null", name)
-                else:
-                    title = str.format("{0} = {1}", name, str(value))
-                self._SendLogEntry(level, title, SILogEntryType.VariableValue, SIViewerId.Title, colorValue)
+            # send log entry packet.
+            title:str = ""
+            if (value == None):
+                title = str.format("{0} = null", name)
+            else:
+                title = str.format("{0} = {1}", name, str(value))
+            self._SendLogEntry(level, title, SILogEntryType.VariableValue, SIViewerId.Title, colorValue)
 
-            except Exception as ex:
+        except Exception as ex:
                 
-                self.LogInternalError("LogObject: " + str(ex))
+            self.LogInternalError("LogObject: " + str(ex))
 
 
     def LogPngFile(self, level:SILevel=None, title:str=None, fileName:str=None, colorValue:SIColors=None) -> None:
@@ -3106,8 +3149,10 @@ class SISession:
         and to separate them visually from others. This
         method can help organizing Log Entries in the Console.
         """
-        if (self.IsOn(level)):
-            self._SendLogEntry(level, "", SILogEntryType.Separator, SIViewerId.NoViewer, colorValue)
+        if (not self.IsOn(level)):
+            return
+
+        self._SendLogEntry(level, "", SILogEntryType.Separator, SIViewerId.NoViewer, colorValue)
 
 
     def LogSource(self, level:SILevel=None, title:str=None, source:str=None, id:SISourceId=None, colorValue:SIColors=None) -> None:
@@ -3362,7 +3407,7 @@ class SISession:
                     
                 # no - just append a line to the context viewer.
                 ctx.BeginRow()
-                ctx.AddRowEntry("<The cursor argument was null>")
+                ctx.AddRowEntry("<The cursor argument to log was null>")
                 ctx.EndRow()
 
             else:
@@ -3886,58 +3931,59 @@ class SISession:
         This method logs the supplied stack trace. The resulting Log Entry contains all methods including the
         related classes lists. Furthermore the filename, line and columns numbers are included.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            if (strace == None):
-                self.LogInternalError("LogStackTrace: strace argument cannot be null.")
-                return
+        if (strace == None):
+            self.LogInternalError("LogStackTrace: strace argument cannot be null.")
+            return
 
-            if (startFrame == None):
-                startFrame = 0
+        if (startFrame == None):
+            startFrame = 0
 
-            # default title if one was not supplied.
-            if ((title == None) or (len(title) == 0)):
-                title = "Stack trace"
+        # default title if one was not supplied.
+        if ((title == None) or (len(title) == 0)):
+            title = "Stack trace"
 
-            try:
+        try:
 
-                # create the context viewer.
-                ctx:SIListViewerContext = SIListViewerContext()
+            # create the context viewer.
+            ctx:SIListViewerContext = SIListViewerContext()
 
-                HEADER_FMT = "Call stack at {0}, line {1} in function {2}, frames {3} to {4} of {5}:"
-                STACK_FMT = "{0}, line {1} in function {2}."
+            HEADER_FMT = "Call stack at {0}, line {1} in function {2}, frames {3} to {4} of {5}:"
+            STACK_FMT = "{0}, line {1} in function {2}."
 
-                # the caller stack frame is the specified starting frame in the list, as they control
-                # what they want the starting point to be.
-                callerFrame = strace[startFrame]
+            # the caller stack frame is the specified starting frame in the list, as they control
+            # what they want the starting point to be.
+            callerFrame = strace[startFrame]
 
-                # index of the first frame to print.
-                begin = startFrame
+            # index of the first frame to print.
+            begin = startFrame
     
-                # index of the last frame to print.
-                if limit:
-                    end = min(begin + limit, len(strace))
-                else:
-                    end = len(strace)
+            # index of the last frame to print.
+            if limit:
+                end = min(begin + limit, len(strace))
+            else:
+                end = len(strace)
     
-                # write the caller stack frame header to the context viewer.
-                file, line, func = callerFrame[1:4]
-                sbhdr = str.format(HEADER_FMT, file, line, func, startFrame, end - 1, len(strace))
-                ctx.AppendLine(sbhdr)
+            # write the caller stack frame header to the context viewer.
+            file, line, func = callerFrame[1:4]
+            sbhdr = str.format(HEADER_FMT, file, line, func, startFrame, end - 1, len(strace))
+            ctx.AppendLine(sbhdr)
 
-                # write the remaining stack frames to the context viewer (up to the specified limit).
-                for frame in strace[begin:end]:
+            # write the remaining stack frames to the context viewer (up to the specified limit).
+            for frame in strace[begin:end]:
 
-                    file, line, func = frame[1:4]
-                    sbframe = str.format(STACK_FMT, file, line, func)
-                    ctx.AppendLine(sbframe)
+                file, line, func = frame[1:4]
+                sbframe = str.format(STACK_FMT, file, line, func)
+                ctx.AppendLine(sbframe)
 
-                # send the packet.
-                self._SendContext(level, title, SILogEntryType.Text, ctx, colorValue)
+            # send the packet.
+            self._SendContext(level, title, SILogEntryType.Text, ctx, colorValue)
 
-            except Exception as ex:
+        except Exception as ex:
             
-                self.LogInternalError("LogStackTrace: " + str(ex))
+            self.LogInternalError("LogStackTrace: " + str(ex))
 
 
     def LogStream(self, level:SILevel=None, title:str=None, stream:BufferedReader=None, colorValue:SIColors=None) -> None:
@@ -3979,21 +4025,22 @@ class SISession:
         This method logs the name and value of a string variable.
         A title like "name = \"Value\"" will be displayed in the Console.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            # validations.
-            if (name is None):
-                name = "<null name>"
+        # validations.
+        if (name is None):
+            name = "<null name>"
 
-            try:
+        try:
 
-                # send log entry packet.
-                title:str = str.format("{0} = \"{1}\"", name, value)
-                self._SendLogEntry(level, title, SILogEntryType.VariableValue, SIViewerId.Title, colorValue)
+            # send log entry packet.
+            title:str = str.format("{0} = \"{1}\"", name, value)
+            self._SendLogEntry(level, title, SILogEntryType.VariableValue, SIViewerId.Title, colorValue)
 
-            except Exception as ex:
+        except Exception as ex:
                 
-                self.LogInternalError("LogString: " + str(ex))
+            self.LogInternalError("LogString: " + str(ex))
 
 
     def LogSystem(self, level:SILevel=None, title:str=None, colorValue:SIColors=None) -> None:
@@ -4016,51 +4063,52 @@ class SISession:
         This guarantees that the support staff or developers have
         general information about the execution environment.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            # set default title if one was not supplied.
-            if ((title == None) or (len(title) == 0)):
-                title = "System Information"
+        # set default title if one was not supplied.
+        if ((title == None) or (len(title) == 0)):
+            title = "System Information"
 
-            # get operating system bit depth.
-            osbitdepth:str = "32-bit"
-            if (sys.maxsize > 2**32):
-                osbitdepth:str = "64-bit"
+        # get operating system bit depth.
+        osbitdepth:str = "32-bit"
+        if (sys.maxsize > 2**32):
+            osbitdepth:str = "64-bit"
 
-            ctx:SIInspectorViewerContext = SIInspectorViewerContext()
+        ctx:SIInspectorViewerContext = SIInspectorViewerContext()
 
-            try:
+        try:
              
-                ctx.StartGroup("Operating System Information");
-                ctx.AppendKeyValue("Name", platform.system())
-                ctx.AppendKeyValue("Version", platform.version())
-                ctx.AppendKeyValue("Release", platform.release())
-                ctx.AppendKeyValue("Platform", platform.platform())
-                ctx.AppendKeyValue("Machine Architecture", platform.machine())
-                ctx.AppendKeyValue("Bit Depth", osbitdepth)
+            ctx.StartGroup("Operating System Information");
+            ctx.AppendKeyValue("Name", platform.system())
+            ctx.AppendKeyValue("Version", platform.version())
+            ctx.AppendKeyValue("Release", platform.release())
+            ctx.AppendKeyValue("Platform", platform.platform())
+            ctx.AppendKeyValue("Machine Architecture", platform.machine())
+            ctx.AppendKeyValue("Bit Depth", osbitdepth)
 
-                ctx.StartGroup("Machine Information");
-                ctx.AppendKeyValue("Machine Name", platform.node())
-                try:
-                    ctx.AppendKeyValue("User Login", os.getlogin())
-                except Exception as ex:
-                    ctx.AppendKeyValue("User Login", "Error: " + str(ex))
-                ctx.AppendKeyValue("Current directory", os.getcwd())
-
-                ctx.StartGroup("Python Environment");
-                ctx.AppendKeyValue("Version", platform.python_version())
-                ctx.AppendKeyValue("Revision", platform.python_revision())
-                ctx.AppendKeyValue("Build Date", str(platform.python_build()[1]))
-                ctx.AppendKeyValue("Branch", platform.python_branch())
-                ctx.AppendKeyValue("Compiler", platform.python_compiler())
-                ctx.AppendKeyValue("Implementation", platform.python_implementation())
-
-                # send the packet.
-                self._SendContext(level, title, SILogEntryType.System, ctx, colorValue)
-            
+            ctx.StartGroup("Machine Information");
+            ctx.AppendKeyValue("Machine Name", platform.node())
+            try:
+                ctx.AppendKeyValue("User Login", os.getlogin())
             except Exception as ex:
+                ctx.AppendKeyValue("User Login", "Error: " + str(ex))
+            ctx.AppendKeyValue("Current directory", os.getcwd())
+
+            ctx.StartGroup("Python Environment");
+            ctx.AppendKeyValue("Version", platform.python_version())
+            ctx.AppendKeyValue("Revision", platform.python_revision())
+            ctx.AppendKeyValue("Build Date", str(platform.python_build()[1]))
+            ctx.AppendKeyValue("Branch", platform.python_branch())
+            ctx.AppendKeyValue("Compiler", platform.python_compiler())
+            ctx.AppendKeyValue("Implementation", platform.python_implementation())
+
+            # send the packet.
+            self._SendContext(level, title, SILogEntryType.System, ctx, colorValue)
             
-                self.LogInternalError("LogSystem: " + str(ex))
+        except Exception as ex:
+            
+            self.LogInternalError("LogSystem: " + str(ex))
 
 
     def LogText(self, level:SILevel=None, title:str=None, text:str=None, colorValue:SIColors=None) -> None:
@@ -4167,41 +4215,42 @@ class SISession:
         can easily track all threads of a process and obtain detailed
         information about them.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            ctx:SIValueListViewerContext = SIValueListViewerContext()
+        ctx:SIValueListViewerContext = SIValueListViewerContext()
         
-            try:
+        try:
                 
-                # was an object to log supplied?
-                if (thread is None):
+            # was an object to log supplied?
+            if (thread is None):
                     
-                    # no - just append a line to the context viewer.
-                    ctx.AppendLine("<The thread argument was null>")
+                # no - just append a line to the context viewer.
+                ctx.AppendLine("<The thread argument to log was null>")
 
-                else:
+            else:
                     
-                    # set default title if one was not supplied.
-                    if ((title == None) or (len(title) == 0)):
-                        title = self._GetThreadTitle(thread, None)
+                # set default title if one was not supplied.
+                if ((title == None) or (len(title) == 0)):
+                    title = self._GetThreadTitle(thread, None)
 
-                    # gather information about the thread.           
-                    ctx.AppendKeyValue("Thread Name", thread.name)
-                    ctx.AppendKeyValue("Is Alive?", str(thread.is_alive()))
+                # gather information about the thread.           
+                ctx.AppendKeyValue("Thread Name", thread.name)
+                ctx.AppendKeyValue("Is Alive?", str(thread.is_alive()))
 
-                    if (thread.is_alive):
+                if (thread.is_alive):
                 
-                        #ctx.AppendKeyValue("Priority", thread. .Priority.ToString())
-                        ctx.AppendKeyValue("ID", str(thread.ident))
-                        ctx.AppendKeyValue("Native ID", str(thread.native_id))
-                        ctx.AppendKeyValue("Is Daemon?", str(thread.isDaemon()))
+                    #ctx.AppendKeyValue("Priority", thread. .Priority.ToString())
+                    ctx.AppendKeyValue("ID", str(thread.ident))
+                    ctx.AppendKeyValue("Native ID", str(thread.native_id))
+                    ctx.AppendKeyValue("Is Daemon?", str(thread.isDaemon()))
 
-                # send the packet.
-                self._SendContext(level, title, SILogEntryType.Text, ctx, colorValue)
+            # send the packet.
+            self._SendContext(level, title, SILogEntryType.Text, ctx, colorValue)
             
-            except Exception as ex:
+        except Exception as ex:
             
-                self.LogInternalError("LogThread: " + str(ex))
+            self.LogInternalError("LogThread: " + str(ex))
 
 
     def LogValue(self, level:SILevel=None, name:str=None, value=None, colorValue:SIColors=None) -> None:
@@ -4224,26 +4273,27 @@ class SISession:
         based upon the type of value as determined by isinstance.  Note that it is faster to
         call the "LogX" method directly - this method is provided for C# SI compatibility.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            if (value == None):
-                self.LogObjectValue(level, name, value, colorValue)
-            elif isinstance(value, str):
-                self.LogString(level, name, value, colorValue)
-            elif isinstance(value, bool):
-                self.LogBool(level, name, value, colorValue)
-            elif isinstance(value, int):
-                self.LogInt(level, name, value, colorValue)
-            elif isinstance(value, float):
-                self.LogFloat(level, name, value, colorValue)
-            elif isinstance(value, complex):
-                self.LogComplex(level, name, value, colorValue)
-            elif isinstance(value, datetime.datetime):
-                self.LogDateTime(level, name, value, colorValue)
-            #elif isinstance(value, chr):               # <- force user to call LogChar directly, as this was causing exceptions in testing!
-            #    self.LogChar(level, name, value)
-            else:
-                self.LogObjectValue(level, name, value, colorValue)
+        if (value == None):
+            self.LogObjectValue(level, name, value, colorValue)
+        elif isinstance(value, str):
+            self.LogString(level, name, value, colorValue)
+        elif isinstance(value, bool):
+            self.LogBool(level, name, value, colorValue)
+        elif isinstance(value, int):
+            self.LogInt(level, name, value, colorValue)
+        elif isinstance(value, float):
+            self.LogFloat(level, name, value, colorValue)
+        elif isinstance(value, complex):
+            self.LogComplex(level, name, value, colorValue)
+        elif isinstance(value, datetime.datetime):
+            self.LogDateTime(level, name, value, colorValue)
+        #elif isinstance(value, chr):               # <- force user to call LogChar directly, as this was causing exceptions in testing!
+        #    self.LogChar(level, name, value)
+        else:
+            self.LogObjectValue(level, name, value, colorValue)
 
 
     def LogVerbose(self, title:str, *args, colorValue:SIColors=None, logToSystemLogger:bool=True) -> None:
@@ -4270,20 +4320,21 @@ class SISession:
         if (self._fSystemLogger != None) and (logToSystemLogger):
             self._fSystemLogger.debug(title, *args)
 
-        if (self.IsOn(SILevel.Verbose)):
+        if (not self.IsOn(SILevel.Verbose)):
+            return
 
-            try:
+        try:
                 
-                # format title if *args was supplied.
-                if (title) and (args):
-                    title = (title % args)
+            # format title if *args was supplied.
+            if (title) and (args):
+                title = (title % args)
 
-                # send the packet.
-                self._SendLogEntry(SILevel.Verbose, title, SILogEntryType.Verbose, SIViewerId.Title, colorValue)
+            # send the packet.
+            self._SendLogEntry(SILevel.Verbose, title, SILogEntryType.Verbose, SIViewerId.Title, colorValue)
 
-            except Exception as ex:
+        except Exception as ex:
                 
-                self.LogInternalError("LogVerbose: " + str(ex))
+            self.LogInternalError("LogVerbose: " + str(ex))
 
 
     def LogWarning(self, title:str, *args, colorValue:SIColors=None, logToSystemLogger:bool=True) -> None:
@@ -4310,20 +4361,21 @@ class SISession:
         if (self._fSystemLogger != None) and (logToSystemLogger):
             self._fSystemLogger.warning(title, *args)
 
-        if (self.IsOn(SILevel.Warning)):
+        if (not self.IsOn(SILevel.Warning)):
+            return
 
-            try:
+        try:
                 
-                # format title if *args was supplied.
-                if (title) and (args):
-                    title = (title % args)
+            # format title if *args was supplied.
+            if (title) and (args):
+                title = (title % args)
 
-                # send the packet.
-                self._SendLogEntry(SILevel.Warning, title, SILogEntryType.Warning, SIViewerId.Title, colorValue)
+            # send the packet.
+            self._SendLogEntry(SILevel.Warning, title, SILogEntryType.Warning, SIViewerId.Title, colorValue)
 
-            except Exception as ex:
+        except Exception as ex:
                 
-                self.LogInternalError("LogWarning: " + str(ex))
+            self.LogInternalError("LogWarning: " + str(ex))
                 
 
     def ResetCallstack(self, level:SILevel=None) -> None:
@@ -4339,16 +4391,17 @@ class SISession:
         is especially useful if you want to reset the indentation
         in the method hierarchy without clearing all log entries.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            try:
+        try:
 
-                # send log entry packet.
-                self._SendLogEntry(level, "", SILogEntryType.ResetCallstack, SIViewerId.NoViewer)
+            # send log entry packet.
+            self._SendLogEntry(level, "", SILogEntryType.ResetCallstack, SIViewerId.NoViewer)
 
-            except Exception as ex:
+        except Exception as ex:
                 
-                self.LogInternalError("ResetCallstack: " + str(ex))
+            self.LogInternalError("ResetCallstack: " + str(ex))
 
 
     def ResetCheckpoint(self, name:str=None) -> None:
@@ -4477,24 +4530,25 @@ class SISession:
         simple method which formats the data in question correctly and
         logs them using this SendCustomLogEntry method.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            try:
+        try:
 
-                if (data != None):
+            if (data != None):
                 
-                    # Use the LogCustomStream method, because the
-                    # supplied stream needs to be processed correctly.
-                    self.LogCustomStream(level, title, data, lt, vi)
+                # Use the LogCustomStream method, because the
+                # supplied stream needs to be processed correctly.
+                self.LogCustomStream(level, title, data, lt, vi)
                 
-                else:
+            else:
                 
-                    # send log entry packet.
-                    self._SendLogEntry(level, title, lt, vi, colorValue, None)
+                # send log entry packet.
+                self._SendLogEntry(level, title, lt, vi, colorValue, None)
 
-            except Exception as ex:
+        except Exception as ex:
                 
-                self.LogInternalError("SendCustomLogEntry: " + str(ex))
+            self.LogInternalError("SendCustomLogEntry: " + str(ex))
 
 
     def SendCustomProcessFlow(self, level:SILevel, title:str, pt:SIProcessFlowType) -> None:
@@ -4509,16 +4563,17 @@ class SISession:
             pt (SIProcessFlowType):
                 The Process Flow type to use.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            try:
+        try:
 
-                # send process flow packet.
-                self._SendProcessFlow(level, title, pt)
+            # send process flow packet.
+            self._SendProcessFlow(level, title, pt)
 
-            except Exception as ex:
+        except Exception as ex:
                 
-                self.LogInternalError("SendCustomProcessFlow: " + str(ex))
+            self.LogInternalError("SendCustomProcessFlow: " + str(ex))
 
 
     def SendCustomWatch(self, level:SILevel=None, name:str=None, value=None, watchType:SIWatchType=None) -> None:
@@ -4566,60 +4621,61 @@ class SISession:
         parameter is set to None (default).  Otherwise, the specified level
         is utilized.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            try:
+        try:
 
-                title:str = ""
-                wt:SIWatchType = None
+            title:str = ""
+            wt:SIWatchType = None
 
-                # validations.
-                if (name == None):
-                    name = ""
+            # validations.
+            if (name == None):
+                name = ""
 
-                if (value == None):
-                    value = "null"
+            if (value == None):
+                value = "null"
 
-                if (watchType != None):
-                    wt = watchType
+            if (watchType != None):
+                wt = watchType
 
-                # determine the value format and watch type to use, based on the type
-                # of the value. The latter can be overridden via the `watchType`
-                # argument, which can also affect formatting (e.g. SIWatchType.Address).
-                if isinstance(value, str):
-                    wt = SIWatchType.String
-                    title = str.format("{0}", value)
-                elif isinstance(value, bool):
-                    wt = SIWatchType.Boolean
-                    title = value and 'True' or 'False'
-                elif isinstance(value, int):
-                    wt = SIWatchType.Integer
-                    title = str.format("{0}", str(value))
-                elif isinstance(value, float):
-                    wt = SIWatchType.Float
-                    title = str.format("{0}", str(value))
-                elif isinstance(value, complex):
-                    wt = SIWatchType.String
-                    title = str.format("{0}", str(value))
-                elif watchType == SIWatchType.Address:
-                    wt = watchType
-                    title = str.format("{0}", str(id(value)))
-                elif isinstance(value, bytes):
-                    wt = SIWatchType.Integer
-                    title = str.format("{0}", str(int.from_bytes(value, byteorder='big')))
-                elif isinstance(value, datetime.datetime):
-                    wt = SIWatchType.Timestamp
-                    title = str.format("{0}", str(value))
-                else:
-                    wt = SIWatchType.String
-                    title = str.format("{0}", value)
+            # determine the value format and watch type to use, based on the type
+            # of the value. The latter can be overridden via the `watchType`
+            # argument, which can also affect formatting (e.g. SIWatchType.Address).
+            if isinstance(value, str):
+                wt = SIWatchType.String
+                title = str.format("{0}", value)
+            elif isinstance(value, bool):
+                wt = SIWatchType.Boolean
+                title = value and 'True' or 'False'
+            elif isinstance(value, int):
+                wt = SIWatchType.Integer
+                title = str.format("{0}", str(value))
+            elif isinstance(value, float):
+                wt = SIWatchType.Float
+                title = str.format("{0}", str(value))
+            elif isinstance(value, complex):
+                wt = SIWatchType.String
+                title = str.format("{0}", str(value))
+            elif watchType == SIWatchType.Address:
+                wt = watchType
+                title = str.format("{0}", str(id(value)))
+            elif isinstance(value, bytes):
+                wt = SIWatchType.Integer
+                title = str.format("{0}", str(int.from_bytes(value, byteorder='big')))
+            elif isinstance(value, datetime.datetime):
+                wt = SIWatchType.Timestamp
+                title = str.format("{0}", str(value))
+            else:
+                wt = SIWatchType.String
+                title = str.format("{0}", value)
 
-                # send watch entry.
-                self._SendWatch(level, name, title, wt)
+            # send watch entry.
+            self._SendWatch(level, name, title, wt)
 
-            except Exception as ex:
+        except Exception as ex:
                 
-                self.LogInternalError("Watch: " + str(ex))
+            self.LogInternalError("Watch: " + str(ex))
 
 
     def WatchBool(self, level:SILevel=None, name:str=None, value:bool=False) -> None:
@@ -4638,14 +4694,15 @@ class SISession:
         parameter is set to None (default).  Otherwise, the specified level
         is utilized.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            # use "True"/"False" in case other boolean values passed (e.g. 0/1, yes/no, on/off, etc).
-            if (value == True):
-                v:str = "True"
-            else:
-                v:str = "False"
-            self._SendWatch(level, name, v, SIWatchType.Boolean)
+        # use "True"/"False" in case other boolean values passed (e.g. 0/1, yes/no, on/off, etc).
+        if (value == True):
+            v:str = "True"
+        else:
+            v:str = "False"
+        self._SendWatch(level, name, v, SIWatchType.Boolean)
 
 
     def WatchByte(self, level:SILevel=None, name:str=None, value:int=0, includeHex:bool=False) -> None:
@@ -4670,15 +4727,16 @@ class SISession:
         parameter is set to None (default).  Otherwise, the specified level
         is utilized.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            v:str = str(value)
-            if (includeHex):
-                vhex:str = " (" + hex(value).upper() + ")"
-                vhex = vhex.replace("0X","0x")      # make "0X" lower-case since hex values will be in upper-case
-                v += vhex
+        v:str = str(value)
+        if (includeHex):
+            vhex:str = " (" + hex(value).upper() + ")"
+            vhex = vhex.replace("0X","0x")      # make "0X" lower-case since hex values will be in upper-case
+            v += vhex
             
-            self._SendWatch(level, name, v, SIWatchType.Integer)
+        self._SendWatch(level, name, v, SIWatchType.Integer)
 
 
     def WatchChar(self, level:SILevel=None, name:str=None, value:chr=0) -> None:
@@ -4697,10 +4755,11 @@ class SISession:
         parameter is set to None (default).  Otherwise, the specified level
         is utilized.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            v:str = str(value)
-            self._SendWatch(level, name, v, SIWatchType.Char)
+        v:str = str(value)
+        self._SendWatch(level, name, v, SIWatchType.Char)
 
 
     def WatchComplex(self, level:SILevel=None, name:str=None, value:complex=None) -> None:
@@ -4719,10 +4778,11 @@ class SISession:
         parameter is set to None (default).  Otherwise, the specified level
         is utilized.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            v:str = str(value)
-            self._SendWatch(level, name, v, SIWatchType.Integer)
+        v:str = str(value)
+        self._SendWatch(level, name, v, SIWatchType.Integer)
 
 
     def WatchDateTime(self, level:SILevel=None, name:str=None, value:datetime=None) -> None:
@@ -4741,10 +4801,11 @@ class SISession:
         parameter is set to None (default).  Otherwise, the specified level
         is utilized.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            v:str = str(value)
-            self._SendWatch(level, name, v, SIWatchType.Timestamp)
+        v:str = str(value)
+        self._SendWatch(level, name, v, SIWatchType.Timestamp)
 
 
     def WatchFloat(self, level:SILevel=None, name:str=None, value:float=0) -> None:
@@ -4763,10 +4824,11 @@ class SISession:
         parameter is set to None (default).  Otherwise, the specified level
         is utilized.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            v:str = str(value)
-            self._SendWatch(level, name, v, SIWatchType.Integer)
+        v:str = str(value)
+        self._SendWatch(level, name, v, SIWatchType.Integer)
 
 
     def WatchInt(self, level:SILevel=None, name:str=None, value:int=0, includeHex:bool=False) -> None:
@@ -4791,17 +4853,18 @@ class SISession:
         parameter is set to None (default).  Otherwise, the specified level
         is utilized.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            v:str = str(value)
-            if (includeHex):
-                vhex:str = " (" + hex(value).upper() + ")"
-                if (value < 0):
-                    vhex = vhex.replace("-","")     # remove minus sign for negative values.
-                vhex = vhex.replace("0X","0x")      # make "0X" lower-case since hex values will be in upper-case
-                v += vhex
+        v:str = str(value)
+        if (includeHex):
+            vhex:str = " (" + hex(value).upper() + ")"
+            if (value < 0):
+                vhex = vhex.replace("-","")     # remove minus sign for negative values.
+            vhex = vhex.replace("0X","0x")      # make "0X" lower-case since hex values will be in upper-case
+            v += vhex
             
-            self._SendWatch(level, name, v, SIWatchType.Integer)
+        self._SendWatch(level, name, v, SIWatchType.Integer)
 
 
     def WatchObject(self, level:SILevel=None, name:str=None, value:object=None) -> None:
@@ -4823,13 +4886,14 @@ class SISession:
         parameter is set to None (default).  Otherwise, the specified level
         is utilized.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            if (value != None):
-                v = "" + str(value)
-                self._SendWatch(level, name, v, SIWatchType.Object)
-            else:
-                self.LogInternalError(str.format("WatchObject: value argument is null for watch name \"{0}\".", "" + name));
+        if (value != None):
+            v = "" + str(value)
+            self._SendWatch(level, name, v, SIWatchType.Object)
+        else:
+            self.LogInternalError(str.format("WatchObject: value argument is null for watch name \"{0}\".", "" + name));
 
 
     def WatchString(self, level:SILevel=None, name:str=None, value:str=None) -> None:
@@ -4848,9 +4912,10 @@ class SISession:
         parameter is set to None (default).  Otherwise, the specified level
         is utilized.
         """
-        if (self.IsOn(level)):
+        if (not self.IsOn(level)):
+            return
 
-            self._SendWatch(level, name, value, SIWatchType.String)
+        self._SendWatch(level, name, value, SIWatchType.String)
 
 
     #def Track(self, func):

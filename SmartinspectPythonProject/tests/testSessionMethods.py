@@ -35,12 +35,12 @@ class TestSessionMethods:
 
     # TestAllMethods method message count values for each log level type.
     TestAllMethods_LogEntryCounts = {}
-    TestAllMethods_LogEntryCounts[str(SILevel.Debug.name)] = 979
-    TestAllMethods_LogEntryCounts[str(SILevel.Verbose.name)] = 764
-    TestAllMethods_LogEntryCounts[str(SILevel.Message.name)] = 652
-    TestAllMethods_LogEntryCounts[str(SILevel.Warning.name)] = 534
-    TestAllMethods_LogEntryCounts[str(SILevel.Error.name)] = 424
-    TestAllMethods_LogEntryCounts[str(SILevel.Fatal.name)] = 309
+    TestAllMethods_LogEntryCounts[str(SILevel.Debug.name)] = 983
+    TestAllMethods_LogEntryCounts[str(SILevel.Verbose.name)] = 768
+    TestAllMethods_LogEntryCounts[str(SILevel.Message.name)] = 656
+    TestAllMethods_LogEntryCounts[str(SILevel.Warning.name)] = 538
+    TestAllMethods_LogEntryCounts[str(SILevel.Error.name)] = 428
+    TestAllMethods_LogEntryCounts[str(SILevel.Fatal.name)] = 313
 
     @staticmethod
     def TestAllMethods(logsi:SISession) -> None:
@@ -817,6 +817,7 @@ class TestSessionMethods:
             logsi.LogDictionary(SILevel.Warning, "LogDictionary Warning Example", oDict)
             logsi.LogDictionary(SILevel.Error, "LogDictionary Error Example", oDict)
             logsi.LogDictionary(SILevel.Fatal, "LogDictionary Fatal Example", oDict)
+            logsi.LogDictionary(SILevel.Fatal, "LogDictionary Fatal Example (null object)", None)
 
             # LogDouble Examples.
             logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogDouble Examples.")
@@ -832,6 +833,7 @@ class TestSessionMethods:
             logsi.LogEnumerable(SILevel.Warning, "LogEnumerable Warning Example", oEnumerable)
             logsi.LogEnumerable(SILevel.Error, "LogEnumerable Error Example", oEnumerable)
             logsi.LogEnumerable(SILevel.Fatal, "LogEnumerable Fatal Example", oEnumerable)
+            logsi.LogEnumerable(SILevel.Fatal, "LogEnumerable Fatal Example (null object)", None)
 
             # LogException Examples.
             try:
@@ -1030,6 +1032,7 @@ class TestSessionMethods:
             logsi.LogObject(SILevel.Warning, "LogObject Warning Example", objGetMem)
             logsi.LogObject(SILevel.Error, "LogObject Error Example", objGetMem)
             logsi.LogObject(SILevel.Fatal, "LogObject Fatal Example", objGetMem)
+            logsi.LogObject(SILevel.Fatal, "LogObject Fatal Example (null object)", None)
 
             logsi.LogObject(None, "LogObject NoLevel (excl non-public) Example", objGetMem, False)
             logsi.LogObject(SILevel.Debug, "LogObject Debug (excl non-public) Example", objGetMem, False)
@@ -1339,6 +1342,7 @@ class TestSessionMethods:
             logsi.LogThread(SILevel.Warning, "LogThread Warning Example", threading.currentThread())
             logsi.LogThread(SILevel.Error, "LogThread Error Example", threading.currentThread())
             logsi.LogThread(SILevel.Fatal, "LogThread Fatal Example", threading.currentThread())
+            logsi.LogThread(SILevel.Fatal, "LogThread Fatal Example (null object)", None)
 
             logsi.LogThread(thread=threading.currentThread())
             logsi.LogThread(SILevel.Debug, thread=threading.currentThread())

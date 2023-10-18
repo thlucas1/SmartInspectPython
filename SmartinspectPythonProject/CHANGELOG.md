@@ -10,6 +10,7 @@ Change are listed in reverse chronological order (newest to oldest).
 ###### [ 3.0.24 ] - 2023/10/18
 
   * Changed various SISession methods to not log internal errors if an object to be logged was null.  Prior to this fix, the console viewer would only display a "LogX: X argument is null" message and drop the title text completely.  This fix will allow the title text to be logged, as well as indicate to the user that the supplied object to log was null.  Methods changed were: LogDictionary, LogEnunmerable, LogBool, LogByte, LogChar, LogComplex, LogDateTime, LogFloat, LogInt, LogObject, LogObjectValue, LogSqliteDbSchemaCursor, LogString, LogThread.
+  * Changed all SISession methods to immediately check for "if (not self.IsOn(level)): return" so Python returns execution immediately if the level criteria is not satisfied.  Prior to this, Python would have to interpret all lines of code until it reached a "return" value if the "if (self.IsOn(level)):" syntax was used.  This should yield a slight performance increase due to less interpretation time spent.
 
 ###### [ 3.0.23 ] - 2023/10/15
 
