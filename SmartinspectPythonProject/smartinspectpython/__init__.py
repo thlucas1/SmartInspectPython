@@ -12,6 +12,7 @@ _________________
 
 # our package imports.
 from smartinspectpython.siargumentnullexception import SIArgumentNullException
+from smartinspectpython.siauto import SIAuto
 from smartinspectpython.siargumentoutofrangeexception import SIArgumentOutOfRangeException
 from smartinspectpython.sicolor import SIColors
 from smartinspectpython.siconfigurationtimer import SIConfigurationTimer

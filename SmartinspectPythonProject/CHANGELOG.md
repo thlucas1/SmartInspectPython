@@ -7,6 +7,10 @@ Change are listed in reverse chronological order (newest to oldest).
 
 <span class="changelog">
 
+###### [ 3.0.25 ] - 2023/10/18
+
+  * Added SIAuto to __init__.py __all__  value so that it is included in the global import list.
+
 ###### [ 3.0.24 ] - 2023/10/18
 
   * Changed various SISession methods to not log internal errors if an object to be logged was null.  Prior to this fix, the console viewer would only display a "LogX: X argument is null" message and drop the title text completely.  This fix will allow the title text to be logged, as well as indicate to the user that the supplied object to log was null.  Methods changed were: LogDictionary, LogEnunmerable, LogBool, LogByte, LogChar, LogComplex, LogDateTime, LogFloat, LogInt, LogObject, LogObjectValue, LogSqliteDbSchemaCursor, LogString, LogThread.
