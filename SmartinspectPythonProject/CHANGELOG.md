@@ -7,6 +7,10 @@ Change are listed in reverse chronological order (newest to oldest).
 
 <span class="changelog">
 
+###### [ 3.0.26 ] - 2023/10/20
+
+  * Added new methods to SISession class: LogXml, LogXmlFile.
+
 ###### [ 3.0.25 ] - 2023/10/18
 
   * Added SIAuto to __init__.py __all__  value so that it is included in the global import list.

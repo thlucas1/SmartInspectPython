@@ -35,12 +35,12 @@ class TestSessionMethods:
 
     # TestAllMethods method message count values for each log level type.
     TestAllMethods_LogEntryCounts = {}
-    TestAllMethods_LogEntryCounts[str(SILevel.Debug.name)] = 983
-    TestAllMethods_LogEntryCounts[str(SILevel.Verbose.name)] = 768
-    TestAllMethods_LogEntryCounts[str(SILevel.Message.name)] = 656
-    TestAllMethods_LogEntryCounts[str(SILevel.Warning.name)] = 538
-    TestAllMethods_LogEntryCounts[str(SILevel.Error.name)] = 428
-    TestAllMethods_LogEntryCounts[str(SILevel.Fatal.name)] = 313
+    TestAllMethods_LogEntryCounts[str(SILevel.Debug.name)] = 999
+    TestAllMethods_LogEntryCounts[str(SILevel.Verbose.name)] = 780
+    TestAllMethods_LogEntryCounts[str(SILevel.Message.name)] = 666
+    TestAllMethods_LogEntryCounts[str(SILevel.Warning.name)] = 546
+    TestAllMethods_LogEntryCounts[str(SILevel.Error.name)] = 434
+    TestAllMethods_LogEntryCounts[str(SILevel.Fatal.name)] = 317
 
     @staticmethod
     def TestAllMethods(logsi:SISession) -> None:
@@ -1433,6 +1433,28 @@ class TestSessionMethods:
             logsi.LogValue(SILevel.Warning, "LogValue Warning null Example", None)
             logsi.LogValue(SILevel.Error, "LogValue Error null Example", None)
             logsi.LogValue(SILevel.Fatal, "LogValue Fatal null Example", None)
+
+            # LogXml Examples.
+            testSourceHTML:str = "<!DOCTYPE html>\n<html lang=\"en\" xmlns=\"http://www.w3.org/1999/xhtml\">\n<head>  \n  <meta charset=\"utf-8\" />\n  <title>HTML From Text</title>\n</head>\n<body>\n\n  <h1>HTML From Text</h1>\n  <h2>H2 Header</h2>\n  <h3>H1 Header</h3>\n  <a href=\"https://www.google.com\">This is a Google Link</a>\n\n</body>\n</html>"
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogXml Examples.")
+            logsi.LogXml(None, "LogXml NoLevel Example", testSourceHTML)
+            logsi.LogXml(SILevel.Debug, "LogXml Debug Example", testSourceHTML)
+            logsi.LogXml(SILevel.Verbose, "LogXml Verbose Example", testSourceHTML)
+            logsi.LogXml(SILevel.Message, "LogXml Message Example", testSourceHTML)
+            logsi.LogXml(SILevel.Warning, "LogXml Warning Example", testSourceHTML)
+            logsi.LogXml(SILevel.Error, "LogXml Error Example", testSourceHTML)
+            logsi.LogXml(SILevel.Fatal, "LogXml Fatal Example", testSourceHTML)
+
+            # LogXmlFile Examples.
+            testdataPath = testdataPfx + "TestSourceXML.xml"
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py LogXmlFile Examples.")
+            logsi.LogXmlFile(None, "LogXmlFile NoLevel Example", testdataPath)
+            logsi.LogXmlFile(SILevel.Debug, "LogXmlFile Debug Example", testdataPath)
+            logsi.LogXmlFile(SILevel.Verbose, "LogXmlFile Verbose Example", testdataPath)
+            logsi.LogXmlFile(SILevel.Message, "LogXmlFile Message Example", testdataPath)
+            logsi.LogXmlFile(SILevel.Warning, "LogXmlFile Warning Example", testdataPath)
+            logsi.LogXmlFile(SILevel.Error, "LogXmlFile Error Example", testdataPath)
+            logsi.LogXmlFile(SILevel.Fatal, "LogXmlFile Fatal Example", testdataPath)
 
             # ResetColor Examples.
             logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py SISession.ResetColor Examples.")

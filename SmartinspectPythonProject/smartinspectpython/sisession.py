@@ -4378,6 +4378,52 @@ class SISession:
             self.LogInternalError("LogWarning: " + str(ex))
                 
 
+    def LogXml(self, level:SILevel=None, title:str=None, xml:str=None, colorValue:SIColors=None) -> None:
+        """
+        Logs XML source code that is displayed with syntax
+        highlighting in the Console using a custom log level.
+
+        Args:
+            level (SILevel):
+                The log level of this method call.
+            title (str):
+                The title to display in the Console.
+            xml (str):
+                The XML source code to log.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
+                Refer to the SIColors enum in the sicolor module for common color values.
+                Specify None to use default background color.
+
+        This method displays the supplied XML source code with syntax
+        highlighting in the Console. 
+        """
+        self.LogCustomText(level, title, xml, SILogEntryType.Source, SISourceId.Xml, colorValue)
+
+
+    def LogXmlFile(self, level:SILevel=None, title:str=None, fileName:str=None, colorValue:SIColors=None) -> None:
+        """
+        Logs the content of a file as XML source code with syntax
+        highlighting using a custom title and custom log level.
+
+        Args:
+            level (SILevel):
+                The log level of this method call.
+            title (str):
+                The title to display in the Console.
+            fileName (str):
+                The name of the file which contains the XML source code.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
+                Refer to the SIColors enum in the sicolor module for common color values.
+                Specify None to use default background color.
+
+        This method displays the XML source file with syntax highlighting
+        in the Console. 
+        """
+        self.LogCustomFile(level, title, fileName, SILogEntryType.Source, SISourceId.Xml, colorValue)        
+
+
     def ResetCallstack(self, level:SILevel=None) -> None:
         """
         Resets the call stack by using a custom log level.
