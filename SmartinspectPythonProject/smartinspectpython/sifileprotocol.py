@@ -223,8 +223,9 @@ class SIFileProtocol(SIProtocol):
 
         # create destination directory if necessary (e.g. "C:\\logs").
         dirName:str = os.path.dirname(self._fFileName)
-        if (not os.path.isdir(dirName)):
-            os.makedirs(dirName, exist_ok=True)
+        if (dirName is not None) and (len(dirName) > 0):
+            if (not os.path.isdir(dirName)):
+                os.makedirs(dirName, exist_ok=True)
 
         # get the log file name.
         # if it's a rotating log, then the filename will have a timestamp in it (e.g. "C:\\logs\\logfile-hourly-2023-05-22-12-00-00.txt").

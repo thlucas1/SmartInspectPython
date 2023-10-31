@@ -207,3 +207,6 @@ __pycache__/
 dist/
 env/
 /SmartinspectPythonProject/tests/test_SampleCode.py
+/Git*.cmd
+# include PDOC documentation
+!SmartinspectPythonProject/docspdoc/build/

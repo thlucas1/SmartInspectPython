@@ -5,7 +5,7 @@
     <ProjectGuid>42899ab3-fe6c-4405-b86e-09ddf828ee7a</ProjectGuid>
     <ProjectHome>
     </ProjectHome>
-    <StartupFile>tests\test_ProtocolTcp.py</StartupFile>
+    <StartupFile>tests\test_SampleCode.py</StartupFile>
     <SearchPath>tests;smartinspectpython</SearchPath>
     <WorkingDirectory>C:\Users\thluc\source\repos\SmartinspectPython\SmartinspectPythonProject</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -202,6 +202,7 @@
     <Content Include="build.bat" />
     <Content Include="docspdoc\include\smartinspect.ico" />
     <Content Include="docs\include\samplecode\smartinspect.cfg" />
+    <Content Include="readthedocs.yaml" />
     <Content Include="tests\testdata\TestConfigurationSettings.txt" />
     <None Include=".vscode\launch.json" />
     <None Include=".vscode\settings.json" />

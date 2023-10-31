@@ -7,6 +7,10 @@ Change are listed in reverse chronological order (newest to oldest).
 
 <span class="changelog">
 
+###### [ 3.0.27 ] - 2023/10/31
+
+  * Changed code in the SIProtocol module to see if a directory prefix is specified for the log file.  If not, then it will not try to create a directory structure.  Prior to this fix, it was always expecting a directory specification.
+
 ###### [ 3.0.26 ] - 2023/10/20
 
   * Added new methods to SISession class: LogXml, LogXmlFile.
