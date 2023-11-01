@@ -76,9 +76,9 @@ setup(
         'License :: Free To Use But Restricted',
     ]
     # provide some links to list on the Pypi.org site.
-    #project_urls={
-    #    'Documentation': 'https://example.com/documentation/',
-    #    'GitHub': 'https://github.com/foobar/foobar/',
-    #    'Changelog': 'https://github.com/foobar/foobar/blob/master/CHANGELOG.md',
-    #},
+    project_urls={
+       'Documentation': 'https://smartinspectpython.readthedocs.io/en/latest/__init__.html',
+       'GitHub': 'https://github.com/thlucas1/SmartInspectPython',
+       'Changelog': 'https://github.com/thlucas1/SmartInspectPython/blob/main/CHANGELOG.md',
+    }
 )
