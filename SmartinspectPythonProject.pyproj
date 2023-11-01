@@ -201,9 +201,11 @@
     <Folder Include="tests\testdata\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include=".gitattributes" />
     <Content Include=".github\ISSUE_TEMPLATE\bug.yml" />
     <Content Include=".github\ISSUE_TEMPLATE\config.yml" />
     <Content Include=".github\ISSUE_TEMPLATE\feature_request.yml" />
+    <Content Include=".gitignore" />
     <Content Include="builddocs.bat" />
     <Content Include="build.bat" />
     <Content Include="docspdoc\build\codecopy.js" />
@@ -300,6 +302,10 @@
     <Content Include="docspdoc\build\__init__.html" />
     <Content Include="docspdoc\include\smartinspect.ico" />
     <Content Include="docs\include\samplecode\smartinspect.cfg" />
+    <Content Include="GitCommitUpdates.cmd" />
+    <Content Include="GitCompress.cmd" />
+    <Content Include="GitIgnoreFix.cmd" />
+    <Content Include="GitInit.cmd" />
     <Content Include="readthedocs.yaml" />
     <Content Include="tests\testdata\TestConfigurationSettings.txt" />
     <None Include=".vscode\launch.json" />
