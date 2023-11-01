@@ -1,0 +1,30 @@
+# pyproject.toml
+#
+# More info on the format of this file can be found at:
+# https://packaging.python.org/en/latest/tutorials/packaging-projects/
+#
+# smartinspectpython Project Build File.
+#
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "smartinspectpython"
+version = "3.0.10"
+authors = [
+  { name="Todd Lucas", email="thlucas@yahoo.com" },
+]
+description = "Provides applications written in Python the ability to log trace data using the SmartInspect v3+ Console."
+readme = "README.md"
+requires-python = ">=3.4"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+#"Homepage" = "https://github.com/pypa/sampleproject"
+#"Bug Tracker" = "https://github.com/pypa/sampleproject/issues"
