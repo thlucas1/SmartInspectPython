@@ -16,7 +16,8 @@ Diagnostics tracing options can be set via an application configuration settings
 The Real-Time Console method of sending diagnostic data is the ideal way to diagnose applications that utilize services, such as ASP.NET or Windows Services.  For real-time monitoring, diagnostics trace data is sent from your application to the SmartInspect Console viewer over the TCP/IP network.  The SmartInspect Console can be started on the same machine where your application is running, or on a different machine that is accessible via the TCP/IP network.
 
 # Documentation
-* Documentation is located in the package library under the 'docs' folder; use the index.html as your starting point. 
+* Documentation is located in the package library under the 'docs' folder; use the index.html as your starting point.  
+* You can also view the latest documentation online at <a href="https://smartinspectpython.readthedocs.io/en/latest/__init__.html" target="_blank">readthedocs.io</a>.
 
 # Requirements
 * Python 3.4 or greater (not tested with Python 2).
