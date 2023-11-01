@@ -3,11 +3,11 @@ echo Build PDoc Documentation Script starting.
 
 
 echo Changing working directory to docspdoc folder.
-cd C:\Users\thluc\source\repos\SmartinspectPython\SmartinspectPythonProject\docspdoc
+cd C:\Users\thluc\source\repos\SmartinspectPythonProject\docspdoc
 
 
 echo Activating python virtual environment.
-call ..\env\scripts\activate.bat
+call "..\env\scripts\activate.bat"
 
 
 echo Setting build environment variables via buildEnv.py ...
@@ -33,7 +33,7 @@ copy .\include\*.ico .\build
 
 
 echo Changing working directory to package source folder.
-cd C:\Users\thluc\source\repos\SmartinspectPython\SmartinspectPythonProject\smartinspectpython
+cd C:\Users\thluc\source\repos\SmartinspectPythonProject\smartinspectpython
 
 
 echo Building PDoc Documentation ...
@@ -44,7 +44,7 @@ pdoc -o ..\docspdoc\build -d google --no-show-source --no-math --no-mermaid --se
 
 echo.
 echo Changing working directory to package project folder.
-cd C:\Users\thluc\source\repos\SmartinspectPython\SmartinspectPythonProject
+cd C:\Users\thluc\source\repos\SmartinspectPythonProject
 
 
 echo Build PDoc Documentation Script completed.

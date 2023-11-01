@@ -172,6 +172,7 @@ artifacts/
 /tests/logfiles*/
 /tests/test_SampleCode.py
 /docspdoc/build/
+/_Build_Pip_Package_Instructions.txt
 /Git*.cmd
 
 # include PDOC documentation

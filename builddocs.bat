@@ -3,15 +3,15 @@ cls
 echo Script starting.
 
 echo Setting Python Search path (PYTHONPATH).
-set PYTHONPATH=C:\Users\thluc\source\repos\SmartinspectPython\SmartinspectPythonProject\;C:\Users\thluc\source\repos\SmartinspectPython\SmartinspectPythonProject\smartinspectpython
+set PYTHONPATH=C:\Users\thluc\source\repos\SmartinspectPythonProject\;C:\Users\thluc\source\repos\SmartinspectPythonProject\smartinspectpython
 
 
 echo Changing working directory to package source folder.
-cd C:\Users\thluc\source\repos\SmartinspectPython\SmartinspectPythonProject
+cd C:\Users\thluc\source\repos\SmartinspectPythonProject
 
 
 echo Activating python virtual environment.
-call .\env\scripts\activate.bat
+call ".\env\scripts\activate.bat"
 
 
 echo Cleaning up the project build output folder.
@@ -35,7 +35,7 @@ call ".\docspdoc\make.bat"
 
 
 echo Deactivating python virtual environment.
-call .\env\scripts\deactivate.bat
+call ".\env\scripts\deactivate.bat"
 
 
 echo.
