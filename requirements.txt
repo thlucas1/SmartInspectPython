@@ -1,8 +1,8 @@
 pip>=22.0.4
-pip>=22.0.4
 pdoc>=14.0.0
 pycryptodome>=3.0
 pywin32>=300
 setuptools>=58.1.0
 twine>=4.0.2
+watchdog==1.0.1
 wheel>=0.41.2

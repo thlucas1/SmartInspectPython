@@ -7,6 +7,10 @@ Change are listed in reverse chronological order (newest to oldest).
 
 <span class="changelog">
 
+###### [ 3.0.28 ] - 2023/11/25
+
+  * Changed `SIConfigurationTimer` class to use the `watchdog` (1.0.1) package to monitor file system change events.  Prior `threading.Condition` code was consuming large amounts of cpu when monitoring the smartinspect configuration file for changes.
+
 ###### [ 3.0.27 ] - 2023/10/31
 
   * Changed code in the SIProtocol module to see if a directory prefix is specified for the log file.  If not, then it will not try to create a directory structure.  Prior to this fix, it was always expecting a directory specification.

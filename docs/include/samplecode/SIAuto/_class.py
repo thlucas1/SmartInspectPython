@@ -10,8 +10,7 @@ siConfigPath:str = "./smartinspect.cfg"
 SIAuto.Si.LoadConfiguration(siConfigPath)
 
 # start monitoring the configuration file for changes, and reload it when it changes.
-# this will check the file for changes every 60 seconds.
-siConfigTask:SIConfigurationTimer = SIConfigurationTimer(SIAuto.Si, siConfigPath, 60)
+siConfigTask:SIConfigurationTimer = SIConfigurationTimer(SIAuto.Si, siConfigPath)
 
 #############################################################################
 # Use the following in main (or classes) in your project:

@@ -1,8 +1,10 @@
 import _threading_local
 from ctypes import ArgumentError
-from datetime import datetime, timedelta
 import os
 import threading
+import time
+from watchdog.observers import Observer
+from watchdog.events import PatternMatchingEventHandler, FileModifiedEvent, FileCreatedEvent, FileDeletedEvent
 
 # our package imports.
 from .siargumentnullexception import SIArgumentNullException
@@ -17,15 +19,16 @@ class SIConfigurationTimer:
     """
     Monitors a SmartInspect configuration settings file for changes
     and reloads the configuration when it does.
-
-    Use this class to monitor and automatically reload SmartInspect
-    configuration files.  This class periodically checks if the
-    related configuration file has changed (by comparing the last
-    modified datetime) and automatically tries to reload the configuration
-    properties. You can pass the SmartInspect object to configure,
-    the path of the configuration file to monitor, and the interval
-    in which the path should check for changes.
-
+    
+    A watchdog `Observer` class is used to monitor the configuration filepath
+    for changes (create, update, delete).
+        
+    The `SmartInspect.LoadConfiguration` method is called if the configuration 
+    filepath is created or changed.  
+        
+    The `SmartInspect.Enabled` property is set to False if the configuration 
+    filepath is deleted (e.g. disables SmartInspect logging).  
+    
     For information about SmartInspect configuration files, please
     refer to the documentation of the SmartInspect.LoadConfiguration
     method.
@@ -46,87 +49,156 @@ class SIConfigurationTimer:
     </details>
     """
 
-    def __init__(self, smartInspect:SmartInspect, fileName:str, interval:int=60) -> None:
+    def __init__(self, smartInspect:SmartInspect, filePath:str) -> None:
         """
         Initializes a new instance of the class.
 
         Args:
             smartInspect (SmartInspect):
                 The SmartInspect object to configure.
-            fileName (str):
+            filePath (str):
                 The path of the configuration file to monitor.
-            interval (int):
-                The interval (in seconds) in which this timer should check for changes
-                to the configuration file.
-                Default value is 60 (seconds).
 
         Raises:
             SIArgumentNullException:
-                The smartInspect or fileName parameter is null.
-            ArgumentError:
-                The interval parameter is less than 1 or greater than 300 (seconds).
+                The smartInspect or filePath parameter is null.
 
         The monitoring of the file begins immediately.
         """
         # validations:
         if (smartInspect == None):
             raise SIArgumentNullException("smartInspect")
-        if (fileName == None):
-            raise SIArgumentNullException("fileName")
-        if ((interval < 1) or (interval > 300)):
-            raise ArgumentError("Interval argument must be in the range of 1 to 300 (seconds).")
+        if (filePath == None):
+            raise SIArgumentNullException("filePath")
 
         # initialize instance.
         self._fLock:object = _threading_local.RLock()
-        self._fSmartInspect = smartInspect
-        self._fFileName:str = fileName
-        self._fInterval:int = interval
-        self._fIntervalNextCheck:datetime = datetime.utcnow()
-        self._fFileDateModified:datetime = datetime.min
-        self._fMonitorCondition:threading.Condition = threading.Condition(self._fLock)
+        self._fSmartInspect:SmartInspect = smartInspect
+        self._fFilePath:str = filePath
         self._fStarted = False
-        self._fStopped = False
+        self._fStopRequested = False
 
-        # start monitoring the file for changes.
+        # start monitoring the filepath for changes.
         self.Start()
 
 
-    @staticmethod
-    def _GetFileAge(fileName:str) -> bool:
+    def __enter__(self) -> 'SIConfigurationTimer':
+        # if called via a context manager (e.g. "with" statement).
+        # start monitoring the filepath for changes.
+        self.Start()
+        return self
+
+
+    def __exit__(self, etype, value, traceback) -> None:
+        # if called via a context manager (e.g. "with" statement).
+        # stop monitoring the filepath for changes.
+        self.Stop()
+        return False
+
+
+    def _MonitorFileTask(self, instance) -> None:
         """
-        Gets the last modified date time of the specified file path.
-
-        Args:
-            fileName (str):
-                The path of the configuration file to monitor.
-
-        Returns:
-            (bool):
-                True if the function was successful; otherwise, false.
-            (datetime):
-                datetime of file last modified date if the function was successful;
-                otherswise, datetime.min if not.
-
-        No exception will be thrown by this method.
+        Starts a watchdog `Observer` class to monitor the configuration filepath
+        for changes (create,update,delete).
+        
+        The `SmartInspect.LoadConfiguration` method is called if the configuration 
+        filepath is created or changed.  
+        
+        The `SmartInspect.Enabled` property is set to False if the configuration 
+        filepath is deleted.  
         """
-        result:bool = False
-        age:datetime = None
-
+        fileObserver:Observer = None
+        
         try:
             
-            # get last modified date time of file.
-            ts = os.path.getmtime(fileName)     # returns timestamp
-            age = datetime.fromtimestamp(ts)    # converts timestamp to datetime
-            result = True
+            # the event handler is the object that will be notified when something happens 
+            # on the filesystem we are monitoring.
+            # the pattern array to match should be file base name(s) (e.g. name.extension).
+            baseName:str = os.path.basename(self._fFilePath)   #filename.extension
+            fileEventHandler = PatternMatchingEventHandler(patterns=[baseName], 
+                                                           ignore_patterns=None, 
+                                                           ignore_directories=True, 
+                                                           case_sensitive=False)
+            
+            # add event handlers for various file operations.
+            fileEventHandler.on_created = self._OnCreated
+            fileEventHandler.on_deleted = self._OnDeleted
+            fileEventHandler.on_modified = self._OnModified
+
+            # create the observer, which will monitor the filesystem, looking for changes 
+            # that will be handled by the event handler.
+            # in our case, we are looking for changes to 1 file in a single directory.
+            dirPath:str = os.path.dirname(self._fFilePath)
+            if dirPath is None or len(dirPath) == 0:
+                dirPath = "."
+            fileObserver = Observer()
+            fileObserver.schedule(fileEventHandler, dirPath, recursive=False)
+
+            # start the observer.
+            fileObserver.start()
+
+            # process until we are asked to stop by main thread.
+            while (True):
+
+                with (self._fLock):
         
+                    # were we asked to stop?  if so, then we are done.
+                    if (self._fStopRequested):
+                        break
+
+                    # is main thread still alive?  if not, then we are done.
+                    if (not threading.main_thread().is_alive()):
+                        break
+
+                    # sleep for a time, giving other threads a chance to do their thing.
+                    time.sleep(5)
+
         except Exception as ex:
         
-            # if file info could not be obtained, then return False to indicate failure.
-            age = datetime.min
-            result = False
+            # ignore exceptions.
+            pass
+        
+        finally:
+        
+            # if observer was started, then stop it.
+            if fileObserver is not None:
+                fileObserver.stop()
+                fileObserver.join()
+    
+            # indicate we are not monitoring.
+            self._fStarted = False
 
-        return result, age
+            # reset stop requested status.
+            self._fStopRequested = False
 
+
+    def _OnCreated(self, event:FileCreatedEvent):
+        """ 
+        Called when a configuration filepath has been created. 
+        """
+        self._fSmartInspect.RaiseInfoEvent("SI Configuration File was created: \"{0}\"".format(event.src_path))
+        # we won't reload it here, since an `_OnChanged` event will be fired 
+        # immediately after to issue the reload.
+
+
+    def _OnDeleted(self, event:FileDeletedEvent):
+        """ 
+        Called when a configuration filepath has been deleted. 
+        
+        SmartInspect logger will be disabled when the monitored configuration file is deleted.
+        """
+        self._fSmartInspect.RaiseInfoEvent("SI Configuration File was deleted; disabling SmartInspect logger for file \"{0}\"".format(event.src_path))
+        self._fSmartInspect.Enabled = False
+
+
+    def _OnModified(self, event:FileModifiedEvent):
+        """ 
+        Called when a configuration filepath has been modified. 
+        
+        """
+        self._fSmartInspect.RaiseInfoEvent("SI Configuration File was changed; reloading configuration from file \"{0}\"".format(event.src_path))
+        self._fSmartInspect.LoadConfiguration(event.src_path)
+    
 
     def Start(self) -> None:
         """
@@ -137,8 +209,8 @@ class SIConfigurationTimer:
         call, to restart monitoring of the configuration file.
 
         It will start a new thread named "SiConfigFileMonitorTask" that will
-        monitor a specified configuration file for changes at a selected
-        interval, and reload the configuration automatically.
+        execute the watchdog Observer that monitors the specified configuration 
+        filepath for changes.
         """
         with (self._fLock):
 
@@ -146,17 +218,14 @@ class SIConfigurationTimer:
             if (self._fStarted):
                 return
 
-            # get last modified date time of specified configuration file path.
-            result, self._fFileDateModified = SIConfigurationTimer._GetFileAge(self._fFileName)
-
             # reset stop requested status.
-            self._fStopped = False
+            self._fStopRequested = False
 
             # start the thread task to monitor the file.
             self._fThread = threading.Thread(target=self._MonitorFileTask, args=(self,))
             self._fThread.name = "SiConfigFileMonitorTask"
             self._fThread.start()
-
+                    
             # indicate we are monitoring.
             self._fStarted = True
 
@@ -172,8 +241,7 @@ class SIConfigurationTimer:
                 return
 
             # inform the thread task we want it to stop.
-            self._fStopped = True
-            self._fMonitorCondition.notify_all()
+            self._fStopRequested = True
 
         # wait for the monitoring threadtask to finish up.
         if (self._fThread != None):
@@ -181,54 +249,3 @@ class SIConfigurationTimer:
 
         # reset threadtask object.
         self._fThread = None
-
-
-    def _MonitorFileTask(self, instance) -> None:
-        """
-        Periodically checks the last modified datetime of a configuration
-        file to see if it has changed, and reloads the configuration if so.
-        """
-        try:
-
-            # process until we are asked to stop by main thread.
-            while (True):
-
-                with (self._fLock):
-        
-                    # were we asked to stop?  if so, then we are done.
-                    if (self._fStopped):
-                        break
-
-                    # is main thread still alive?  if not, then we are done.
-                    if (not threading.main_thread().is_alive()):
-                        break
-
-                    # has interval been reached since last check?
-                    if (datetime.utcnow() >= self._fIntervalNextCheck):
-
-                        # calculate next interval check datetime.
-                        self._fIntervalNextCheck = datetime.utcnow() + timedelta(seconds=self._fInterval)
-
-                        # get last modified date time of specified configuration file path.
-                        lastUpdate:datetime = None
-                        result, lastUpdate = SIConfigurationTimer._GetFileAge(self._fFileName)
-
-                        # did we get the last modified datetime?
-                        if (result):
-
-                            # yes - has file changed since the last time we checked?
-                            # if so, then save the last modified date and reload configuration.
-                            if (lastUpdate > self._fFileDateModified):
-                                self._fFileDateModified = lastUpdate
-                                self._fSmartInspect.RaiseInfoEvent("SI Configuration File change detected - reloading configuration from file \"{0}\"".format(self._fFileName))
-                                self._fSmartInspect.LoadConfiguration(self._fFileName)
-
-                        # wait until we receive a pulse from the main thread
-                        # that it asked us to stop, or a timeout of 1 second occurs.
-                        # this keeps the thread responsive and prevents shutdown hanging.
-                        self._fMonitorCondition.wait(1)
-
-        except Exception as ex:
-        
-            # ignore exceptions.
-            pass

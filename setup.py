@@ -11,8 +11,6 @@ NAME = 'smartinspectPython'
 DESCRIPTION = 'SmartInspect Python3 Library'
 #VERSION = '0.0.1'   # pulled from package constants above.
 
-
-
 # if installing using less than Python v3, then stop the install!
 import sys
 if sys.version_info < (3,0):
@@ -56,7 +54,8 @@ setup(
     # set minimum dependencies requirements.
     install_requires=[
         'pycryptodome >= 3.0',
-        'pywin32 >= 300 ; platform_system=="Windows"'
+        'pywin32 >= 300 ; platform_system=="Windows"',
+        'watchdog == 1.0.1'
     ],
     # set keywords to associate this package with on Pypi.org.
     keywords=['python', 'smartinspect', 'logging', 'trace', 'tracing', 'debugging'],
@@ -73,12 +72,13 @@ setup(
         'Topic :: Software Development',
         'Topic :: System :: Logging',
         'Natural Language :: English',
-        'License :: Free To Use But Restricted',
-    ]
+        'License :: Free To Use But Restricted'
+    ],
     # provide some links to list on the Pypi.org site.
     project_urls={
        'Documentation': 'https://smartinspectpython.readthedocs.io/en/latest/__init__.html',
        'GitHub': 'https://github.com/thlucas1/SmartInspectPython',
        'Changelog': 'https://github.com/thlucas1/SmartInspectPython/blob/main/CHANGELOG.md',
+       'Issues': 'https://github.com/thlucas1/SmartInspectPython/issues',
     }
 )

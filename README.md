@@ -23,6 +23,7 @@ The Real-Time Console method of sending diagnostic data is the ideal way to diag
 * Python 3.4 or greater (not tested with Python 2).
 * pycryptodome package - used for log file encryption support.
 * pywin32 package - for named-pipe support (Windows platform only - use `pip install pywin32` to install manually).
+* watchdog package - for detection of changes to smartinspect.cfg file settings.
 
 # Dependencies
 * SmartInspect Redistributable Console, Version 3.3+.

@@ -2,6 +2,7 @@
 import sys
 sys.path.append(".")
 
+import os
 import time
 
 # our package imports.
@@ -10,19 +11,21 @@ from smartinspectpython.siauto import *
 # import classes used for test scenarios.
 from testClassDefinitions import SIEventHandlerClass
 
-print("Test Script Starting.\n")
+print("Test Script Starting (PID=%i).\n" % os.getpid())
 
 # wire up smartinspect events.
 SIEventHandlerClass.WireEvents(SIAuto.Si)
 
 # load SmartInspect settings from a configuration settings file.
 configPath:str = "./tests/test_configuration.settings.txt"
+#configPath:str = "C:/Users/testuser/source/repos/SmartinspectPythonProject/tests/test_configuration.settings.txt"
+#configPath:str = "test_configuration.settings.txt"
 print("Loading SmartInspect settings from configuration settings file:\n{0}\n".format(configPath))
 SIAuto.Si.LoadConfiguration(configPath)
 
 # start monitoring the configuration file for changes, and reload it when it changes.
 # this will check the file for changes every 5 seconds.
-config:SIConfigurationTimer = SIConfigurationTimer(SIAuto.Si, configPath, 2)
+config:SIConfigurationTimer = SIConfigurationTimer(SIAuto.Si, configPath)
 print("Monitoring SmartInspect configuration settings for changes.")
 
 # get smartinspect logger reference.
@@ -32,7 +35,7 @@ SIAuto.Si.AddSession('NewSession1', True)
 # keep logging messages every second for 300 seconds.
 # while it is running, change the configuration file "level" value
 # and watch the Si Console to see if changes were applied.
-for i in range(30):
+for i in range(300):
     time.sleep(1)
     _logsi.LogDebug("This is a test Debug message (current Level=\"{0}\").".format(str(_logsi.Parent.Level)))
     _logsi.LogVerbose("This is a test Verbose message (current Level=\"{0}\").".format(str(_logsi.Parent.Level)))
@@ -45,8 +48,9 @@ for i in range(30):
     if (_logsi1 != None):
         _logsi1.LogMessage("_logsi1 - This is a test Message message (current Level=\"{0}\").".format(str(_logsi1.Parent.Level)))
 
+value:str = ""
 
 # stop configuration file monitoring for changes.
-#config.Stop()
+config.Stop()
 
 print("\nTest Script Ended.")
