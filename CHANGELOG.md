@@ -7,6 +7,10 @@ Change are listed in reverse chronological order (newest to oldest).
 
 <span class="changelog">
 
+###### [ 3.0.29 ] - 2023/12/08
+
+  * Added pretty print capability to the following `SISession` methods: `LogDictionary`, `LogXml`.
+
 ###### [ 3.0.28 ] - 2023/11/25
 
   * Changed `SIConfigurationTimer` class to use the `watchdog` (1.0.1) package to monitor file system change events.  Prior `threading.Condition` code was consuming large amounts of cpu when monitoring the smartinspect configuration file for changes.

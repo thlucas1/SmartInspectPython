@@ -3,8 +3,11 @@ from array import array
 from datetime import datetime
 from inspect import FrameInfo
 from io import BufferedReader, BytesIO, StringIO, TextIOWrapper
+from pprint import pformat
 from threading import Thread, currentThread
 from typing import Collection
+from xml.etree.ElementTree import fromstring, Element
+from xml.etree import ElementTree
 import _threading_local
 import datetime
 import inspect
@@ -2228,7 +2231,9 @@ class SISession:
             self.LogInternalError("LogDebug: " + str(ex))
             
 
-    def LogDictionary(self, level:SILevel=None, title:str=None, oDict:dict=None, colorValue:SIColors=None) -> None:
+    def LogDictionary(self, level:SILevel=None, title:str=None, oDict:dict=None, colorValue:SIColors=None, 
+                      prettyPrint:bool=False
+                      ) -> None:
         """
         Logs the content of a dictionary with a custom log level.
 
@@ -2243,6 +2248,9 @@ class SISession:
                 Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
+            prettyPrint (bool):
+                True to format the dictionary with pprint before logging; otherwise, just log
+                the dictionary using a custom context viewer (e.g. `SIValueListViewerContext`).
 
         This method iterates through the supplied dictionary and calls SIObjectRenderer.RenderObject to
         render every key/value pair into a string. These pairs will be displayed in a key/value viewer 
@@ -2250,7 +2258,20 @@ class SISession:
         """
         if (not self.IsOn(level)):
             return
-
+        
+        if (prettyPrint == True) and (oDict is not None):
+            
+            try:
+            
+                # if using pretty print, then format the dictionary and log it as text.
+                dictText:str = pformat(oDict,indent=2,width=132,sort_dicts=False)
+                self.LogCustomText(level, title, dictText, SILogEntryType.Text, SIViewerId.Data, colorValue)
+                return
+            
+            except Exception as ex:
+            
+                self.LogInternalError("LogDictionary (pretty print): " + str(ex))
+                
         ctx:SIValueListViewerContext = SIValueListViewerContext()
 
         try:
@@ -4378,7 +4399,9 @@ class SISession:
             self.LogInternalError("LogWarning: " + str(ex))
                 
 
-    def LogXml(self, level:SILevel=None, title:str=None, xml:str=None, colorValue:SIColors=None) -> None:
+    def LogXml(self, level:SILevel=None, title:str=None, xml:str=None, colorValue:SIColors=None,
+               prettyPrint:bool=False
+               ) -> None:
         """
         Logs XML source code that is displayed with syntax
         highlighting in the Console using a custom log level.
@@ -4394,11 +4417,34 @@ class SISession:
                 Background color value (SIColors enum, or ARGB integer form) for the message.
                 Refer to the SIColors enum in the sicolor module for common color values.
                 Specify None to use default background color.
+            prettyPrint (bool):
+                True to format the xml with ElementTree before logging; otherwise, just log
+                the xml using a custom text viewer (e.g. Xml Source).
 
         This method displays the supplied XML source code with syntax
         highlighting in the Console. 
         """
-        self.LogCustomText(level, title, xml, SILogEntryType.Source, SISourceId.Xml, colorValue)
+        if (prettyPrint == True) and (xml is not None):
+            
+            try:
+            
+                # if using pretty print, then format the xml and log it as text.
+                elmPrettyXml:Element = fromstring(xml)
+                ElementTree.indent(elmPrettyXml)  
+                strPrettyXml:str = ElementTree.tostring(elmPrettyXml, encoding='unicode', xml_declaration=True)
+                self.LogCustomText(level, title, strPrettyXml, SILogEntryType.Source, SISourceId.Xml, colorValue)
+            
+            except Exception as ex:
+            
+                self.LogInternalError("LogXml (pretty print): " + str(ex))
+                
+                # log the xml as-is.
+                self.LogCustomText(level, title, xml, SILogEntryType.Source, SISourceId.Xml, colorValue)
+
+        else:
+
+            # no pretty print - log it as-is.
+            self.LogCustomText(level, title, xml, SILogEntryType.Source, SISourceId.Xml, colorValue)
 
 
     def LogXmlFile(self, level:SILevel=None, title:str=None, fileName:str=None, colorValue:SIColors=None) -> None:
