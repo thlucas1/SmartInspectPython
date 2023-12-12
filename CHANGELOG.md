@@ -7,6 +7,10 @@ Change are listed in reverse chronological order (newest to oldest).
 
 <span class="changelog">
 
+###### [ 3.0.30 ] - 2023/12/08
+
+  * Modified pretty print settings for `SISession.LogXml` to not add an xml declaration if one was not present on the input xml being logged.
+
 ###### [ 3.0.29 ] - 2023/12/08
 
   * Added pretty print capability to the following `SISession` methods: `LogDictionary`, `LogXml`.

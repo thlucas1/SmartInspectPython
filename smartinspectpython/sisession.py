@@ -4429,9 +4429,13 @@ class SISession:
             try:
             
                 # if using pretty print, then format the xml and log it as text.
+                addXmlDeclare:bool = False
+                if len(xml) > 5:
+                    if xml[0:5].lower().startswith('<?xml'):
+                        addXmlDeclare = True
                 elmPrettyXml:Element = fromstring(xml)
                 ElementTree.indent(elmPrettyXml)  
-                strPrettyXml:str = ElementTree.tostring(elmPrettyXml, encoding='unicode', xml_declaration=True)
+                strPrettyXml:str = ElementTree.tostring(elmPrettyXml, encoding='unicode', xml_declaration=addXmlDeclare)
                 self.LogCustomText(level, title, strPrettyXml, SILogEntryType.Source, SISourceId.Xml, colorValue)
             
             except Exception as ex:
