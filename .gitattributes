@@ -3,6 +3,8 @@
 
 # correct GitHub "Languages" detection behavior.
 # without this, GitHub reports the repository as an HTML application.
+.github/** linguist-documentation
+.vscode/** linguist-documentation
 docs/** linguist-documentation
 docspdoc/** linguist-documentation
 tests/** linguist-documentation
