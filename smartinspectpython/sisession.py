@@ -1009,7 +1009,7 @@ class SISession:
         is utilized.
         """
         if (not self.IsOn(level)):
-            return
+            return SIMethodParmListContext(methodName or '')
 
         # if method name was not specified then get it from the stack frame.
         if (methodName is None):
@@ -1021,7 +1021,7 @@ class SISession:
             self._SendLogEntry(level, methodName, SILogEntryType.EnterMethod, SIViewerId.Title)
             self._SendProcessFlow(level, methodName, SIProcessFlowType.EnterMethod)
 
-            return SIMethodParmListContext(methodName);
+            return SIMethodParmListContext(methodName)
 
         except Exception as ex:
                 

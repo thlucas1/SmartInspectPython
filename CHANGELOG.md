@@ -7,6 +7,10 @@ Change are listed in reverse chronological order (newest to oldest).
 
 <span class="changelog">
 
+###### [ 3.0.33 ] - 2024/02/02
+
+  * Updated `SISession.EnterMethodParmList` to always return a `SIMethodParmListContext` instance regarless of logging level.
+
 ###### [ 3.0.32 ] - 2024/02/02
 
   * Added `SIMethodParmListContext` class to SIAuto for `import *` support.
