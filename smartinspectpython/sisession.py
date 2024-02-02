@@ -31,6 +31,7 @@ from .silevel import SILevel
 from .silistviewercontext import SIListViewerContext
 from .silogentry import SILogEntry
 from .silogentrytype import SILogEntryType
+from .simethodparmlistcontext import SIMethodParmListContext
 from .siobjectrenderer import SIObjectRenderer
 from .siprocessflow import SIProcessFlow
 from .siprocessflowtype import SIProcessFlowType
@@ -974,6 +975,57 @@ class SISession:
         except Exception as ex:
                 
             self.LogInternalError("EnterMethod: " + str(ex))
+
+
+    def EnterMethodParmList(self, level:SILevel=None, methodName:str=None) -> SIMethodParmListContext:
+        """
+        Logs method name entry and creates a custom view context for method input parameteres
+        when placed at the start of a method by using the specified log level.  
+        Reflection is used to retrieve the current method's name if the `method` argument is null.
+        
+        Args:
+            level (SILevel):
+                The log level of this method call.
+            methodName (str):
+                The name of the method; otherwise null to retrieve the 
+                current method name from inspect data.
+                
+        Returns:
+            A `SIMethodParmListContext` trace viewer context used to log method input parameters.
+        
+        The EnterMethodParmList method notifies the Console that a new
+        method has been entered. The Console includes the method in
+        the method hierarchy. If this method is used consequently, a
+        full call stack is visible in the Console which helps locating
+        bugs in the source code. Please see the LeaveMethod method as 
+        the counter piece to EnterMethod.
+        
+        If the methodName is null, then the currently executing method name
+        is derived from calling inspect.stack.  The function name, module name,
+        and source line number are displayed.
+        
+        This method uses the SmartInspect.DefaultLevel value if the level
+        parameter is set to None (default).  Otherwise, the specified level
+        is utilized.
+        """
+        if (not self.IsOn(level)):
+            return
+
+        # if method name was not specified then get it from the stack frame.
+        if (methodName is None):
+            methodName = SISession.GetMethodName(1, True)  # start=1 excludes our EnterMethodParmList
+        
+        try:
+                
+            # send two packets: one log entry, and one process flow entry.
+            self._SendLogEntry(level, methodName, SILogEntryType.EnterMethod, SIViewerId.Title)
+            self._SendProcessFlow(level, methodName, SIProcessFlowType.EnterMethod)
+
+            return SIMethodParmListContext(methodName);
+
+        except Exception as ex:
+                
+            self.LogInternalError("EnterMethodParmList: " + str(ex))
 
 
     def EnterProcess(self, level:SILevel=None, processName:str=None) -> None:
@@ -2891,6 +2943,29 @@ class SISession:
                 Specify None to use default background color.
         """
         self.LogCustomStream(level, title, stream, SILogEntryType.Graphic, SIViewerId.Metafile, colorValue)
+
+
+    def LogMethodParmList(self, level:SILevel=None, title:str=None, parmlistContext:SIMethodParmListContext=None, colorValue:SIColors=None) -> None:
+        """
+        Logs a method input parameter list view context with a custom log level and title.
+
+        Args:
+            level (SILevel):
+                The log level of this method call.
+            title (str):
+                The title to display in the Console.
+            parmlistContext (SIMethodParmListContext):
+                The method input parameter list view context to log.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
+                Refer to the SIColors enum in the sicolor module for common color values.
+                Specify None to use default background color.
+        """
+        if (self.IsOn(level)):
+        
+            if title is None:
+                title = parmlistContext.Title
+            self.LogCustomContext(level, title, SILogEntryType.Object, parmlistContext, colorValue)
 
 
     def LogObject(self, level:SILevel=None, title:str=None, instance:object=None, excludeNonPublic:bool=False, excludeBuiltIn:bool=True, excludeFunctions:bool=True, colorValue:SIColors=None) -> None:

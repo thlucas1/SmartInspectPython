@@ -61,6 +61,7 @@
     <Compile Include="smartinspectpython\sicryptostreamwriter.py" />
     <Compile Include="smartinspectpython\sifilerotater.py" />
     <Compile Include="smartinspectpython\sigraphicviewercontext.py" />
+    <Compile Include="smartinspectpython\simethodparmlistcontext.py" />
     <Compile Include="smartinspectpython\siinspectorviewercontext.py" />
     <Compile Include="smartinspectpython\silistviewercontext.py" />
     <Compile Include="smartinspectpython\simemoryprotocol.py" />

@@ -85,7 +85,7 @@ class SIValueListViewerContext(SIListViewerContext):
             self._AppendKeyValueString(key, str(value))
         elif isinstance(value, float):
             self._AppendKeyValueString(key, str(value))
-        elif isinstance(value, datetime.datetime):
+        elif isinstance(value, datetime):
             self._AppendKeyValueString(key, str(value))
         elif isinstance(value, bool):
             self._AppendKeyValueString(key, str(value))

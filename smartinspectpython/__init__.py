@@ -22,6 +22,7 @@ from smartinspectpython.sifiltereventargs import SIFilterEventArgs
 from smartinspectpython.siinfoeventargs import SIInfoEventArgs
 from smartinspectpython.silevel import SILevel
 from smartinspectpython.silogentryeventargs import SILogEntryEventArgs
+from smartinspectpython.simethodparmlistcontext import SIMethodParmListContext
 from smartinspectpython.siprocessfloweventargs import SIProcessFlowEventArgs
 from smartinspectpython.sisession import SISession
 from smartinspectpython.sisourceid import SISourceId
@@ -41,6 +42,7 @@ __all__ = [
     'SIInfoEventArgs',
     'SILevel',
     'SILogEntryEventArgs',
+    'SIMethodParmListContext',
     'SIProcessFlowEventArgs',
     'SISession',
     'SISourceId',

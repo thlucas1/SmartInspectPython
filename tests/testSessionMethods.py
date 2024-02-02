@@ -16,6 +16,7 @@ from smartinspectpython.sitextcontext import SITextContext
 from smartinspectpython.sivaluelistviewercontext import SIValueListViewerContext
 from smartinspectpython.sicontrolcommandtype import SIControlCommandType
 from smartinspectpython.silogentrytype import SILogEntryType
+from smartinspectpython.simethodparmlistcontext import SIMethodParmListContext
 from smartinspectpython.siprocessflowtype import SIProcessFlowType
 from smartinspectpython.siwatchtype import SIWatchType
 
@@ -35,12 +36,12 @@ class TestSessionMethods:
 
     # TestAllMethods method message count values for each log level type.
     TestAllMethods_LogEntryCounts = {}
-    TestAllMethods_LogEntryCounts[str(SILevel.Debug.name)] = 1001
-    TestAllMethods_LogEntryCounts[str(SILevel.Verbose.name)] = 782
-    TestAllMethods_LogEntryCounts[str(SILevel.Message.name)] = 668
-    TestAllMethods_LogEntryCounts[str(SILevel.Warning.name)] = 548
-    TestAllMethods_LogEntryCounts[str(SILevel.Error.name)] = 436
-    TestAllMethods_LogEntryCounts[str(SILevel.Fatal.name)] = 319
+    TestAllMethods_LogEntryCounts[str(SILevel.Debug.name)] = 1027
+    TestAllMethods_LogEntryCounts[str(SILevel.Verbose.name)] = 802
+    TestAllMethods_LogEntryCounts[str(SILevel.Message.name)] = 685
+    TestAllMethods_LogEntryCounts[str(SILevel.Warning.name)] = 562
+    TestAllMethods_LogEntryCounts[str(SILevel.Error.name)] = 447
+    TestAllMethods_LogEntryCounts[str(SILevel.Fatal.name)] = 327
 
     @staticmethod
     def TestAllMethods(logsi:SISession) -> None:
@@ -244,6 +245,52 @@ class TestSessionMethods:
             logsi.LeaveMethod(SILevel.Verbose)
             logsi.LeaveMethod(SILevel.Debug)
             logsi.LeaveMethod(None)
+
+            # EnterMethodParmList / LogMethodParmList / LeaveMethod Examples.
+            methodparms:SIMethodParmListContext  = None
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py SISession.EnterMethodParmList, LogMethodParmList, LeaveMethod Examples.")
+            methodparms = logsi.EnterMethodParmList(None, "EnterMethodParmList NoLevel Example")
+            methodparms = logsi.EnterMethodParmList(SILevel.Debug, "EnterMethodParmList Debug Example")
+            methodparms = logsi.EnterMethodParmList(SILevel.Verbose, "EnterMethodParmList Verbose Example")
+            methodparms = logsi.EnterMethodParmList(SILevel.Message, "EnterMethodParmList Message Example")
+            methodparms = logsi.EnterMethodParmList(SILevel.Warning, "EnterMethodParmList Warning Example")
+            methodparms = logsi.EnterMethodParmList(SILevel.Error, "EnterMethodParmList Error Example")
+            methodparms = logsi.EnterMethodParmList(SILevel.Fatal, "EnterMethodParmList Fatal Example")
+            methodparms.AppendKeyValue("parm1String", str('this is a string parameter'))
+            methodparms.AppendKeyValue("parm2Integer", int(99))
+            methodparms.AppendKeyValue("parm3Float", float(99.9999999))
+            methodparms.AppendKeyValue("parm4DateTime", testdate)
+            methodparms.AppendKeyValue("parm5Bool", bool(True))
+            methodparms.AppendKeyValue("parm6List", ['item1','item2','item3'])
+            methodparms.AppendKeyValue("parm7Dict", {'item1':'value1','item2':'value2'})
+            logsi.LogMethodParmList(None, "EnterMethodParmList NoLevel Example", methodparms)
+            logsi.LogMethodParmList(SILevel.Debug, "EnterMethodParmList Debug Example", methodparms)
+            logsi.LogMethodParmList(SILevel.Verbose, "EnterMethodParmList Verbose Example", methodparms)
+            logsi.LogMethodParmList(SILevel.Message, "EnterMethodParmList Message Example", methodparms)
+            logsi.LogMethodParmList(SILevel.Warning, "EnterMethodParmList Warning Example", methodparms)
+            logsi.LogMethodParmList(SILevel.Error, "EnterMethodParmList Error Example", methodparms)
+            logsi.LogMethodParmList(SILevel.Fatal, "EnterMethodParmList Fatal Example", methodparms)
+            logsi.LeaveMethod(SILevel.Fatal, "LeaveMethod Fatal Example")
+            logsi.LeaveMethod(SILevel.Error, "LeaveMethod Error Example")
+            logsi.LeaveMethod(SILevel.Warning, "LeaveMethod Warning Example")
+            logsi.LeaveMethod(SILevel.Message, "LeaveMethod Message Example")
+            logsi.LeaveMethod(SILevel.Verbose, "LeaveMethod Verbose Example")
+            logsi.LeaveMethod(SILevel.Debug, "LeaveMethod Debug Example")
+            logsi.LeaveMethod(None, "LeaveMethod NoLevel Example")
+
+            # EnterMethodParmList / LogMethodParmList / LeaveMethod Examples.
+            methodparms:SIMethodParmListContext  = None
+            logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py SISession.EnterMethodParmList, LogMethodParmList, LeaveMethod Example 2.")
+            methodparms = logsi.EnterMethodParmList(SILevel.Fatal)
+            methodparms.AppendKeyValue("parm1String", str('this is a string parameter'))
+            methodparms.AppendKeyValue("parm2Integer", int(99))
+            methodparms.AppendKeyValue("parm3Float", float(99.9999999))
+            methodparms.AppendKeyValue("parm4DateTime", testdate)
+            methodparms.AppendKeyValue("parm5Bool", bool(True))
+            methodparms.AppendKeyValue("parm6List", ['item1','item2','item3'])
+            methodparms.AppendKeyValue("parm7Dict", {'item1':'value1','item2':'value2'})
+            logsi.LogMethodParmList(SILevel.Fatal, "EnterMethodParmList Fatal Example", methodparms)
+            logsi.LeaveMethod(SILevel.Fatal, "LeaveMethod Fatal Example")
 
             # EnterProcess / LeaveProcess Examples.
             logsi.LogColored(SILevel.Fatal, SIColors.LightSkyBlue, "Py SISession.EnterProcess, LeaveProcess Examples.")

@@ -7,6 +7,11 @@ Change are listed in reverse chronological order (newest to oldest).
 
 <span class="changelog">
 
+###### [ 3.0.31 ] - 2024/02/02
+
+  * Added new methods to `SISession` class: EnterMethodParmList, LogMethodParmList.
+  * Added `SIMethodParmListContext` class to support logging of input parameter lists.
+
 ###### [ 3.0.30 ] - 2023/12/08
 
   * Modified pretty print settings for `SISession.LogXml` to not add an xml declaration if one was not present on the input xml being logged.
