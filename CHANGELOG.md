@@ -7,6 +7,10 @@ Change are listed in reverse chronological order (newest to oldest).
 
 <span class="changelog">
 
+###### [ 3.0.32 ] - 2024/02/02
+
+  * Added `SIMethodParmListContext` class to SIAuto for `import *` support.
+
 ###### [ 3.0.31 ] - 2024/02/02
 
   * Added new methods to `SISession` class: EnterMethodParmList, LogMethodParmList.

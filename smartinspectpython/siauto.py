@@ -25,6 +25,7 @@ The following classes are imported when `from smartinspectpython.siauto import *
 - SIInfoEventArgs
 - SILevel
 - SILogEntryEventArgs
+- SIMethodParmListContext
 - SIProcessFlowEventArgs
 - SISession
 - SIWatchEventArgs
@@ -44,6 +45,7 @@ __all__ = [
     'SIInfoEventArgs',
     'SILevel',
     'SILogEntryEventArgs',
+    'SIMethodParmListContext',
     'SIProcessFlowEventArgs',
     'SISession',
     'SISourceId',
@@ -64,6 +66,7 @@ from .sifiltereventargs import SIFilterEventArgs
 from .siinfoeventargs import SIInfoEventArgs
 from .silevel import SILevel
 from .silogentryeventargs import SILogEntryEventArgs
+from .simethodparmlistcontext import SIMethodParmListContext
 from .siprocessfloweventargs import SIProcessFlowEventArgs
 from .sisession import SISession
 from .sisourceid import SISourceId
