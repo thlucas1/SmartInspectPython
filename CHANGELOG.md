@@ -7,6 +7,12 @@ Change are listed in reverse chronological order (newest to oldest).
 
 <span class="changelog">
 
+###### [ 3.0.34 ] - 2025/01/15
+
+  * Updated Python version from v3.9 to v3.11.
+  * Updated `SISession` class to replace deprecated `thread.isDaemon()` with `thread.daemon` reference.  This was causing deprecation warning messages to be displayed in Python 3.11 clients.
+  * Updated `SISession` class to replace deprecated `threading.currentThread()` with `threading.current_thread()` reference.  This was causing deprecation warning messages to be displayed in Python 3.11 clients.
+
 ###### [ 3.0.33 ] - 2024/02/02
 
   * Updated `SISession.EnterMethodParmList` to always return a `SIMethodParmListContext` instance regarless of logging level.

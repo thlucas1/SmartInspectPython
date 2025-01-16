@@ -4,7 +4,7 @@ from datetime import datetime
 from inspect import FrameInfo
 from io import BufferedReader, BytesIO, StringIO, TextIOWrapper
 from pprint import pformat
-from threading import Thread, currentThread
+from threading import Thread, current_thread
 from typing import Collection
 from xml.etree.ElementTree import fromstring, Element
 from xml.etree import ElementTree
@@ -2003,7 +2003,7 @@ class SISession:
             return
 
         # get reference to the current thread.
-        thread:Thread = currentThread()
+        thread:Thread = current_thread() 
 
         # set default title if one was not supplied.
         if ((title == None) or (len(title) == 0)):
@@ -4339,7 +4339,7 @@ class SISession:
                     #ctx.AppendKeyValue("Priority", thread. .Priority.ToString())
                     ctx.AppendKeyValue("ID", str(thread.ident))
                     ctx.AppendKeyValue("Native ID", str(thread.native_id))
-                    ctx.AppendKeyValue("Is Daemon?", str(thread.isDaemon()))
+                    ctx.AppendKeyValue("Is Daemon?", str(thread.daemon))
 
             # send the packet.
             self._SendContext(level, title, SILogEntryType.Text, ctx, colorValue)
