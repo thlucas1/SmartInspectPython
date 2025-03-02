@@ -930,7 +930,7 @@ class SISession:
             self.LogInternalError("DecCounter: " + str(ex))
 
 
-    def EnterMethod(self, level:SILevel=None, methodName:str=None) -> None:
+    def EnterMethod(self, level:SILevel=None, methodName:str=None, colorValue:SIColors=None) -> None:
         """
         Enters a method by using a custom log level.
         The resulting method name consists of the FullName of the
@@ -943,6 +943,10 @@ class SISession:
             methodName (str):
                 The name of the method; otherwise null to retrieve the 
                 current method name from inspect data.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
+                Refer to the SIColors enum in the sicolor module for common color values.
+                Specify None to use default background color.
         
         The EnterMethod method notifies the Console that a new
         method has been entered. The Console includes the method in
@@ -969,7 +973,7 @@ class SISession:
         try:
                 
             # send two packets: one log entry, and one process flow entry.
-            self._SendLogEntry(level, methodName, SILogEntryType.EnterMethod, SIViewerId.Title)
+            self._SendLogEntry(level, methodName, SILogEntryType.EnterMethod, SIViewerId.Title, colorValue)
             self._SendProcessFlow(level, methodName, SIProcessFlowType.EnterMethod)
 
         except Exception as ex:
@@ -977,7 +981,7 @@ class SISession:
             self.LogInternalError("EnterMethod: " + str(ex))
 
 
-    def EnterMethodParmList(self, level:SILevel=None, methodName:str=None) -> SIMethodParmListContext:
+    def EnterMethodParmList(self, level:SILevel=None, methodName:str=None, colorValue:SIColors=None) -> SIMethodParmListContext:
         """
         Logs method name entry and creates a custom view context for method input parameteres
         when placed at the start of a method by using the specified log level.  
@@ -989,6 +993,10 @@ class SISession:
             methodName (str):
                 The name of the method; otherwise null to retrieve the 
                 current method name from inspect data.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
+                Refer to the SIColors enum in the sicolor module for common color values.
+                Specify None to use default background color.
                 
         Returns:
             A `SIMethodParmListContext` trace viewer context used to log method input parameters.
@@ -1018,7 +1026,7 @@ class SISession:
         try:
                 
             # send two packets: one log entry, and one process flow entry.
-            self._SendLogEntry(level, methodName, SILogEntryType.EnterMethod, SIViewerId.Title)
+            self._SendLogEntry(level, methodName, SILogEntryType.EnterMethod, SIViewerId.Title, colorValue)
             self._SendProcessFlow(level, methodName, SIProcessFlowType.EnterMethod)
 
             return SIMethodParmListContext(methodName)
@@ -1242,7 +1250,7 @@ class SISession:
                 (level >= self._fParent.Level)
 
 
-    def LeaveMethod(self, level:SILevel=None, methodName:str=None) -> None:
+    def LeaveMethod(self, level:SILevel=None, methodName:str=None, colorValue:SIColors=None) -> None:
         """
         Leaves a method by using a custom log level.
         
@@ -1252,6 +1260,10 @@ class SISession:
             methodName (str):
                 The name of the method; otherwise null to retrieve the 
                 current method name from inspect data.
+            colorValue (SIColors):
+                Background color value (SIColors enum, or ARGB integer form) for the message.
+                Refer to the SIColors enum in the sicolor module for common color values.
+                Specify None to use default background color.
         
         The LeaveMethod method notifies the Console that a method
         has been left. The Console closes the current method in the
@@ -1274,7 +1286,7 @@ class SISession:
         try:
                 
             # send two packets: one log entry, and one process flow entry.
-            self._SendLogEntry(level, methodName, SILogEntryType.LeaveMethod, SIViewerId.Title)
+            self._SendLogEntry(level, methodName, SILogEntryType.LeaveMethod, SIViewerId.Title, colorValue)
             self._SendProcessFlow(level, methodName, SIProcessFlowType.LeaveMethod)
 
         except Exception as ex:

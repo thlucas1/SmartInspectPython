@@ -78,6 +78,27 @@ class Test_SISession(unittest.TestCase):
             raise
 
 
+    def test_LogInternalError(self):
+        """
+        Test SISession.LogInternalError scenarios.
+        """
+        try:
+
+            # create a new smartinspect session for logging.
+            _logsi:SISession = Test_SISession._CreateSISession(CONNECTION_TCP)
+
+            # perform tests.
+            _logsi.LogInternalError("This is an internal error")
+            _logsi.LogInternalError("This is an internal error (with color)", SIColors.Gold)
+
+            # raise exception test.
+            raise Exception("An exception occured ...")
+
+        except Exception as ex:
+
+            _logsi.LogInternalError("test_LogInternalError: " + str(ex))
+
+
     def test_AllColors(self):
         """
         Test colored message scenarios.
@@ -87,11 +108,11 @@ class Test_SISession(unittest.TestCase):
 
         try:
 
-            _logsi.EnterMethod(SILevel.Debug)
+            _logsi.EnterMethod(SILevel.Debug, colorValue=SIColors.Gold)
        
             # log message in all known color values.
             for s in SIColors:
-                _logsi.LogMessage("This is a message in color '{0}'.".format(s.name), s.value)
+                _logsi.LogMessage("This is a message in color '{0}'.".format(s.name), colorValue=s.value)
 
         except Exception as ex:
 
@@ -100,7 +121,7 @@ class Test_SISession(unittest.TestCase):
 
         finally:
 
-            _logsi.LeaveMethod(SILevel.Debug)
+            _logsi.LeaveMethod(SILevel.Debug, colorValue=SIColors.Gold)
 
 
 

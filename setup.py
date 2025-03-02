@@ -7,9 +7,8 @@ from smartinspectpython.siconst import (
 )
 
 # setup constants.
-NAME = 'smartinspectPython'
+NAME = 'smartinspectpython'
 DESCRIPTION = 'SmartInspect Python3 Library'
-#VERSION = '0.0.1'   # pulled from package constants above.
 
 # if installing using less than Python v3, then stop the install!
 import sys
@@ -72,7 +71,7 @@ setup(
         'Topic :: Software Development',
         'Topic :: System :: Logging',
         'Natural Language :: English',
-        'License :: Free To Use But Restricted'
+        'License :: OSI Approved :: MIT License'
     ],
     # provide some links to list on the Pypi.org site.
     project_urls={

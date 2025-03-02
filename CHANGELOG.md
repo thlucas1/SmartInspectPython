@@ -7,6 +7,13 @@ Change are listed in reverse chronological order (newest to oldest).
 
 <span class="changelog">
 
+###### [ 3.0.35 ] - 2025/03/02
+
+  * Updated `setup.py` to adhere to PyPI.org requirements for uploaded binary distribution filenames to comply with the binary distribution format.  This changes the wheel filename that is generated from `smartinspectPython-3.0.35-py3-none-any` to `smartinspectpython-3.0.35-py3-none-any` (same filename, just lower-case project name).
+  * Updated `SISession.EnterMethod` to accept a `colorValue` argument to color the entry in the log viewer.
+  * Updated `SISession.EnterMethodParmList` to accept a `colorValue` argument to color the entry in the log viewer.
+  * Updated `SISession.LeaveMethod` to accept a `colorValue` argument to color the entry in the log viewer.
+
 ###### [ 3.0.34 ] - 2025/01/15
 
   * Updated Python version from v3.9 to v3.11.
