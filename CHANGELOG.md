@@ -7,6 +7,10 @@ Change are listed in reverse chronological order (newest to oldest).
 
 <span class="changelog">
 
+###### [ 3.0.36 ] - 2025/03/26
+
+  * Fixed a bug with multi-threaded apps that log to encrypted log files; multiple log files were being created that contained an ending "a" suffix in the base file name.  The problem only seems to manifest itself when encryption options are specified.
+
 ###### [ 3.0.35 ] - 2025/03/02
 
   * Updated `setup.py` to adhere to PyPI.org requirements for uploaded binary distribution filenames to comply with the binary distribution format.  This changes the wheel filename that is generated from `smartinspectPython-3.0.35-py3-none-any` to `smartinspectpython-3.0.35-py3-none-any` (same filename, just lower-case project name).

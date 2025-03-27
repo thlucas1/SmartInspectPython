@@ -5,7 +5,7 @@
     <ProjectGuid>42899ab3-fe6c-4405-b86e-09ddf828ee7a</ProjectGuid>
     <ProjectHome>
     </ProjectHome>
-    <StartupFile>tests\test_ProtocolTcp.py</StartupFile>
+    <StartupFile>tests\test_ProtocolFileEncryptMultiThreaded.py</StartupFile>
     <SearchPath>tests;smartinspectpython</SearchPath>
     <WorkingDirectory>C:\Users\thluc\source\repos\SmartinspectPythonProject</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -151,6 +151,7 @@ PYTHONWARNINGS=always</Environment>
     <Compile Include="tests\testVS_Protocols.py" />
     <Compile Include="tests\test_ConfigurationTimer.py" />
     <Compile Include="tests\test_pdoc.py" />
+    <Compile Include="tests\test_ProtocolFileEncryptMultiThreaded.py" />
     <Compile Include="tests\test_SystemLogger.py" />
     <Compile Include="tests\test_SampleCode.py" />
     <Compile Include="tests\test_TextContext.py" />
@@ -309,6 +310,7 @@ PYTHONWARNINGS=always</Environment>
     <Content Include="GitIgnoreFix.cmd" />
     <Content Include="GitInit.cmd" />
     <Content Include="readthedocs.yaml" />
+    <Content Include="tests\testdata\smartinspect_encrypted.cfg" />
     <Content Include="tests\testdata\TestConfigurationSettings.txt" />
     <None Include=".vscode\launch.json" />
     <None Include=".vscode\settings.json" />

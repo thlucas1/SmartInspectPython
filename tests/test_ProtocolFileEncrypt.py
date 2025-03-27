@@ -19,7 +19,8 @@ SIEventHandlerClass.WireEvents(SIAuto.Si)
 #SIAuto.Si.Connections = "file(filename=\"./tests/logfiles/FileProtocol-RotateHourlyAppend.sil\", rotate=hourly, maxparts=24, append=true)"
 #SIAuto.Si.Connections = "file(filename=\"./tests/logfiles/FileProtocol-RotateHourlyBuffer.sil\", rotate=hourly, maxparts=24, append=true, buffer=1024kb)"
 #SIAuto.Si.Connections = "file(filename=\"./tests/logfiles/FileProtocol-RotateHourlyNoBuffer.sil\", rotate=hourly, maxparts=24, append=true)"
-SIAuto.Si.Connections = "file(filename=\"./tests/logfiles/FileProtocol-ENCRYPTTEST.sil\", encrypt=true, key=""secret"", rotate=none, append=false)"
+#SIAuto.Si.Connections = "file(filename=\"./tests/logfiles/FileProtocol-ENCRYPTTEST.sil\", encrypt=true, key=""secret"", rotate=none, append=false)"
+SIAuto.Si.Connections = "file(filename=\"./tests/logfiles/FileProtocol-ENCRYPTTEST02.sil\", encrypt=true, key=""123456"", rotate=daily, maxparts=3, append=true)"
 SIAuto.Si.Enabled = True
 
 # get smartinspect logger reference.

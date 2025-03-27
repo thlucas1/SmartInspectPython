@@ -1,3 +1,4 @@
+import _threading_local
 from Crypto.Hash import MD5
 from Crypto.Cipher import AES
 from datetime import datetime
@@ -76,6 +77,7 @@ class SIFileProtocol(SIProtocol):
         self._fAppend: bool = False
         self._fMaxSize:int = 0
         self._fMaxParts:int = 5
+        self._fLock:object = _threading_local.RLock()
 
         # set default options.
         self.LoadOptions()
@@ -214,69 +216,72 @@ class SIFileProtocol(SIProtocol):
             SIProtocolException:
                 Thrown if there is no encryption key, or if the key is an invalid size.
         """
-        # validate encryption keys (if used).
-        self._InternalBeforeConnect()
+        # make the following thread-safe, so we don't create multiple log files.
+        with (self._fLock):
 
-        # replace filename parameters.
-        self._fFileName = self._fFileName.replace("%appname%", self.AppName)
-        self._fFileName = self._fFileName.replace("%machinename%", self.HostName)
+            # validate encryption keys (if used).
+            self._InternalBeforeConnect()
 
-        # create destination directory if necessary (e.g. "C:\\logs").
-        dirName:str = os.path.dirname(self._fFileName)
-        if (dirName is not None) and (len(dirName) > 0):
-            if (not os.path.isdir(dirName)):
-                os.makedirs(dirName, exist_ok=True)
+            # replace filename parameters.
+            self._fFileName = self._fFileName.replace("%appname%", self.AppName)
+            self._fFileName = self._fFileName.replace("%machinename%", self.HostName)
 
-        # get the log file name.
-        # if it's a rotating log, then the filename will have a timestamp in it (e.g. "C:\\logs\\logfile-hourly-2023-05-22-12-00-00.txt").
-        # if it's NOT a rotating log, then just use the specified property value.
-        fileName:str = ""
-        if (self._IsRotating()):
-            fileName = SIFileHelper.GetFileName(self._fFileName, append)
-        else:
-            fileName = self._fFileName
+            # create destination directory if necessary (e.g. "C:\\logs").
+            dirName:str = os.path.dirname(self._fFileName)
+            if (dirName is not None) and (len(dirName) > 0):
+                if (not os.path.isdir(dirName)):
+                    os.makedirs(dirName, exist_ok=True)
 
-        # set flags used to open file.
-        fileFlags:str = 'wb'    # write binary
-        if (append):
-            fileFlags = 'ab'    # append binary
+            # get the log file name.
+            # if it's a rotating log, then the filename will have a timestamp in it (e.g. "C:\\logs\\logfile-hourly-2023-05-22-12-00-00.txt").
+            # if it's NOT a rotating log, then just use the specified property value.
+            fileName:str = ""
+            if (self._IsRotating()):
+                fileName = SIFileHelper.GetFileName(self._fFileName, append)
+            else:
+                fileName = self._fFileName
 
-        try:
+            # set flags used to open file.
+            fileFlags:str = 'wb'    # write binary
+            if (append):
+                fileFlags = 'ab'    # append binary
 
-            # open the log file.
-            self._fStream = open(fileName, fileFlags)
+            try:
 
-        except Exception as ex:
+                # open the log file.
+                self._fStream = open(fileName, fileFlags)
 
-            raise SmartInspectException(str.format("Could not open log file.  Ensure it is a valid file name, and that it is not open in another application.  Log file path: \"{0}\"", fileName))
+            except Exception as ex:
 
-        # get the current file size (will be zero if not rotating).
-        self._fFileSize = self._fStream.tell()
+                raise SmartInspectException(str.format("Could not open log file.  Ensure it is a valid file name, and that it is not open in another application.  Log file path: \"{0}\"", fileName))
 
-        # if encryption was selected, then creates a new encrypted stream
-        # from the existing non-encrypted stream.
-        if (self._fEncrypt):
-            self._fStream = self._GetCipher(self._fStream)
+            # get the current file size (will be zero if not rotating).
+            self._fFileSize = self._fStream.tell()
 
-        # get the stream reference and write the file header.
-        # the file header informs the console that this is a SI Console file.
-        self._fStream = self.GetStream(self._fStream)
-        self._fFileSize = self.WriteHeader(self._fStream, self._fFileSize)
+            # if encryption was selected, then creates a new encrypted stream
+            # from the existing non-encrypted stream.
+            if (self._fEncrypt):
+                self._fStream = self._GetCipher(self._fStream)
 
-        # was a custom buffer size selected?
-        # if so, then allocate the buffer and reset the buffer counter.
-        # if not, then just allocate a single buffer of 8192 bytes.
-        if (self._fIOBuffer > 0):
+            # get the stream reference and write the file header.
+            # the file header informs the console that this is a SI Console file.
+            self._fStream = self.GetStream(self._fStream)
+            self._fFileSize = self.WriteHeader(self._fStream, self._fFileSize)
+
+            # was a custom buffer size selected?
+            # if so, then allocate the buffer and reset the buffer counter.
+            # if not, then just allocate a single buffer of 8192 bytes.
+            if (self._fIOBuffer > 0):
         
-            self._fStream = BufferedWriter(self._fStream, self._fIOBuffer)
-            self._fIOBufferCounter = 0     # reset buffer counter
+                self._fStream = BufferedWriter(self._fStream, self._fIOBuffer)
+                self._fIOBufferCounter = 0     # reset buffer counter
         
-        else:
+            else:
         
-            self._fStream = BufferedWriter(self._fStream, SIFileProtocol._DEFAULT_BUFFER)
-            pass
+                self._fStream = BufferedWriter(self._fStream, SIFileProtocol._DEFAULT_BUFFER)
+                pass
 
-        self._InternalAfterConnect(fileName)
+            self._InternalAfterConnect(fileName)
 
 
     def _IsRotating(self) -> None:
