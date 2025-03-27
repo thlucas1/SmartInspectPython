@@ -6,6 +6,7 @@ from datetime import datetime
 # our package imports.
 from .siargumentnullexception import SIArgumentNullException
 from .siconfiguration import SIConfiguration
+from .siconfigurationtimer import SIConfigurationTimer
 from .siconnectionsparser import SIConnectionsParser, SIConnectionFoundEventArgs
 from .sicontrolcommand import SIControlCommand
 from .sicontrolcommandeventargs import SIControlCommandEventArgs
@@ -86,6 +87,8 @@ class SmartInspect:
         self._fHostName:str = ""
         self._fAppName:str = appName
         self._fConnections:str = ""
+        self._fConfigFile:str = None
+        self._fConfigMonitor:SIConfigurationTimer = None
         self._fEnabled:bool = False
         self._fIsMultiThreaded:bool = False
         self._fLevel:SILevel = SILevel.Debug
@@ -177,6 +180,17 @@ class SmartInspect:
 
         self._UpdateProtocols()
 
+
+    @property
+    def ConfigFile(self) -> str:
+        """ 
+        Gets the configuration file path used to load configuration options.
+
+        Returns:
+            Returns the configuration file path specified on the `LoadConfiguration` method.
+        """
+        return self._fConfigFile
+    
 
     @property
     def Connections(self) -> str:
@@ -1163,7 +1177,7 @@ class SmartInspect:
         return self._fVariables.Get(key)
 
 
-    def LoadConfiguration(self, fileName:str) -> None:
+    def LoadConfiguration(self, fileName:str, forceReload:bool=False) -> None:
         """
         Loads the properties and sessions of this SmartInspect instance
         from a configuration file.
@@ -1171,10 +1185,19 @@ class SmartInspect:
         Args:
             fileName (str):
                 The name of the file to load the configuration from.
+            forceReload (bool):
+                True to force the configuration file to be reloaded; 
+                otherwise, False (default) to only load the configuration file once.
         
         This method loads the properties and sessions of this SmartInspect object from a file. This file should be a plain
         text file containing key/value pairs. Each key/value pair is expected to be on its own line. Empty, unrecognized lines and
         lines beginning with a ';' character are ignored.
+
+        If the specified configuration file was already loaded, then it won't be loaded again 
+        unless the `forceReload` argument is True (default is False).  The `forceReload` argument
+        will be True when a change is detected in the file by the SIConfigurationTimer thread task. 
+        This should prevent multiple configuration files from being created when the library is 
+        utilized in a multi-threaded environment.
 
         The Error event is used to notify the caller if an error occurs while trying to load the configuration from the
         specified file. Such errors include I/O errors like trying to open a file which does not exist, for example.
@@ -1247,32 +1270,50 @@ class SmartInspect:
         """
         if (fileName == None):
             return
+        if (not isinstance(forceReload, bool)):
+            forceReload = False
 
-        config:SIConfiguration = SIConfiguration()
+        with self._fLock:
 
-        try:
+            config:SIConfiguration = SIConfiguration()
 
             try:
 
-                # load the configuration from the specified filename.
-                config.LoadFromFile(fileName)
+                try:
 
-            except Exception as ex:
+                    # if specified file was already loaded then don't bother loading it again
+                    # unless we are told to do so (e.g. forceReload=True).  the forceReload 
+                    # will occur when a change is detected in the file by the SIConfigurationTimer
+                    # thread task. this should prevent multiple configuration files from being created 
+                    # when the library is utilized in a multi-threaded environment.
+                    if (fileName == self._fConfigFile):
+                        if (not forceReload):
+                            return
+
+                    # load the configuration from the specified filename.
+                    config.LoadFromFile(fileName)
+
+                    # save configuration file name that was loaded.
+                    self._fConfigFile = fileName
+
+                    # start monitoring the configuration file for changes, and reload it when it changes.
+                    if (self._fConfigMonitor is None):
+                        self._fConfigMonitor = SIConfigurationTimer(self, fileName)
+
+                except Exception as ex:
             
-                self._RaiseErrorEvent(SILoadConfigurationException(str(ex), fileName))
-                return
-
-            with self._fLock:
+                    self._RaiseErrorEvent(SILoadConfigurationException(str(ex), fileName))
+                    return
 
                 # apply and enable the loaded configuration.
                 self._ApplyConfiguration(config)
 
-            # load the configuration to the session manager as well.
-            self._fSessions.LoadConfiguration(config)
+                # load the configuration to the session manager as well.
+                self._fSessions.LoadConfiguration(config)
         
-        finally:
+            finally:
         
-            config.Clear()
+                config.Clear()
 
 
     def LoadConnections(self, fileName:str, doNotEnable:bool=True) -> None:

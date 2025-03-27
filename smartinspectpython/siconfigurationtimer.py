@@ -8,7 +8,7 @@ from watchdog.events import PatternMatchingEventHandler, FileModifiedEvent, File
 
 # our package imports.
 from .siargumentnullexception import SIArgumentNullException
-from .smartinspect import SmartInspect
+#from .smartinspect import SmartInspect   # cannot import this due to circular reference.
 
 # auto-generate the "__all__" variable with classes decorated with "@export".
 from .siutils import export
@@ -49,7 +49,7 @@ class SIConfigurationTimer:
     </details>
     """
 
-    def __init__(self, smartInspect:SmartInspect, filePath:str) -> None:
+    def __init__(self, smartInspect:object, filePath:str) -> None:
         """
         Initializes a new instance of the class.
 
@@ -73,7 +73,7 @@ class SIConfigurationTimer:
 
         # initialize instance.
         self._fLock:object = _threading_local.RLock()
-        self._fSmartInspect:SmartInspect = smartInspect
+        self._fSmartInspect:object = smartInspect
         self._fFilePath:str = filePath
         self._fStarted = False
         self._fStopRequested = False
@@ -197,7 +197,12 @@ class SIConfigurationTimer:
         
         """
         self._fSmartInspect.RaiseInfoEvent("SI Configuration File was changed; reloading configuration from file \"{0}\"".format(event.src_path))
-        self._fSmartInspect.LoadConfiguration(event.src_path)
+
+        # use the file path value from the constructor, instead of the event source path.
+        # the LoadConfiguration method is expecting the exact same name that it passed to the 
+        # constructor, which can vary slightly depending on operating system; for example, 
+        # the constructor file is "./test/si.cfg", while the event source  is "./test\si.cfg".
+        self._fSmartInspect.LoadConfiguration(self._fFilePath, True)
     
 
     def Start(self) -> None:

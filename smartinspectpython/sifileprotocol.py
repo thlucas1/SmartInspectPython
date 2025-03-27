@@ -40,6 +40,13 @@ class SIFileProtocol(SIProtocol):
     For a list of available protocol options, please refer to the
     IsValidOption method.
 
+    If encryption is true, then a new log file will be created when the
+    configuration settings are initially loaded from process start, or
+    when the SIConfigurationTimer monitor thread task detects a change
+    to the configuration settings file and the configuration is reloaded.
+    This differs from un-encrypted logging behavior, which will log to the 
+    same log file (within rotation boundaries).
+
     Threadsafety:
         The public members of this class are thread-safe.
     """
@@ -217,6 +224,9 @@ class SIFileProtocol(SIProtocol):
                 Thrown if there is no encryption key, or if the key is an invalid size.
         """
         # make the following thread-safe, so we don't create multiple log files.
+        # note - if encryption is true, then a new log file will be created when the
+        # configuration settings are loaded (or reloaded).  this differs from un-encrypted 
+        # logging behavior, which will log to the same file name.
         with (self._fLock):
 
             # validate encryption keys (if used).
