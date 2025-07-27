@@ -55,6 +55,8 @@ class TestSessionMethods:
 
         # data used by various tests.
         exedir = os.path.dirname(sys.argv[0])
+        if (exedir.lower().startswith("c:\\program files")):  # if running using VS test studio
+            exedir = "C:\\Users\\thluc\\source\\repos\\SmartinspectPythonProject\\tests"
         testdataPfx:str = exedir + "/testdata/"
         testdataPath:str = ""
         testtext:str = ""

@@ -32,7 +32,7 @@ def print_numbers():
     _logsi.LogSystem(SILevel.Verbose)
 
     for i in range(1, NUM_ENTRIES):
-        #_logsi.LogValue(SILevel.Debug, "print_numbers - %s" % threading.current_thread().name , i)
+        _logsi.LogValue(SILevel.Debug, "print_numbers - %s" % threading.current_thread().name , i)
         _logsi.IncCounter(SILevel.Debug, threading.current_thread().name)
 
 

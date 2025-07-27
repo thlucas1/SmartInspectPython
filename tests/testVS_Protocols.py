@@ -80,7 +80,7 @@ class Test_Protocols(unittest.TestCase):
                 SIEventHandlerClass.ResetCounters(_logsi.Parent)
 
                 # write packet events to console.
-                SIEventHandlerClass.WriteEventPacketsToConsole = True;
+                SIEventHandlerClass.WriteEventPacketsToConsole = False;
 
                 # test all session methods, using specified logging level.
                 _logsi.Parent.Level = level

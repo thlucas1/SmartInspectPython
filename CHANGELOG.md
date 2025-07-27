@@ -7,6 +7,10 @@ Change are listed in reverse chronological order (newest to oldest).
 
 <span class="changelog">
 
+###### [ 3.0.38 ] - 2025/07/37
+
+  * Updated requirement `watchdog==1.0.1` to `watchdog>=6.0.0` .
+
 ###### [ 3.0.37 ] - 2025/03/27
 
   * Fixed more bugs related to multi-threaded apps that log to encrypted log files.  Also added configuration file change monitoring automatically when the `SmartInspect.LoadConfiguration` method is called.

@@ -38,31 +38,36 @@ setup(
     author='Todd Lucas',
     author_email='<thlucas@yahoo.com>',
     description=DESCRIPTION,
+
     # use the README.md markdown file for the description.
     long_description_content_type='text/markdown',
     long_description=readme('README.md'),
+
     # find and include all packages in the project (anything with an '__init__.py' file).
     packages=find_packages(),
+
     # place documentation folder named "docs" in the package folder.
     data_files=[
         ('../../smartinspectpython/docs', getDirFilesList('docspdoc/build/')),
         ('../../smartinspectpython/docs/smartinspectpython', getDirFilesList('docspdoc/build/smartinspectpython/')),
     ],
+
     # set minimum python version requirement.
-    python_requires='>3.4.1',
+    python_requires='>3.9.0',
+
     # set minimum dependencies requirements.
     install_requires=[
-        'pycryptodome >= 3.0',
-        'pywin32 >= 300 ; platform_system=="Windows"',
-        'watchdog == 1.0.1'
+        'pycryptodome>=3.0',
+        'pywin32>=300 ; platform_system=="Windows"',
+        'watchdog>=6.0.0'
     ],
+
     # set keywords to associate this package with on Pypi.org.
     keywords=['python', 'smartinspect', 'logging', 'trace', 'tracing', 'debugging'],
+
     # set classifiers to associate this package with on Pypi.org.
     classifiers=[
         'Development Status :: 5 - Production/Stable',
-#       'Development Status :: 2 - Pre-Alpha',
-#       'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
         'Programming Language :: Python :: 3',
         'Operating System :: Microsoft :: Windows',
@@ -73,6 +78,7 @@ setup(
         'Natural Language :: English',
         'License :: OSI Approved :: MIT License'
     ],
+
     # provide some links to list on the Pypi.org site.
     project_urls={
        'Documentation': 'https://smartinspectpython.readthedocs.io/en/latest/__init__.html',
